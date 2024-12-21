@@ -22,9 +22,7 @@ fun App() {
         NavHost(navController, startDestination = Level(0)) {
             composable<Level> { navBackStackEntry ->
                 val level: Level = navBackStackEntry.toRoute()
-                val viewModel: LevelViewModel = koinViewModel {
-                    parametersOf(level.number)
-                }
+                val viewModel: LevelViewModel = koinViewModel { parametersOf(level.number) }
                 GameScreenRoot(
                     viewModel = viewModel,
                     onForwardClick = { navController.navigate(route = Level(it + 1)) },

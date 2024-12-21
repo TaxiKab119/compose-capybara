@@ -1,4 +1,4 @@
-package app.alexbalan.composecaterpillar.previews
+package app.alexbalan.composecapybara.previews
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

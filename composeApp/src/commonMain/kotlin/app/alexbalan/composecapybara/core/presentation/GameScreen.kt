@@ -87,7 +87,7 @@ fun GameScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Compose Caterpillar",
+                        text = "Compose Capybara",
                         style = MaterialTheme.typography.h4
                     )
                     LevelSelector(
@@ -96,9 +96,9 @@ fun GameScreen(
                         levelNumber = uiState.levelNumber
                     )
                 }
-                LevelPreamble("Preamble: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed erat congue, commodo urna sit amet, venenatis ex. Phasellus egestas, urna ac accumsan aliquet, tortor libero posuere magna, eu tempus neque nisl sit amet nisl. Donec eget aliquam tellus. Aliquam sit amet vehicula tellus. Nullam vel purus vitae nunc semper lobortis eget id turpis. Suspendisse vitae quam at massa venenatis fringilla. Phasellus lobortis ex non lorem sagittis, sed laoreet lacus mollis.")
+                LevelPreamble(uiState.preamble)
                 Spacer(Modifier.height(8.dp))
-                LevelInstructions(listOf("This is the first instruction", "This is the second instruction", "Here is a third instruction"))
+                LevelInstructions(uiState.instructions)
                 Spacer(Modifier.height(8.dp))
                 CodeField(
                     Modifier.align(Alignment.CenterHorizontally),
@@ -118,14 +118,15 @@ fun GameScreen(
                     .weight(1f)
                     .fillMaxHeight()
             ) {
-                // Caterpillars and Leaves
+                // Static Stage elements
                 LevelStage(Modifier.fillMaxSize())
 
+                // Dynamic gameplay layer (user-controlled)
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.End
                 ) {
-                    Caterpillar()
+                    Capybara()
                 }
             }
 
@@ -190,9 +191,9 @@ fun LevelInstructions(
         text = buildAnnotatedString {
             instructions.forEach {
                 withStyle(style = paragraphStyle) {
-                    append("\t")
+                    append("    ")
                     append(bullet)
-                    append("\t")
+                    append("  ")
                     append(it)
                 }
             }
@@ -208,12 +209,12 @@ fun LevelStage(modifier: Modifier = Modifier) {
             .background(color = lightBrown),
         horizontalAlignment = Alignment.End
     ) {
-        Leaf(tint = Color.Green)
+        Fruit(tint = Color.Green)
     }
 }
 
 @Composable
-fun Caterpillar(modifier: Modifier = Modifier) {
+fun Capybara(modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .size(128.dp)
@@ -228,7 +229,7 @@ fun Caterpillar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Leaf(
+fun Fruit(
     modifier: Modifier = Modifier,
     tint: Color
 ) {

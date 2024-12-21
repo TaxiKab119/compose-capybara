@@ -15,7 +15,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,9 +33,9 @@ fun CodeField(
     onTextUpdated: (String) -> Unit,
     onNextClicked: () -> Unit,
 ) {
-    val numCodeLines = remember {
+    val numCodeLines =
         numUserInputLines + existingLinesBefore.size + existingLinesAfter.size
-    }
+
     Row(
         modifier = Modifier
             .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
