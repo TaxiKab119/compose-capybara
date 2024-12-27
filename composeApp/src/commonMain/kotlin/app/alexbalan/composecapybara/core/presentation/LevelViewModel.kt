@@ -65,6 +65,8 @@ class LevelViewModel(
                 numUserInputLines = levelConfig.numUserInputLines,
                 validInput = levelConfig.validInput,
                 correctAnswer = levelConfig.correctAnswer,
+
+                stageLayout = levelConfig.stageLayout
             )
         }
     }

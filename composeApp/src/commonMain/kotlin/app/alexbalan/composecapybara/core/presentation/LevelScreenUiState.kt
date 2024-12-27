@@ -1,5 +1,7 @@
 package app.alexbalan.composecapybara.core.presentation
 
+import app.alexbalan.composecapybara.core.data.stage.StageLayout
+
 data class LevelScreenUiState(
     val levelNumber: Int,
     val showCorrect: Boolean = false,
@@ -15,4 +17,7 @@ data class LevelScreenUiState(
     val numUserInputLines: Int = 1,
     val validInput: Set<String> = setOf(),
     val correctAnswer: String = "1q2w3e4r5t",
+
+    // Layout
+    val stageLayout: StageLayout? = null
 )

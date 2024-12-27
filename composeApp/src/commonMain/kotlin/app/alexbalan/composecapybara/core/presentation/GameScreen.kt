@@ -33,9 +33,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.alexbalan.composecapybara.core.data.stage.FruitType
 import app.alexbalan.composecapybara.core.presentation.components.CodeField
+import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import composecapybara.composeapp.generated.resources.Res
+import composecapybara.composeapp.generated.resources.blueberry
+import composecapybara.composeapp.generated.resources.carrot
 import composecapybara.composeapp.generated.resources.caterpillar
+import composecapybara.composeapp.generated.resources.grape
+import composecapybara.composeapp.generated.resources.strawberry
 import org.jetbrains.compose.resources.vectorResource
 
 
@@ -119,7 +125,11 @@ fun GameScreen(
                     .fillMaxHeight()
             ) {
                 // Static Stage elements
-                LevelStage(Modifier.fillMaxSize())
+                LevelStageRoot(
+                    levelNumber = uiState.levelNumber,
+                    stageLayout = uiState.stageLayout,
+                    modifier = Modifier.fillMaxSize()
+                )
 
                 // Dynamic gameplay layer (user-controlled)
                 Column(
@@ -209,7 +219,7 @@ fun LevelStage(modifier: Modifier = Modifier) {
             .background(color = lightBrown),
         horizontalAlignment = Alignment.End
     ) {
-        Fruit(tint = Color.Green)
+        Fruit(fruitType = FruitType.STRAWBERRY)
     }
 }
 
@@ -231,14 +241,24 @@ fun Capybara(modifier: Modifier = Modifier) {
 @Composable
 fun Fruit(
     modifier: Modifier = Modifier,
-    tint: Color
+    fruitType: FruitType,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(128.dp)
-            .padding(4.dp)
-            .background(Color.Green),
+            .padding(4.dp),
         contentAlignment = Alignment.Center
     ) {
+
+        val resId = when (fruitType) {
+            FruitType.BLUEBERRY -> Res.drawable.blueberry
+            FruitType.CARROT -> Res.drawable.carrot
+            FruitType.GRAPE -> Res.drawable.grape
+            FruitType.STRAWBERRY -> Res.drawable.strawberry
+        }
+        Image(
+            imageVector = vectorResource(resId),
+            contentDescription = fruitType.name
+        )
     }
 }
