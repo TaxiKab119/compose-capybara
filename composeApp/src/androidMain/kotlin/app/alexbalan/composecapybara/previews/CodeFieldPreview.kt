@@ -15,7 +15,8 @@ private fun CodeFieldPreview() {
             existingLinesAfter = listOf("\t\tmodifier = modifier", "\t\t\t\t.background(Color.Green)", "\t\t\t\t.fillMaxSize()", ") {", "   \tCaterpillar()", "}"),
             numUserInputLines = 1,
             onTextUpdated = {},
-            onNextClicked = {}
+            onNextClicked = {},
+            isCorrect = true
         )
     }
 }

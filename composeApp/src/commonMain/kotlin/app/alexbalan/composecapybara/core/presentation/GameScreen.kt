@@ -26,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextIndent
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.alexbalan.composecapybara.core.data.stage.FruitType
 import app.alexbalan.composecapybara.core.presentation.components.CodeField
+import app.alexbalan.composecapybara.core.presentation.components.DynamicLevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.blueberry
@@ -113,31 +115,31 @@ fun GameScreen(
                     existingLinesBefore = uiState.existingLinesBefore,
                     existingLinesAfter = uiState.existingLinesAfter,
                     numUserInputLines = uiState.numUserInputLines,
-                    onNextClicked = { onForwardClick(uiState.levelNumber) }
+                    onNextClicked = { onForwardClick(uiState.levelNumber) },
+                    isCorrect = uiState.showCorrect
                 )
-                if (uiState.showCorrect) {
-                    Text("You got it correct!")
-                }
             }
             Box(
                 Modifier
                     .weight(1f)
                     .fillMaxHeight()
             ) {
+                val lightBrown = Color(0xFF9A8468) // TODO - Extract into Theme
                 // Static Stage elements
                 LevelStageRoot(
                     levelNumber = uiState.levelNumber,
-                    stageLayout = uiState.stageLayout,
-                    modifier = Modifier.fillMaxSize()
+                    stageLayout = uiState.fruitStageLayout,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(lightBrown)
                 )
 
                 // Dynamic gameplay layer (user-controlled)
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Capybara()
-                }
+                DynamicLevelStageRoot(
+                    levelNumber = uiState.levelNumber,
+                    stageLayout = uiState.capybaraStageLayout,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
 
         }
@@ -224,16 +226,26 @@ fun LevelStage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Capybara(modifier: Modifier = Modifier) {
+fun Capybara(
+    modifier: Modifier = Modifier,
+    fruitType: FruitType
+) {
     Box(
         modifier = Modifier
             .size(128.dp)
             .padding(12.dp),
         contentAlignment = Alignment.Center
     ) {
+        val colorFilter = when (fruitType) {
+            FruitType.BLUEBERRY -> ColorFilter.tint(Color.Blue)
+            FruitType.CARROT -> ColorFilter.tint(Color.Yellow)
+            FruitType.GRAPE -> ColorFilter.tint(Color.Magenta)
+            FruitType.STRAWBERRY -> ColorFilter.tint(Color.Red)
+        }
         Image(
             imageVector = vectorResource(Res.drawable.caterpillar),
-            contentDescription = "Caterpillar"
+            contentDescription = "Caterpillar",
+            colorFilter = colorFilter
         )
     }
 }

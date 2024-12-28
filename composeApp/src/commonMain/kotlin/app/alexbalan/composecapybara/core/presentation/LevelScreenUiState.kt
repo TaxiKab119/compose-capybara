@@ -19,5 +19,6 @@ data class LevelScreenUiState(
     val correctAnswer: String = "1q2w3e4r5t",
 
     // Layout
-    val stageLayout: StageLayout? = null
+    val fruitStageLayout: StageLayout? = null,
+    val capybaraStageLayout: StageLayout? = null
 )

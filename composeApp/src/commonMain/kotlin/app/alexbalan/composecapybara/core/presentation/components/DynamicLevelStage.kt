@@ -1,36 +1,34 @@
 package app.alexbalan.composecapybara.core.presentation.components
 
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import app.alexbalan.composecapybara.core.data.stage.FruitPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
-import app.alexbalan.composecapybara.core.presentation.Fruit
+import app.alexbalan.composecapybara.core.presentation.Capybara
 import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 
 
 @Composable
-fun LevelStageRoot(
+fun DynamicLevelStageRoot(
     stageLayout: StageLayout?,
     levelNumber: Int,
     modifier: Modifier = Modifier
 ) {
     if (stageLayout == null) {
-        CustomLevelStage(
+        DynamicCustomLevelStage(
             levelNumber = levelNumber,
             modifier = modifier
         )
     } else {
-        RepoDrivenLevelStage(
+        RepoDrivenDynamicLevelStage(
             stageLayout = stageLayout,
             modifier = modifier
         )
@@ -38,56 +36,43 @@ fun LevelStageRoot(
 }
 
 @Composable
-fun CustomLevelStage(
+fun DynamicCustomLevelStage(
     levelNumber: Int,
     modifier: Modifier = Modifier
 ) {
     when(levelNumber) {
-        4 -> Level4StageCustom(modifier)
-        else -> LoadingScreen(modifier)
+        4 -> Level4StageCustomDynamic(modifier)
+        else -> LoadingScreen()
     }
 }
 
-@Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = Color.White)
-    }
-}
 
 @Composable
-fun Level4StageCustom(modifier: Modifier = Modifier) {
+fun Level4StageCustomDynamic(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF9A8468))
     ) {
         Text("This is a custom stage")
     }
 }
 
 @Composable
-fun RepoDrivenLevelStage(
+fun RepoDrivenDynamicLevelStage(
     stageLayout: StageLayout,
     modifier: Modifier = Modifier
 ) {
-    val lightBrown = Color(0xFF9A8468)
 
     when (stageLayout.container) {
         is UiContainer.Box -> {
             Box(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 contentAlignment = stageLayout.container.contentAlignment
             ) {
                 stageLayout.fruit.forEach { fruitPosition ->
                     when (fruitPosition) {
                         is FruitPosition.InBox -> {
-                            Fruit(
+                            Capybara(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
@@ -104,16 +89,14 @@ fun RepoDrivenLevelStage(
 
         is UiContainer.Column -> {
             Column(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 horizontalAlignment = stageLayout.container.horizontalAlignment,
                 verticalArrangement = stageLayout.container.verticalArrangement
             ) {
                 stageLayout.fruit.forEach { fruitPosition ->
                     when(fruitPosition) {
                         is FruitPosition.InColumn -> {
-                            Fruit(
+                            Capybara(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
@@ -130,16 +113,14 @@ fun RepoDrivenLevelStage(
 
         is UiContainer.Row -> {
             Row(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 verticalAlignment = stageLayout.container.verticalAlignment,
                 horizontalArrangement = stageLayout.container.horizontalArrangement
             ) {
                 stageLayout.fruit.forEach { fruitPosition ->
                     when(fruitPosition) {
                         is FruitPosition.InRow -> {
-                            Fruit(
+                            Capybara(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,

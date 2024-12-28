@@ -66,7 +66,8 @@ class LevelViewModel(
                 validInput = levelConfig.validInput,
                 correctAnswer = levelConfig.correctAnswer,
 
-                stageLayout = levelConfig.stageLayout
+                fruitStageLayout = levelConfig.stageLayout,
+                capybaraStageLayout = levelConfig.initialUserStageLayout
             )
         }
     }

@@ -38,7 +38,7 @@ fun CodeField(
     userInput: String,
     existingLinesBefore: List<String>,
     existingLinesAfter: List<String>,
-    isCorrect: Boolean = false,
+    isCorrect: Boolean,
     numUserInputLines: Int,
     onTextUpdated: (String) -> Unit,
     onNextClicked: () -> Unit,

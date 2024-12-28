@@ -17,7 +17,8 @@ data class LevelConfig(
     val correctAnswer: String,
 
     // Stage Layout - if null, custom layout is used for the level instead of the repo-driven stageLayout
-    val stageLayout: StageLayout? = null
+    val stageLayout: StageLayout? = null,
+    val initialUserStageLayout: StageLayout? = null
 )
 
 

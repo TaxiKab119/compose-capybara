@@ -32,6 +32,18 @@ class LevelRepositoryImpl : LevelRepository {
         "verticalAlignment = Alignment.Bottom",
     )
 
+    private val validBoxInputs = setOf(
+        "Alignment.BottomCenter",
+        "Alignment.Center",
+        "Alignment.BottomEnd",
+        "Alignment.BottomStart",
+        "Alignment.CenterEnd",
+        "Alignment.CenterStart",
+        "Alignment.TopCenter",
+        "Alignment.TopEnd",
+        "Alignment.TopStart",
+    )
+
     // TODO - This should be replaced with some key-value store
     private val completedLevels = mutableSetOf<Int>()
 
@@ -65,6 +77,10 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.End),
                 fruit = listOf(FruitPosition.InColumn(FruitType.STRAWBERRY))
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Column(),
+                fruit = listOf(FruitPosition.InColumn(FruitType.STRAWBERRY))
             )
         ),
         1 to LevelConfig(
@@ -86,6 +102,13 @@ class LevelRepositoryImpl : LevelRepository {
             correctAnswer = "horizontalAlignment = Alignment.CenterHorizontally",
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.CenterHorizontally),
+                fruit = listOf(
+                    FruitPosition.InColumn(FruitType.STRAWBERRY),
+                    FruitPosition.InColumn(FruitType.BLUEBERRY)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Column(),
                 fruit = listOf(
                     FruitPosition.InColumn(FruitType.STRAWBERRY),
                     FruitPosition.InColumn(FruitType.BLUEBERRY)
@@ -114,7 +137,15 @@ class LevelRepositoryImpl : LevelRepository {
                 fruit = listOf(
                     FruitPosition.InRow(FruitType.STRAWBERRY),
                     FruitPosition.InRow(FruitType.BLUEBERRY),
-                    FruitPosition.InRow(FruitType.CARROT)
+                    FruitPosition.InRow(FruitType.GRAPE)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Row(),
+                fruit = listOf(
+                    FruitPosition.InRow(FruitType.STRAWBERRY),
+                    FruitPosition.InRow(FruitType.BLUEBERRY),
+                    FruitPosition.InRow(FruitType.GRAPE)
                 )
             )
         ),
