@@ -1,7 +1,9 @@
 package app.alexbalan.composecapybara.core.presentation
 
+import app.alexbalan.composecapybara.core.data.AnswerType
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 
+// TODO - Replace all these initial values with a loading state
 data class LevelScreenUiState(
     val levelNumber: Int,
     val showCorrect: Boolean = false,
@@ -17,6 +19,7 @@ data class LevelScreenUiState(
     val numUserInputLines: Int = 1,
     val validInput: Set<String> = setOf(),
     val correctAnswer: String = "1q2w3e4r5t",
+    val answerType: AnswerType = AnswerType.COLUMN,
 
     // Layout
     val fruitStageLayout: StageLayout? = null,

@@ -74,6 +74,7 @@ class LevelRepositoryImpl : LevelRepository {
             ),
             validInput = validColumnInputs,
             correctAnswer = "horizontalAlignment = Alignment.End",
+            answerType = AnswerType.COLUMN,
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.End),
                 fruit = listOf(FruitPosition.InColumn(FruitType.STRAWBERRY))
@@ -99,6 +100,7 @@ class LevelRepositoryImpl : LevelRepository {
                 "}"
             ),
             validInput = validColumnInputs,
+            answerType = AnswerType.COLUMN,
             correctAnswer = "horizontalAlignment = Alignment.CenterHorizontally",
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.CenterHorizontally),
@@ -131,6 +133,7 @@ class LevelRepositoryImpl : LevelRepository {
                 "}"
             ),
             validInput = validRowInputs,
+            answerType = AnswerType.ROW,
             correctAnswer = "horizontalArrangement = Arrangement.Center",
             stageLayout = StageLayout(
                 container = UiContainer.Row(horizontalArrangement = Arrangement.Center),
@@ -164,6 +167,7 @@ class LevelRepositoryImpl : LevelRepository {
                 "   \tCaterpillar()",
                 "}"
             ),
+            answerType = AnswerType.COLUMN,
             validInput = setOf(
                 "horizontalAlignment = Alignment.End",
                 "horizontalAlignment = Alignment.Start",
