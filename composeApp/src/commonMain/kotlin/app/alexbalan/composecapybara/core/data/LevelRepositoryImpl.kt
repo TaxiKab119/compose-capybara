@@ -2,48 +2,13 @@ package app.alexbalan.composecapybara.core.data
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Alignment
-import app.alexbalan.composecapybara.core.data.stage.FruitPosition
+import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.FruitType
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
+import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
 
 class LevelRepositoryImpl : LevelRepository {
-    private val validColumnInputs = setOf(
-        "horizontalAlignment = Alignment.End",
-        "horizontalAlignment = Alignment.Start",
-        "horizontalAlignment = Alignment.CenterHorizontally",
-        "verticalArrangement = Arrangement.Top",
-        "verticalArrangement = Arrangement.Center",
-        "verticalArrangement = Arrangement.Bottom",
-        "verticalArrangement = Arrangement.SpaceAround",
-        "verticalArrangement = Arrangement.SpaceBetween",
-        "verticalArrangement = Arrangement.SpaceEvenly"
-    )
-
-    private val validRowInputs = setOf(
-        "horizontalArrangement = Arrangement.End",
-        "horizontalArrangement = Arrangement.Start",
-        "horizontalArrangement = Arrangement.Center",
-        "horizontalArrangement = Arrangement.SpaceAround",
-        "horizontalArrangement = Arrangement.SpaceBetween",
-        "horizontalArrangement = Arrangement.SpaceEvenly",
-        "verticalAlignment = Alignment.Top",
-        "verticalAlignment = Alignment.CenterVertically",
-        "verticalAlignment = Alignment.Bottom",
-    )
-
-    private val validBoxInputs = setOf(
-        "Alignment.BottomCenter",
-        "Alignment.Center",
-        "Alignment.BottomEnd",
-        "Alignment.BottomStart",
-        "Alignment.CenterEnd",
-        "Alignment.CenterStart",
-        "Alignment.TopCenter",
-        "Alignment.TopEnd",
-        "Alignment.TopStart",
-    )
-
     // TODO - This should be replaced with some key-value store
     private val completedLevels = mutableSetOf<Int>()
 
@@ -72,16 +37,16 @@ class LevelRepositoryImpl : LevelRepository {
                 "   \tCaterpillar()",
                 "}"
             ),
-            validInput = validColumnInputs,
+            validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
             correctAnswer = "horizontalAlignment = Alignment.End",
             answerType = AnswerType.COLUMN,
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.End),
-                fruit = listOf(FruitPosition.InColumn(FruitType.STRAWBERRY))
+                elements = listOf(ElementPosition.InColumn(FruitType.STRAWBERRY))
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
-                fruit = listOf(FruitPosition.InColumn(FruitType.STRAWBERRY))
+                elements = listOf(ElementPosition.InColumn(FruitType.STRAWBERRY))
             )
         ),
         1 to LevelConfig(
@@ -99,21 +64,21 @@ class LevelRepositoryImpl : LevelRepository {
                 "   \tCaterpillar()",
                 "}"
             ),
-            validInput = validColumnInputs,
+            validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
             answerType = AnswerType.COLUMN,
             correctAnswer = "horizontalAlignment = Alignment.CenterHorizontally",
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.CenterHorizontally),
-                fruit = listOf(
-                    FruitPosition.InColumn(FruitType.STRAWBERRY),
-                    FruitPosition.InColumn(FruitType.BLUEBERRY)
+                elements = listOf(
+                    ElementPosition.InColumn(FruitType.STRAWBERRY),
+                    ElementPosition.InColumn(FruitType.BLUEBERRY)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
-                fruit = listOf(
-                    FruitPosition.InColumn(FruitType.STRAWBERRY),
-                    FruitPosition.InColumn(FruitType.BLUEBERRY)
+                elements = listOf(
+                    ElementPosition.InColumn(FruitType.STRAWBERRY),
+                    ElementPosition.InColumn(FruitType.BLUEBERRY)
                 )
             )
         ),
@@ -132,23 +97,23 @@ class LevelRepositoryImpl : LevelRepository {
                 "   \tCaterpillar()",
                 "}"
             ),
-            validInput = validRowInputs,
+            validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
             answerType = AnswerType.ROW,
             correctAnswer = "horizontalArrangement = Arrangement.Center",
             stageLayout = StageLayout(
                 container = UiContainer.Row(horizontalArrangement = Arrangement.Center),
-                fruit = listOf(
-                    FruitPosition.InRow(FruitType.STRAWBERRY),
-                    FruitPosition.InRow(FruitType.BLUEBERRY),
-                    FruitPosition.InRow(FruitType.GRAPE)
+                elements = listOf(
+                    ElementPosition.InRow(FruitType.STRAWBERRY),
+                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(FruitType.GRAPE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
-                fruit = listOf(
-                    FruitPosition.InRow(FruitType.STRAWBERRY),
-                    FruitPosition.InRow(FruitType.BLUEBERRY),
-                    FruitPosition.InRow(FruitType.GRAPE)
+                elements = listOf(
+                    ElementPosition.InRow(FruitType.STRAWBERRY),
+                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(FruitType.GRAPE)
                 )
             )
         ),
@@ -168,17 +133,7 @@ class LevelRepositoryImpl : LevelRepository {
                 "}"
             ),
             answerType = AnswerType.COLUMN,
-            validInput = setOf(
-                "horizontalAlignment = Alignment.End",
-                "horizontalAlignment = Alignment.Start",
-                "horizontalAlignment = Alignment.CenterHorizontally",
-                "verticalArrangement = Arrangement.Top",
-                "verticalArrangement = Arrangement.Center",
-                "verticalArrangement = Arrangement.Bottom",
-                "verticalArrangement = Arrangement.SpaceAround",
-                "verticalArrangement = Arrangement.SpaceBetween",
-                "verticalArrangement = Arrangement.SpaceEvenly"
-            ),
+            validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
             correctAnswer = "horizontalAlignment = Alignment.End",
             stageLayout = null
         )

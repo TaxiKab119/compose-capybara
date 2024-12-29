@@ -1,13 +1,12 @@
 package app.alexbalan.composecapybara.core.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.ui.Alignment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.alexbalan.composecapybara.core.data.AnswerType
 import app.alexbalan.composecapybara.core.data.LevelRepository
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
+import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,9 +67,15 @@ class LevelViewModel(
         }
         if (validInputs.contains(userInput)) {
             when(uiState.value.answerType) {
-                AnswerType.COLUMN -> moveCapybaraInColumn(userInput)
-                AnswerType.ROW -> TODO()
-                AnswerType.BOX -> TODO()
+                AnswerType.COLUMN -> {
+                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeColumnAnswerMappings)
+                }
+                AnswerType.ROW -> {
+                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeRowAnswerMappings)
+                }
+                AnswerType.BOX -> {
+                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeBoxAnswerMappings)
+                }
                 AnswerType.COL_ALIGN -> TODO()
                 AnswerType.ROW_ALIGN -> TODO()
                 AnswerType.BOX_ALIGN -> TODO()
@@ -79,72 +84,20 @@ class LevelViewModel(
     }
 
 
-    private fun moveCapybaraInColumn(userInput: String) {
-        when (userInput) {
-            "horizontalAlignment = Alignment.End" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(horizontalAlignment = Alignment.End)
+    private fun moveCapybaraWholeContainer(userInput: String, answerMappings: Map<String, UiContainer>) {
+        answerMappings[userInput]?.let { newContainer ->
+            _uiState.update { state ->
+                state.copy(
+                    capybaraStageLayout = state.capybaraStageLayout?.copy(
+                        container = newContainer
                     )
-                )}
-            }
-            "horizontalAlignment = Alignment.Start" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(horizontalAlignment = Alignment.Start)
-                    )
-                )}
-            }
-            "horizontalAlignment = Alignment.CenterHorizontally" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(horizontalAlignment = Alignment.CenterHorizontally)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.Top" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.Top)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.Center" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.Center)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.Bottom" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.Bottom)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.SpaceAround" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.SpaceAround)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.SpaceBetween" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.SpaceBetween)
-                    )
-                )}
-            }
-            "verticalArrangement = Arrangement.SpaceEvenly" -> {
-                _uiState.update { it.copy(
-                    capybaraStageLayout = it.capybaraStageLayout?.copy(
-                        container = UiContainer.Column(verticalArrangement = Arrangement.SpaceEvenly)
-                    )
-                )}
+                )
             }
         }
+    }
+
+    private fun moveIndividualCapybara(userInput: String, answerMappings: Map<String, UiContainer>) {
+        // TODO - Fine tune movements using Modifier.align()
     }
 
     private fun loadLevel() {

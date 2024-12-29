@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import app.alexbalan.composecapybara.core.data.stage.FruitPosition
+import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.presentation.Fruit
@@ -84,9 +84,9 @@ fun RepoDrivenLevelStage(
                     .fillMaxSize(),
                 contentAlignment = stageLayout.container.contentAlignment
             ) {
-                stageLayout.fruit.forEach { fruitPosition ->
+                stageLayout.elements.forEach { fruitPosition ->
                     when (fruitPosition) {
-                        is FruitPosition.InBox -> {
+                        is ElementPosition.InBox -> {
                             Fruit(
                                 modifier = Modifier
                                     .applyIfElse(
@@ -110,9 +110,9 @@ fun RepoDrivenLevelStage(
                 horizontalAlignment = stageLayout.container.horizontalAlignment,
                 verticalArrangement = stageLayout.container.verticalArrangement
             ) {
-                stageLayout.fruit.forEach { fruitPosition ->
+                stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
-                        is FruitPosition.InColumn -> {
+                        is ElementPosition.InColumn -> {
                             Fruit(
                                 modifier = Modifier
                                     .applyIfElse(
@@ -136,9 +136,9 @@ fun RepoDrivenLevelStage(
                 verticalAlignment = stageLayout.container.verticalAlignment,
                 horizontalArrangement = stageLayout.container.horizontalArrangement
             ) {
-                stageLayout.fruit.forEach { fruitPosition ->
+                stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
-                        is FruitPosition.InRow -> {
+                        is ElementPosition.InRow -> {
                             Fruit(
                                 modifier = Modifier
                                     .applyIfElse(
