@@ -1,5 +1,11 @@
 package app.alexbalan.composecapybara.core.presentation
 
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextIndent
@@ -214,26 +221,28 @@ fun LevelInstructions(
 }
 
 @Composable
-fun LevelStage(modifier: Modifier = Modifier) {
-    val lightBrown = Color(0xFF9A8468)
-    Column(
-        modifier = modifier
-            .background(color = lightBrown),
-        horizontalAlignment = Alignment.End
-    ) {
-        Fruit(fruitType = FruitType.STRAWBERRY)
-    }
-}
-
-@Composable
 fun Capybara(
     modifier: Modifier = Modifier,
     fruitType: FruitType
 ) {
+    // breathing animation
+    val scale by rememberInfiniteTransition().animateFloat(
+        initialValue = 0.96f,
+        targetValue = 1.04f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(600, easing = EaseInOut),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
     Box(
         modifier = Modifier
             .size(128.dp)
-            .padding(12.dp),
+            .padding(12.dp)
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            },
         contentAlignment = Alignment.Center
     ) {
         val colorFilter = when (fruitType) {

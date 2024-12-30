@@ -1,5 +1,7 @@
 package app.alexbalan.composecapybara.core.presentation
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.Alignment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.alexbalan.composecapybara.core.data.AnswerType
@@ -119,6 +121,8 @@ class LevelViewModel(
                 numUserInputLines = levelConfig.numUserInputLines,
                 validInput = levelConfig.validInput,
                 correctAnswer = levelConfig.correctAnswer,
+                userInput = levelConfig.initialUserInput,
+                answerType = levelConfig.answerType,
 
                 fruitStageLayout = levelConfig.stageLayout,
                 capybaraStageLayout = levelConfig.initialUserStageLayout

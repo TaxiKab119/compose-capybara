@@ -68,7 +68,7 @@ fun CodeField(
                     userInput = userInput,
                     numUserInputLines = numUserInputLines,
                     onTextUpdated = onTextUpdated,
-                    textFieldOffset = "\t\t"
+                    textFieldOffset = "    "
                 )
                 existingLinesAfter.forEach { MonospacedText(it) }
             }
