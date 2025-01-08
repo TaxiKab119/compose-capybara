@@ -25,9 +25,13 @@ class LevelViewModel(
 ): ViewModel() {
 
     // Memoized validation data
-    private var correctAnswer: String = ""
-    private var validInputs: Set<String> = emptySet()
     private var initialCapyPosition: StageLayout? = null
+    private var correctAnswer1: String = ""
+    private var correctAnswer2: String = ""
+    private var validInputs: Set<String> = emptySet()
+    private var validInputs2: Set<String> = emptySet()
+    private var userInput1AnswerType: AnswerType = AnswerType.COLUMN
+    private var userInput2AnswerType: AnswerType = AnswerType.COLUMN
 
     private val _uiState = MutableStateFlow(LevelScreenUiState(levelNumber))
     val uiState = _uiState.asStateFlow()
@@ -39,49 +43,109 @@ class LevelViewModel(
         )
 
 
-    fun updateUserInput(userInput: String) {
-        _uiState.update {
-            it.copy(
-                userInput = userInput
-            )
-        }
-        isInputCorrectJob?.cancel()
-        isInputCorrectJob = viewModelScope.launch {
-            delay(500)
-            isUserInputCorrect(userInput)
+    fun updateUserInput(userInput: String, textFieldNumber: Int) {
+        when(textFieldNumber) {
+            1 -> {
+                _uiState.update { screenState ->
+                    screenState.copy(
+                        codeFieldState1 = screenState.codeFieldState1.copy(userInput = userInput)
+                    )
+                }
+                // Cancel and start new job only for field 1
+                isInputCorrectJob1?.cancel()
+                isInputCorrectJob1 = viewModelScope.launch {
+                    delay(500)
+                    isUserInputCorrect(userInput, 1)
+                }
+            }
+            2 -> {
+                _uiState.update { screenState ->
+                    screenState.copy(
+                        codeFieldState2 = screenState.codeFieldState2?.copy(userInput = userInput)
+                    )
+                }
+                // Cancel and start new job only for field 2
+                isInputCorrectJob2?.cancel()
+                isInputCorrectJob2 = viewModelScope.launch {
+                    delay(500)
+                    isUserInputCorrect(userInput, 2)
+                }
+            }
         }
     }
 
-    private var isInputCorrectJob: Job? = null
-    private fun isUserInputCorrect(userInput: String) {
+    // Track jobs separately for each field
+    private var isInputCorrectJob1: Job? = null
+    private var isInputCorrectJob2: Job? = null
+    private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {
+        val codeField = when(textFieldNumber) {
+            1 -> uiState.value.codeFieldState1
+            2 -> uiState.value.codeFieldState2
+            else -> return
+        }
+        
         when(userInput) {
-            correctAnswer -> {
-                _uiState.update { it.copy( showCorrect = true) }
+            codeField?.correctAnswer -> {
+                _uiState.update { 
+                    when(textFieldNumber) {
+                        1 -> it.copy(codeFieldState1 = it.codeFieldState1.copy(isCorrect = true))
+                        2 -> it.copy(codeFieldState2 = it.codeFieldState2?.copy(isCorrect = true))
+                        else -> it
+                    }
+                }
+                areFieldsCorrect(
+                    uiState.value.codeFieldState1.isCorrect,
+                    uiState.value.codeFieldState2?.isCorrect,
+                    uiState.value.codeFieldState3?.isCorrect,
+                    uiState.value.codeFieldState4?.isCorrect
+                )
             }
             else -> {
-                _uiState.update { it.copy( showCorrect = false) }
-                if (!validInputs.contains(userInput)) {
-                    _uiState.update { it.copy(
-                        capybaraStageLayout = initialCapyPosition
-                    )}
+                _uiState.update {
+                    when (textFieldNumber) {
+                        1 -> {
+                            it.copy(
+                                codeFieldState1 = it.codeFieldState1.copy(isCorrect = false),
+                                capybaraStageLayout = if (!validInputs.contains(userInput)) initialCapyPosition else it.capybaraStageLayout
+                            )
+                        }
+                        2 -> {
+                            it.copy(
+                                codeFieldState2 = it.codeFieldState2?.copy(isCorrect = false),
+                                capybaraStageLayout = if (!validInputs2.contains(userInput)) initialCapyPosition else it.capybaraStageLayout
+                            )
+                        }
+                        else -> it
+                    }
                 }
             }
         }
-        if (validInputs.contains(userInput)) {
-            when(uiState.value.answerType) {
-                AnswerType.COLUMN -> {
-                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeColumnAnswerMappings)
-                }
-                AnswerType.ROW -> {
-                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeRowAnswerMappings)
-                }
-                AnswerType.BOX -> {
-                    moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeBoxAnswerMappings)
-                }
-                AnswerType.COL_ALIGN -> TODO()
-                AnswerType.ROW_ALIGN -> TODO()
-                AnswerType.BOX_ALIGN -> TODO()
+        when (textFieldNumber) {
+            1 -> if (validInputs.contains(userInput)) moveCapyByContainer(userInput, userInput1AnswerType)
+            2 -> if (validInputs2.contains(userInput)) moveCapyByContainer(userInput, userInput2AnswerType)
+            else -> return
+        }
+    }
+
+    private fun areFieldsCorrect(vararg fields: Boolean?) {
+        val allFieldsCorrect = fields.filterNotNull().all { it }
+        if (allFieldsCorrect) _uiState.update { it.copy(showCorrect = true) }
+    }
+
+    private fun moveCapyByContainer(userInput: String, answerType: AnswerType) {
+        when(answerType) {
+            AnswerType.COLUMN -> {
+                moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeColumnAnswerMappings)
             }
+            AnswerType.ROW -> {
+                moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeRowAnswerMappings)
+            }
+            AnswerType.BOX -> {
+                moveCapybaraWholeContainer(userInput, UiAnswerMappings.wholeBoxAnswerMappings)
+            }
+            AnswerType.COL_ALIGN -> TODO()
+            AnswerType.ROW_ALIGN -> TODO()
+            AnswerType.BOX_ALIGN -> TODO()
         }
     }
 
@@ -105,8 +169,13 @@ class LevelViewModel(
     private fun loadLevel() {
         val levelConfig = levelRepository.getLevelConfig(levelNumber)
 
-        correctAnswer = levelConfig.correctAnswer
-        validInputs = levelConfig.validInput
+        correctAnswer1 = levelConfig.codeFieldState1.correctAnswer
+        correctAnswer2 = levelConfig.codeFieldState2?.correctAnswer ?: ""
+        validInputs = levelConfig.codeFieldState1.validInput
+        validInputs2 = levelConfig.codeFieldState2?.validInput ?: emptySet()
+        userInput1AnswerType = levelConfig.codeFieldState1.answerType
+        userInput2AnswerType = levelConfig.codeFieldState2?.answerType ?: AnswerType.COLUMN
+
         initialCapyPosition = levelConfig.initialUserStageLayout
 
         _uiState.update {
@@ -115,19 +184,15 @@ class LevelViewModel(
                 instructions = levelConfig.instructions,
                 hints = levelConfig.hints,
 
-                // Code Field UI
-                existingLinesBefore = levelConfig.existingLinesBefore,
-                existingLinesAfter = levelConfig.existingLinesAfter,
+                codeFieldState1 = levelConfig.codeFieldState1,
+                codeFieldState2 = levelConfig.codeFieldState2,
+                codeFieldState3 = levelConfig.codeFieldState3,
+                codeFieldState4 = levelConfig.codeFieldState4,
                 numUserInputLines = levelConfig.numUserInputLines,
-                validInput = levelConfig.validInput,
-                correctAnswer = levelConfig.correctAnswer,
-                userInput = levelConfig.initialUserInput,
-                answerType = levelConfig.answerType,
 
                 fruitStageLayout = levelConfig.stageLayout,
                 capybaraStageLayout = levelConfig.initialUserStageLayout
             )
         }
     }
-
 }

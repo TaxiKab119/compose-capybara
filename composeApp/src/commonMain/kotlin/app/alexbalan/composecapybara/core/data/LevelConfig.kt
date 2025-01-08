@@ -1,6 +1,7 @@
 package app.alexbalan.composecapybara.core.data
 
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
+import app.alexbalan.composecapybara.core.presentation.CodeFieldState
 
 data class LevelConfig(
     // Preamble, Instructions, Hints
@@ -9,13 +10,12 @@ data class LevelConfig(
     val hints: List<String> = listOf(),
 
     // Code Field
-    val initialUserInput: String,
-    val numUserInputLines: Int,
-    val existingLinesBefore: List<String>,
-    val existingLinesAfter: List<String>,
-    val validInput: Set<String>,
-    val correctAnswer: String,
-    val answerType: AnswerType, // dictates what set of answers will modify UI (i.e., move capybara)
+    val numUserInputLines: Int = 1,
+    val codeFieldState1: CodeFieldState,
+    val codeFieldState2: CodeFieldState? = null,
+    val codeFieldState3: CodeFieldState? = null,
+    val codeFieldState4: CodeFieldState? = null,
+
 
     // Stage Layout - if null, custom layout is used for the level instead of the repo-driven stageLayout
     val stageLayout: StageLayout? = null,

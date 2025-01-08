@@ -74,14 +74,10 @@ fun RepoDrivenLevelStage(
     stageLayout: StageLayout,
     modifier: Modifier = Modifier
 ) {
-    val lightBrown = Color(0xFF9A8468)
-
     when (stageLayout.container) {
         is UiContainer.Box -> {
             Box(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 contentAlignment = stageLayout.container.contentAlignment
             ) {
                 stageLayout.elements.forEach { fruitPosition ->
@@ -104,9 +100,7 @@ fun RepoDrivenLevelStage(
 
         is UiContainer.Column -> {
             Column(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 horizontalAlignment = stageLayout.container.horizontalAlignment,
                 verticalArrangement = stageLayout.container.verticalArrangement
             ) {
@@ -130,9 +124,7 @@ fun RepoDrivenLevelStage(
 
         is UiContainer.Row -> {
             Row(
-                modifier = modifier
-                    .background(color = lightBrown)
-                    .fillMaxSize(),
+                modifier = modifier,
                 verticalAlignment = stageLayout.container.verticalAlignment,
                 horizontalArrangement = stageLayout.container.horizontalArrangement
             ) {

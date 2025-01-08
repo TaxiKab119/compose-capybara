@@ -13,15 +13,24 @@ data class LevelScreenUiState(
     val hints: List<String> = listOf(),
 
     // Code Field UI
-    val userInput: String = "",
-    val existingLinesBefore: List<String> = listOf(),
-    val existingLinesAfter: List<String> = listOf(),
     val numUserInputLines: Int = 1,
-    val validInput: Set<String> = setOf(),
-    val correctAnswer: String = "1q2w3e4r5t",
-    val answerType: AnswerType = AnswerType.COLUMN,
+    val codeFieldState1: CodeFieldState = CodeFieldState(),
+    val codeFieldState2: CodeFieldState? = null,
+    val codeFieldState3: CodeFieldState? = null,
+    val codeFieldState4: CodeFieldState? = null,
 
     // Layout
     val fruitStageLayout: StageLayout? = null,
     val capybaraStageLayout: StageLayout? = null
+)
+
+data class CodeFieldState(
+    val userInput: String = "",
+    val numUserInputLines: Int = 1,
+    val validInput: Set<String> = setOf(),
+    val correctAnswer: String = "1q2w3e4r5t",
+    val existingLinesBefore: List<String> = listOf(),
+    val existingLinesAfter: List<String> = listOf(),
+    val answerType: AnswerType = AnswerType.COLUMN,
+    val isCorrect: Boolean = false,
 )

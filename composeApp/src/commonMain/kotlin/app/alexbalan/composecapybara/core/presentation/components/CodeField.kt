@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.alexbalan.composecapybara.core.presentation.CodeFieldState
 
 @Composable
 fun CodeField(
@@ -71,6 +72,68 @@ fun CodeField(
                     textFieldOffset = "    "
                 )
                 existingLinesAfter.forEach { MonospacedText(it) }
+            }
+            CodeFieldButton(
+                onClick = onNextClicked,
+                isCorrect = isCorrect,
+                modifier = Modifier.align(Alignment.BottomEnd)
+            )
+        }
+    }
+}
+
+@Composable
+fun TwoInputCodeField(
+    modifier: Modifier = Modifier,
+    codeFieldStateState1: CodeFieldState,
+    codeFieldStateState2: CodeFieldState,
+    isCorrect: Boolean,
+    onTextUpdated1: (String) -> Unit,
+    onTextUpdated2: (String) -> Unit,
+
+    onNextClicked: () -> Unit,
+) {
+    val numCodeLines =
+        codeFieldStateState1.numUserInputLines +
+        codeFieldStateState1.existingLinesBefore.size +
+        codeFieldStateState1.existingLinesAfter.size +
+        codeFieldStateState2.numUserInputLines +
+        codeFieldStateState2.existingLinesBefore.size +
+        codeFieldStateState2.existingLinesAfter.size
+
+    Row(
+        modifier = Modifier
+            .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+    ) {
+        CodeFieldLineNumbers(numCodeLines)
+        Box(
+            modifier = modifier
+                .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+                .fillMaxSize()
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp)
+            ) {
+                codeFieldStateState1.existingLinesBefore.forEach { MonospacedText(it) }
+                CodeFieldTextInputField(
+                    userInput = codeFieldStateState1.userInput,
+                    numUserInputLines = codeFieldStateState1.numUserInputLines,
+                    onTextUpdated = onTextUpdated1,
+                    textFieldOffset = "    "
+                )
+                codeFieldStateState1.existingLinesAfter.forEach { MonospacedText(it) }
+                codeFieldStateState2.existingLinesBefore.forEach { MonospacedText(it) }
+                CodeFieldTextInputField(
+                    userInput = codeFieldStateState2.userInput,
+                    numUserInputLines = codeFieldStateState2.numUserInputLines,
+                    onTextUpdated = onTextUpdated2,
+                    textFieldOffset = "    "
+                )
+                codeFieldStateState2.existingLinesAfter.forEach { MonospacedText(it) }
             }
             CodeFieldButton(
                 onClick = onNextClicked,

@@ -45,6 +45,7 @@ import app.alexbalan.composecapybara.core.data.stage.FruitType
 import app.alexbalan.composecapybara.core.presentation.components.CodeField
 import app.alexbalan.composecapybara.core.presentation.components.DynamicLevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
+import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeField
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.blueberry
 import composecapybara.composeapp.generated.resources.carrot
@@ -59,13 +60,15 @@ fun GameScreenRoot(
     viewModel: LevelViewModel,
     onForwardClick: (Int) -> Unit,
     onBackwardClick: (Int) -> Unit,
-    onTextUpdated: (String) -> Unit
+    onTextUpdated: (String) -> Unit,
+    onText2Updated: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     GameScreen(
         onForwardClick = { onForwardClick(it) },
         onBackwardClick = { onBackwardClick(it) },
         onTextUpdated = { onTextUpdated(it) },
+        onText2Updated = { onText2Updated(it) },
         uiState = uiState
     )
 }
@@ -76,6 +79,7 @@ fun GameScreen(
     onForwardClick: (Int) -> Unit,
     onBackwardClick: (Int) -> Unit,
     onTextUpdated: (String) -> Unit,
+    onText2Updated: (String) -> Unit
 ) {
     Surface (
         modifier = Modifier
@@ -115,16 +119,31 @@ fun GameScreen(
                 Spacer(Modifier.height(8.dp))
                 LevelInstructions(uiState.instructions)
                 Spacer(Modifier.height(8.dp))
-                CodeField(
-                    Modifier.align(Alignment.CenterHorizontally),
-                    userInput = uiState.userInput,
-                    onTextUpdated = onTextUpdated,
-                    existingLinesBefore = uiState.existingLinesBefore,
-                    existingLinesAfter = uiState.existingLinesAfter,
-                    numUserInputLines = uiState.numUserInputLines,
-                    onNextClicked = { onForwardClick(uiState.levelNumber) },
-                    isCorrect = uiState.showCorrect
-                )
+                when(uiState.numUserInputLines) {
+                    1 -> {
+                        CodeField(
+                            Modifier.align(Alignment.CenterHorizontally),
+                            userInput = uiState.codeFieldState1.userInput,
+                            onTextUpdated = onTextUpdated,
+                            existingLinesBefore = uiState.codeFieldState1.existingLinesBefore,
+                            existingLinesAfter = uiState.codeFieldState1.existingLinesAfter,
+                            numUserInputLines = uiState.codeFieldState1.numUserInputLines,
+                            onNextClicked = { onForwardClick(uiState.levelNumber) },
+                            isCorrect = uiState.showCorrect
+                        )
+                    }
+                    2 -> {
+                        TwoInputCodeField(
+                            modifier = Modifier.align(Alignment.CenterHorizontally),
+                            codeFieldStateState1 = uiState.codeFieldState1,
+                            codeFieldStateState2 = uiState.codeFieldState2!!,
+                            isCorrect = uiState.showCorrect,
+                            onTextUpdated1 = onTextUpdated,
+                            onTextUpdated2 = onText2Updated,
+                            onNextClicked = { onForwardClick(uiState.levelNumber) }
+                        )
+                    }
+                }
             }
             Box(
                 Modifier
@@ -139,13 +158,16 @@ fun GameScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(lightBrown)
+                        .padding(12.dp)
                 )
 
                 // Dynamic gameplay layer (user-controlled)
                 DynamicLevelStageRoot(
                     levelNumber = uiState.levelNumber,
                     stageLayout = uiState.capybaraStageLayout,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(12.dp)
                 )
             }
 

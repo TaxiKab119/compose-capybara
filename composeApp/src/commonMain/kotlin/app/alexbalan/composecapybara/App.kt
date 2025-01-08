@@ -29,7 +29,8 @@ fun App() {
                     onBackwardClick = {
                         if (it != 0) { navController.navigate(route = Level(it - 1)) }
                     },
-                    onTextUpdated = { viewModel.updateUserInput(it) }
+                    onTextUpdated = { viewModel.updateUserInput(it, 1) },
+                    onText2Updated = { viewModel.updateUserInput(it, 2) }
                 )
             }
         }
