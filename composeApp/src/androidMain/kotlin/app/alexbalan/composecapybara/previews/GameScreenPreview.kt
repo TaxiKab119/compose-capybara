@@ -12,10 +12,7 @@ import app.alexbalan.composecapybara.core.presentation.LevelScreenUiState
 private fun GameScreenPreview() {
     val sampleUiState = LevelScreenUiState(
         levelNumber = 0,
-        userInput = "verticalAlignment = Alignment.End",
         numUserInputLines = 1,
-        existingLinesBefore = listOf("Column ("),
-        existingLinesAfter = listOf("\t\tmodifier = modifier", "\t\t\t\t.background(Color.Green)", "\t\t\t\t.fillMaxSize()", ") {", "   \tCaterpillar()", "}"),
     )
 
     MaterialTheme {
@@ -23,8 +20,10 @@ private fun GameScreenPreview() {
             uiState = sampleUiState,
             onBackwardClick = {},
             onForwardClick = {},
-            onTextUpdated = {}
+            onTextUpdated = {},
+            onText2Updated = {}
         )
+        
     }
 
 }

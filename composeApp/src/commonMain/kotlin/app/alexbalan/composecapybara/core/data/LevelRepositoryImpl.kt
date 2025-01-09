@@ -42,7 +42,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
-                correctAnswer = "verticalArrangement = Arrangement.Bottom",
                 answerType = AnswerType.COLUMN,
             )
         ),
@@ -69,7 +68,6 @@ class LevelRepositoryImpl : LevelRepository {
                 ),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
-                correctAnswer = "verticalArrangement = Arrangement.Center",
                 answerType = AnswerType.COLUMN,
             ),
             stageLayout = StageLayout(
@@ -106,7 +104,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
-                correctAnswer = "verticalArrangement = Arrangement.SpaceBetween",
                 answerType = AnswerType.COLUMN,
             ),
             stageLayout = StageLayout(
@@ -140,7 +137,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "horizontalArrangement = Arrangement.SpaceBetween",
                 answerType = AnswerType.ROW,
             ),
             stageLayout = StageLayout(
@@ -174,7 +170,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "horizontalArrangement = Arrangement.SpaceAround",
                 answerType = AnswerType.ROW,
             ),
             stageLayout = StageLayout(
@@ -208,7 +203,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "horizontalArrangement = Arrangement.End",
                 answerType = AnswerType.ROW,
             ),
             stageLayout = StageLayout(
@@ -240,8 +234,7 @@ class LevelRepositoryImpl : LevelRepository {
                 numUserInputLines = 1,
                 existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
-                validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "horizontalAlignment = Alignment.End",
+                validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
             ),
             stageLayout = StageLayout(
@@ -273,7 +266,6 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "verticalAlignment = Alignment.CenterVertically",
                 answerType = AnswerType.ROW,
             ),
             stageLayout = StageLayout(
@@ -307,7 +299,6 @@ class LevelRepositoryImpl : LevelRepository {
                 numUserInputLines = 1,
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "verticalAlignment = Alignment.CenterVertically",
                 answerType = AnswerType.ROW,
             ),
             codeFieldState2 = CodeFieldState(
@@ -315,10 +306,13 @@ class LevelRepositoryImpl : LevelRepository {
                 numUserInputLines = 1,
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
-                correctAnswer = "horizontalArrangement = Arrangement.Center"
+                answerType = AnswerType.ROW
             ),
             stageLayout = StageLayout(
-                container = UiContainer.Row(),
+                container = UiContainer.Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ),
                 elements = listOf(
                     ElementPosition.InRow(FruitType.GRAPE),
                 )

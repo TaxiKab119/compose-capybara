@@ -5,16 +5,16 @@ import androidx.compose.ui.Alignment
 
 sealed class UiContainer {
     data class Box(
-        val contentAlignment: Alignment = Alignment.TopStart
+        val contentAlignment: Alignment? = null
     ) : UiContainer()
 
     data class Row(
-        val verticalAlignment: Alignment.Vertical = Alignment.Top,
-        val horizontalArrangement: Arrangement.Horizontal = Arrangement.Start
+        val verticalAlignment: Alignment.Vertical? = null,
+        val horizontalArrangement: Arrangement.Horizontal? = null
     ) : UiContainer()
 
     data class Column(
-        val horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-        val verticalArrangement: Arrangement.Vertical = Arrangement.Top
+        val horizontalAlignment: Alignment.Horizontal? = null,
+        val verticalArrangement: Arrangement.Vertical? = null
     ) : UiContainer()
 }

@@ -2,11 +2,13 @@ package app.alexbalan.composecapybara.core.presentation
 
 import app.alexbalan.composecapybara.core.data.AnswerType
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
+import app.alexbalan.composecapybara.core.data.stage.UiContainer
 
 // TODO - Replace all these initial values with a loading state
 data class LevelScreenUiState(
     val levelNumber: Int,
     val showCorrect: Boolean = false,
+    val correctContainer: UiContainer = UiContainer.Column(),
 
     val preamble: String = "",
     val instructions: List<String> = listOf(),
@@ -28,7 +30,6 @@ data class CodeFieldState(
     val userInput: String = "",
     val numUserInputLines: Int = 1,
     val validInput: Set<String> = setOf(),
-    val correctAnswer: String = "1q2w3e4r5t",
     val existingLinesBefore: List<String> = listOf(),
     val existingLinesAfter: List<String> = listOf(),
     val answerType: AnswerType = AnswerType.COLUMN,

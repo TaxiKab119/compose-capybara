@@ -1,6 +1,7 @@
 package app.alexbalan.composecapybara.core.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -78,7 +79,7 @@ fun RepoDrivenLevelStage(
         is UiContainer.Box -> {
             Box(
                 modifier = modifier,
-                contentAlignment = stageLayout.container.contentAlignment
+                contentAlignment = stageLayout.container.contentAlignment ?: Alignment.TopStart
             ) {
                 stageLayout.elements.forEach { fruitPosition ->
                     when (fruitPosition) {
@@ -101,8 +102,8 @@ fun RepoDrivenLevelStage(
         is UiContainer.Column -> {
             Column(
                 modifier = modifier,
-                horizontalAlignment = stageLayout.container.horizontalAlignment,
-                verticalArrangement = stageLayout.container.verticalArrangement
+                horizontalAlignment = stageLayout.container.horizontalAlignment ?: Alignment.Start,
+                verticalArrangement = stageLayout.container.verticalArrangement ?: Arrangement.Top
             ) {
                 stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
@@ -125,8 +126,8 @@ fun RepoDrivenLevelStage(
         is UiContainer.Row -> {
             Row(
                 modifier = modifier,
-                verticalAlignment = stageLayout.container.verticalAlignment,
-                horizontalArrangement = stageLayout.container.horizontalArrangement
+                verticalAlignment = stageLayout.container.verticalAlignment ?: Alignment.Top,
+                horizontalArrangement = stageLayout.container.horizontalArrangement ?: Arrangement.Start
             ) {
                 stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
