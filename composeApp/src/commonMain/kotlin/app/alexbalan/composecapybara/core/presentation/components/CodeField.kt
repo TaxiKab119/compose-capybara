@@ -90,7 +90,6 @@ fun TwoInputCodeField(
     isCorrect: Boolean,
     onTextUpdated1: (String) -> Unit,
     onTextUpdated2: (String) -> Unit,
-
     onNextClicked: () -> Unit,
 ) {
     val numCodeLines =

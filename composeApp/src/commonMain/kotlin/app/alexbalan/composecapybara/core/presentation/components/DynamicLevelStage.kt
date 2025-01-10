@@ -21,6 +21,7 @@ import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 fun DynamicLevelStageRoot(
     stageLayout: StageLayout?,
     levelNumber: Int,
+    isCorrect: Boolean,
     modifier: Modifier = Modifier
 ) {
     if (stageLayout == null) {
@@ -31,7 +32,8 @@ fun DynamicLevelStageRoot(
     } else {
         RepoDrivenDynamicLevelStage(
             stageLayout = stageLayout,
-            modifier = modifier
+            modifier = modifier,
+            isCorrect = isCorrect
         )
     }
 }
@@ -61,6 +63,7 @@ fun Level4StageCustomDynamic(modifier: Modifier = Modifier) {
 @Composable
 fun RepoDrivenDynamicLevelStage(
     stageLayout: StageLayout,
+    isCorrect: Boolean,
     modifier: Modifier = Modifier
 ) {
 
@@ -75,7 +78,8 @@ fun RepoDrivenDynamicLevelStage(
                         is ElementPosition.InBox -> {
                             Capybara(
                                 modifier = fruitPosition.modifier,
-                                cushionType = fruitPosition.cushionType
+                                cushionType = fruitPosition.cushionType,
+                                isSleepy = isCorrect
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -99,7 +103,8 @@ fun RepoDrivenDynamicLevelStage(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Start)
                                     ),
-                                cushionType = fruitPosition.cushionType
+                                cushionType = fruitPosition.cushionType,
+                                isSleepy = isCorrect
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -123,7 +128,8 @@ fun RepoDrivenDynamicLevelStage(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Top)
                                     ),
-                                cushionType = fruitPosition.cushionType
+                                cushionType = fruitPosition.cushionType,
+                                isSleepy = isCorrect
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")

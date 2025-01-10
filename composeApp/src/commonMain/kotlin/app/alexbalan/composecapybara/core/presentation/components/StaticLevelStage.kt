@@ -23,6 +23,7 @@ import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 fun LevelStageRoot(
     stageLayout: StageLayout?,
     levelNumber: Int,
+    isCorrect: Boolean,
     modifier: Modifier = Modifier
 ) {
     if (stageLayout == null) {
@@ -33,7 +34,8 @@ fun LevelStageRoot(
     } else {
         RepoDrivenLevelStage(
             stageLayout = stageLayout,
-            modifier = modifier
+            modifier = modifier,
+            isCorrect = isCorrect
         )
     }
 }
@@ -73,6 +75,7 @@ fun Level4StageCustom(modifier: Modifier = Modifier) {
 @Composable
 fun RepoDrivenLevelStage(
     stageLayout: StageLayout,
+    isCorrect: Boolean,
     modifier: Modifier = Modifier
 ) {
     when (stageLayout.container) {

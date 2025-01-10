@@ -46,6 +46,9 @@ import app.alexbalan.composecapybara.core.presentation.components.DynamicLevelSt
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeField
 import composecapybara.composeapp.generated.resources.Res
+import composecapybara.composeapp.generated.resources.bara_blue_sleepy
+import composecapybara.composeapp.generated.resources.bara_orange_sleepy
+import composecapybara.composeapp.generated.resources.bara_purple_sleepy
 import composecapybara.composeapp.generated.resources.blue_capybara
 import composecapybara.composeapp.generated.resources.blue_cushion
 import composecapybara.composeapp.generated.resources.orange_capybara
@@ -158,7 +161,8 @@ fun GameScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(lightBrown)
-                        .padding(12.dp)
+                        .padding(12.dp),
+                    isCorrect = uiState.showCorrect
                 )
 
                 // Dynamic gameplay layer (user-controlled)
@@ -167,7 +171,8 @@ fun GameScreen(
                     stageLayout = uiState.capybaraStageLayout,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(12.dp)
+                        .padding(12.dp),
+                    isCorrect = uiState.showCorrect
                 )
             }
 
@@ -244,8 +249,9 @@ fun LevelInstructions(
 
 @Composable
 fun Capybara(
+    cushionType: CushionType,
+    isSleepy: Boolean = false,
     modifier: Modifier = Modifier,
-    cushionType: CushionType
 ) {
     // breathing animation
     val scale by rememberInfiniteTransition().animateFloat(
@@ -268,9 +274,9 @@ fun Capybara(
         contentAlignment = Alignment.Center
     ) {
         val capyRes = when (cushionType) {
-            CushionType.BLUE -> Res.drawable.blue_capybara
-            CushionType.ORANGE -> Res.drawable.orange_capybara
-            CushionType.PURPLE -> Res.drawable.purple_capybara
+            CushionType.BLUE -> if (isSleepy) Res.drawable.bara_blue_sleepy else Res.drawable.blue_capybara
+            CushionType.ORANGE -> if (isSleepy) Res.drawable.bara_orange_sleepy else Res.drawable.orange_capybara
+            CushionType.PURPLE -> if (isSleepy) Res.drawable.bara_purple_sleepy else Res.drawable.purple_capybara
         }
         Image(
             imageVector = vectorResource(capyRes),
@@ -281,8 +287,8 @@ fun Capybara(
 
 @Composable
 fun Cushion(
-    modifier: Modifier = Modifier,
     cushionType: CushionType,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
