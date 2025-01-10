@@ -89,7 +89,8 @@ fun RepoDrivenLevelStage(
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.TopStart)
-                                    ),
+                                    )
+                                    .then(fruitPosition.modifier),
                                 fruitType = fruitPosition.fruitType
                             )
                         }

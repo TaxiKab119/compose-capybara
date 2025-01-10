@@ -49,8 +49,8 @@ import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeFi
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.blueberry
 import composecapybara.composeapp.generated.resources.carrot
-import composecapybara.composeapp.generated.resources.caterpillar
-import composecapybara.composeapp.generated.resources.grape
+import composecapybara.composeapp.generated.resources.purple_capybara
+import composecapybara.composeapp.generated.resources.purple_cushion
 import composecapybara.composeapp.generated.resources.strawberry
 import org.jetbrains.compose.resources.vectorResource
 
@@ -258,7 +258,7 @@ fun Capybara(
     )
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(128.dp)
             .padding(12.dp)
             .graphicsLayer {
@@ -270,12 +270,12 @@ fun Capybara(
         val colorFilter = when (fruitType) {
             FruitType.BLUEBERRY -> ColorFilter.tint(Color.Blue)
             FruitType.CARROT -> ColorFilter.tint(Color.Yellow)
-            FruitType.GRAPE -> ColorFilter.tint(Color.Magenta)
+            FruitType.GRAPE -> null
             FruitType.STRAWBERRY -> ColorFilter.tint(Color.Red)
         }
         Image(
-            imageVector = vectorResource(Res.drawable.caterpillar),
-            contentDescription = "Caterpillar",
+            imageVector = vectorResource(Res.drawable.purple_capybara),
+            contentDescription = "Capybara",
             colorFilter = colorFilter
         )
     }
@@ -296,7 +296,7 @@ fun Fruit(
         val resId = when (fruitType) {
             FruitType.BLUEBERRY -> Res.drawable.blueberry
             FruitType.CARROT -> Res.drawable.carrot
-            FruitType.GRAPE -> Res.drawable.grape
+            FruitType.GRAPE -> Res.drawable.purple_cushion
             FruitType.STRAWBERRY -> Res.drawable.strawberry
         }
         Image(

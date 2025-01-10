@@ -14,6 +14,7 @@ import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.presentation.Capybara
+import app.alexbalan.composecapybara.core.presentation.Fruit
 import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 
 
@@ -74,11 +75,7 @@ fun RepoDrivenDynamicLevelStage(
                     when (fruitPosition) {
                         is ElementPosition.InBox -> {
                             Capybara(
-                                modifier = Modifier
-                                    .applyIfElse(
-                                        condition = fruitPosition.alignment != null,
-                                        modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.TopStart)
-                                    ),
+                                modifier = fruitPosition.modifier,
                                 fruitType = fruitPosition.fruitType
                             )
                         }

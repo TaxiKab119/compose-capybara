@@ -1,7 +1,10 @@
 package app.alexbalan.composecapybara.core.data
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.FruitType
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
@@ -39,7 +42,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "verticalArrangement = ",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
@@ -63,7 +66,7 @@ class LevelRepositoryImpl : LevelRepository {
                 numUserInputLines = 1,
                 existingLinesBefore = listOf(
                     "// This is the Container for the whole level",
-                    "Column (",
+                    "Column(",
                     "    modifier = Modifier.fillMaxSize(),"
                 ),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
@@ -101,7 +104,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
@@ -134,7 +137,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "horizontalArrangement = ",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
@@ -167,7 +170,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
@@ -200,7 +203,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
@@ -232,7 +235,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Column (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
@@ -263,7 +266,7 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 existingLinesAfter = listOf(") {", "    Capybara()", "}"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
@@ -297,7 +300,89 @@ class LevelRepositoryImpl : LevelRepository {
             codeFieldState1 = CodeFieldState(
                 userInput = "",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Row (", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
+                validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
+                answerType = AnswerType.ROW,
+            ),
+            codeFieldState2 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesAfter = listOf(") {", "    Capybara()", "}"),
+                validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
+                answerType = AnswerType.ROW
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ),
+                elements = listOf(
+                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(FruitType.CARROT),
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Row(),
+                elements = listOf(
+                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(FruitType.CARROT),
+                )
+            )
+        ),
+        9 to LevelConfig(
+            preamble = "Arrangements and Alignment can be combines to make more complex layouts and position your elements anywhere in the 2d plane.",
+            instructions = listOf(
+                "combination of arrangement and alignment",
+                "This is the second instruction",
+                "Here is a third instruction"
+            ),
+            hints = listOf(),
+            numUserInputLines = 2,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
+                validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
+                answerType = AnswerType.COLUMN,
+            ),
+            codeFieldState2 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesAfter = listOf(") {", "    Capybara()", "}"),
+                validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
+                answerType = AnswerType.COLUMN,
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Column(
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.End
+                ),
+                elements = listOf(
+                    ElementPosition.InColumn(FruitType.GRAPE),
+                    ElementPosition.InColumn(FruitType.GRAPE)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Column(),
+                elements = listOf(
+                    ElementPosition.InColumn(FruitType.GRAPE),
+                    ElementPosition.InColumn(FruitType.GRAPE)
+                )
+            )
+        ),
+        10 to LevelConfig(
+            preamble = "Arrangements and Alignment can be combines to make more complex layouts and position your elements anywhere in the 2d plane.",
+            instructions = listOf(
+                "combination of arrangement and alignment",
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            hints = listOf(),
+            numUserInputLines = 2,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
             ),
@@ -321,6 +406,129 @@ class LevelRepositoryImpl : LevelRepository {
                 container = UiContainer.Row(),
                 elements = listOf(
                     ElementPosition.InRow(FruitType.GRAPE),
+                )
+            )
+        ),
+        11 to LevelConfig(
+            preamble = "This layout can also be easily achieved with a Box()",
+            instructions = listOf(
+                "box content alignment",
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 1,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Box(", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesAfter = listOf(") {", "    Capybara()", "}"),
+                validInput = UiAnswerMappings.wholeBoxAnswerMappings.keys,
+                answerType = AnswerType.BOX,
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Box(contentAlignment = Alignment.Center),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Box(),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE)
+                )
+            )
+        ),
+        12 to LevelConfig(
+            preamble = "Boxes are configurable to many locations Box()",
+            instructions = listOf(
+                "box content alignment",
+                "bottom end of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 1,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Box(", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesAfter = listOf(") {", "    Capybara()", "}"),
+                validInput = UiAnswerMappings.wholeBoxAnswerMappings.keys,
+                answerType = AnswerType.BOX,
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Box(contentAlignment = Alignment.BottomStart),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Box(),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE)
+                )
+            )
+        ),
+        13 to LevelConfig(
+            preamble = "Ok that's well and good, but why use boxes when we can already do these things with Columns and Rows?" +
+            "Well, notice that the previous two levels only had one Capybara. Unlike Rows and Columns, when multiple components are placed in a box" +
+            "They stack on top of each other. To show this, we've added some offset to the Capys in this example",
+            instructions = listOf(
+                "box content alignment",
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 1,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Box(", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesAfter = listOf(") {", "    Capybara(modifier = Modifier.offset(y = 20.dp))","    Capybara(modifier = Modifier.offset(y = 20.dp))", "}"),
+                validInput = UiAnswerMappings.wholeBoxAnswerMappings.keys,
+                answerType = AnswerType.BOX,
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE),
+                    ElementPosition.InBox(FruitType.CARROT, Modifier.absoluteOffset(y = 20.dp))
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Box(),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE),
+                    ElementPosition.InBox(FruitType.CARROT, Modifier.absoluteOffset(y = 20.dp))
+                )
+            )
+        ),
+        // TODO - This level is not yet complete
+        14 to LevelConfig(
+            preamble = "Ok but how can we do configurations where Capybaras need to sleep in weird locations?",
+            instructions = listOf(
+                "box element align()",
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 1,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf("// This is the Container for the whole level","Box(", "    modifier = Modifier.fillMaxSize(),"),
+                existingLinesAfter = listOf(") {", "    Capybara()","    Capybara()", "}"),
+                validInput = UiAnswerMappings.wholeBoxAnswerMappings.keys,
+                answerType = AnswerType.BOX,
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE),
+                    ElementPosition.InBox(FruitType.CARROT)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Box(),
+                elements = listOf(
+                    ElementPosition.InBox(FruitType.GRAPE),
+                    ElementPosition.InBox(FruitType.CARROT)
                 )
             )
         ),
