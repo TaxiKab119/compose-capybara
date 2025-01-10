@@ -14,7 +14,6 @@ import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.presentation.Capybara
-import app.alexbalan.composecapybara.core.presentation.Fruit
 import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 
 
@@ -76,7 +75,7 @@ fun RepoDrivenDynamicLevelStage(
                         is ElementPosition.InBox -> {
                             Capybara(
                                 modifier = fruitPosition.modifier,
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -100,7 +99,7 @@ fun RepoDrivenDynamicLevelStage(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Start)
                                     ),
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -124,7 +123,7 @@ fun RepoDrivenDynamicLevelStage(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Top)
                                     ),
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")

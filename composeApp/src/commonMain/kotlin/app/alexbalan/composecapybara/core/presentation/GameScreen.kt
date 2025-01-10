@@ -32,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -41,17 +40,18 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import app.alexbalan.composecapybara.core.data.stage.FruitType
+import app.alexbalan.composecapybara.core.data.stage.CushionType
 import app.alexbalan.composecapybara.core.presentation.components.CodeField
 import app.alexbalan.composecapybara.core.presentation.components.DynamicLevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeField
 import composecapybara.composeapp.generated.resources.Res
-import composecapybara.composeapp.generated.resources.blueberry
-import composecapybara.composeapp.generated.resources.carrot
+import composecapybara.composeapp.generated.resources.blue_capybara
+import composecapybara.composeapp.generated.resources.blue_cushion
+import composecapybara.composeapp.generated.resources.orange_capybara
+import composecapybara.composeapp.generated.resources.orange_cushion
 import composecapybara.composeapp.generated.resources.purple_capybara
 import composecapybara.composeapp.generated.resources.purple_cushion
-import composecapybara.composeapp.generated.resources.strawberry
 import org.jetbrains.compose.resources.vectorResource
 
 
@@ -245,7 +245,7 @@ fun LevelInstructions(
 @Composable
 fun Capybara(
     modifier: Modifier = Modifier,
-    fruitType: FruitType
+    cushionType: CushionType
 ) {
     // breathing animation
     val scale by rememberInfiniteTransition().animateFloat(
@@ -267,24 +267,22 @@ fun Capybara(
             },
         contentAlignment = Alignment.Center
     ) {
-        val colorFilter = when (fruitType) {
-            FruitType.BLUEBERRY -> ColorFilter.tint(Color.Blue)
-            FruitType.CARROT -> ColorFilter.tint(Color.Yellow)
-            FruitType.GRAPE -> null
-            FruitType.STRAWBERRY -> ColorFilter.tint(Color.Red)
+        val capyRes = when (cushionType) {
+            CushionType.BLUE -> Res.drawable.blue_capybara
+            CushionType.ORANGE -> Res.drawable.orange_capybara
+            CushionType.PURPLE -> Res.drawable.purple_capybara
         }
         Image(
-            imageVector = vectorResource(Res.drawable.purple_capybara),
+            imageVector = vectorResource(capyRes),
             contentDescription = "Capybara",
-            colorFilter = colorFilter
         )
     }
 }
 
 @Composable
-fun Fruit(
+fun Cushion(
     modifier: Modifier = Modifier,
-    fruitType: FruitType,
+    cushionType: CushionType,
 ) {
     Box(
         modifier = modifier
@@ -293,15 +291,14 @@ fun Fruit(
         contentAlignment = Alignment.Center
     ) {
 
-        val resId = when (fruitType) {
-            FruitType.BLUEBERRY -> Res.drawable.blueberry
-            FruitType.CARROT -> Res.drawable.carrot
-            FruitType.GRAPE -> Res.drawable.purple_cushion
-            FruitType.STRAWBERRY -> Res.drawable.strawberry
+        val resId = when (cushionType) {
+            CushionType.BLUE -> Res.drawable.blue_cushion
+            CushionType.ORANGE -> Res.drawable.orange_cushion
+            CushionType.PURPLE -> Res.drawable.purple_cushion
         }
         Image(
             imageVector = vectorResource(resId),
-            contentDescription = fruitType.name
+            contentDescription = cushionType.name
         )
     }
 }

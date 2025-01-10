@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
-import app.alexbalan.composecapybara.core.presentation.Fruit
+import app.alexbalan.composecapybara.core.presentation.Cushion
 import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 
 
@@ -84,14 +84,14 @@ fun RepoDrivenLevelStage(
                 stageLayout.elements.forEach { fruitPosition ->
                     when (fruitPosition) {
                         is ElementPosition.InBox -> {
-                            Fruit(
+                            Cushion(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.TopStart)
                                     )
                                     .then(fruitPosition.modifier),
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -109,13 +109,13 @@ fun RepoDrivenLevelStage(
                 stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
                         is ElementPosition.InColumn -> {
-                            Fruit(
+                            Cushion(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Start)
                                     ),
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")
@@ -133,13 +133,13 @@ fun RepoDrivenLevelStage(
                 stageLayout.elements.forEach { fruitPosition ->
                     when(fruitPosition) {
                         is ElementPosition.InRow -> {
-                            Fruit(
+                            Cushion(
                                 modifier = Modifier
                                     .applyIfElse(
                                         condition = fruitPosition.alignment != null,
                                         modIfTrue = Modifier.align(fruitPosition.alignment ?: Alignment.Top)
                                     ),
-                                fruitType = fruitPosition.fruitType
+                                cushionType = fruitPosition.cushionType
                             )
                         }
                         else -> error("Container is Box but FruitPosition is in $fruitPosition")

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
  * @constructor Create empty Fruit position
  */
 sealed class ElementPosition {
-    data class InBox(val fruitType: FruitType, val modifier: Modifier = Modifier, val alignment: Alignment? = null) : ElementPosition()
-    data class InRow(val fruitType: FruitType, val modifier: Modifier = Modifier, val alignment: Alignment.Vertical? = null) : ElementPosition()
-    data class InColumn(val fruitType: FruitType, val modifier: Modifier = Modifier, val alignment: Alignment.Horizontal? = null) : ElementPosition()
+    data class InBox(val cushionType: CushionType, val modifier: Modifier = Modifier, val alignment: Alignment? = null) : ElementPosition()
+    data class InRow(val cushionType: CushionType, val modifier: Modifier = Modifier, val alignment: Alignment.Vertical? = null) : ElementPosition()
+    data class InColumn(val cushionType: CushionType, val modifier: Modifier = Modifier, val alignment: Alignment.Horizontal? = null) : ElementPosition()
 }
 
-enum class FruitType {
-    BLUEBERRY, CARROT, GRAPE, STRAWBERRY
+enum class CushionType {
+    BLUE, ORANGE, PURPLE
 }

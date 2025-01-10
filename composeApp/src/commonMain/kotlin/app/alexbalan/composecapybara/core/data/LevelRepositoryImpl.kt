@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
-import app.alexbalan.composecapybara.core.data.stage.FruitType
+import app.alexbalan.composecapybara.core.data.stage.CushionType
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
@@ -33,11 +33,11 @@ class LevelRepositoryImpl : LevelRepository {
             hints = listOf(),
             stageLayout = StageLayout(
                 container = UiContainer.Column(verticalArrangement = Arrangement.Bottom),
-                elements = listOf(ElementPosition.InColumn(FruitType.STRAWBERRY))
+                elements = listOf(ElementPosition.InColumn(CushionType.ORANGE))
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
-                elements = listOf(ElementPosition.InColumn(FruitType.STRAWBERRY))
+                elements = listOf(ElementPosition.InColumn(CushionType.ORANGE))
             ),
             codeFieldState1 = CodeFieldState(
                 userInput = "verticalArrangement = ",
@@ -76,15 +76,15 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Column(verticalArrangement = Arrangement.Center),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.STRAWBERRY),
-                    ElementPosition.InColumn(FruitType.BLUEBERRY)
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.BLUE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.STRAWBERRY),
-                    ElementPosition.InColumn(FruitType.BLUEBERRY)
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.BLUE)
                 )
             )
         ),
@@ -112,17 +112,17 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Column(verticalArrangement = Arrangement.SpaceBetween),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.STRAWBERRY),
-                    ElementPosition.InColumn(FruitType.GRAPE),
-                    ElementPosition.InColumn(FruitType.BLUEBERRY),
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.BLUE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.STRAWBERRY),
-                    ElementPosition.InColumn(FruitType.GRAPE),
-                    ElementPosition.InColumn(FruitType.BLUEBERRY),
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.BLUE),
                 )
             )
         ),
@@ -145,17 +145,17 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Row(horizontalArrangement = Arrangement.SpaceBetween),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.STRAWBERRY),
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.BLUE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.STRAWBERRY),
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.BLUE),
                 )
             )
         ),
@@ -178,17 +178,17 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Row(horizontalArrangement = Arrangement.SpaceAround),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.STRAWBERRY),
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.BLUE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.STRAWBERRY),
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.BLUEBERRY),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.BLUE),
                 )
             )
         ),
@@ -211,15 +211,15 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Row(horizontalArrangement = Arrangement.End),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.PURPLE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.PURPLE),
                 )
             )
         ),
@@ -243,15 +243,15 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Column(horizontalAlignment = Alignment.End),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.BLUEBERRY),
-                    ElementPosition.InColumn(FruitType.GRAPE),
+                    ElementPosition.InColumn(CushionType.BLUE),
+                    ElementPosition.InColumn(CushionType.PURPLE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.BLUEBERRY),
-                    ElementPosition.InColumn(FruitType.GRAPE),
+                    ElementPosition.InColumn(CushionType.BLUE),
+                    ElementPosition.InColumn(CushionType.PURPLE),
                 )
             )
         ),
@@ -274,17 +274,17 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Row(verticalAlignment = Alignment.CenterVertically),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.STRAWBERRY)
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.CARROT),
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.STRAWBERRY)
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE)
                 )
             )
         ),
@@ -317,15 +317,15 @@ class LevelRepositoryImpl : LevelRepository {
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.CARROT),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.GRAPE),
-                    ElementPosition.InRow(FruitType.CARROT),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE),
                 )
             )
         ),
@@ -358,15 +358,15 @@ class LevelRepositoryImpl : LevelRepository {
                     horizontalAlignment = Alignment.End
                 ),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.GRAPE),
-                    ElementPosition.InColumn(FruitType.GRAPE)
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.ORANGE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Column(),
                 elements = listOf(
-                    ElementPosition.InColumn(FruitType.GRAPE),
-                    ElementPosition.InColumn(FruitType.GRAPE)
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.ORANGE)
                 )
             )
         ),
@@ -399,13 +399,13 @@ class LevelRepositoryImpl : LevelRepository {
                     horizontalArrangement = Arrangement.Center
                 ),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(CushionType.PURPLE),
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Row(),
                 elements = listOf(
-                    ElementPosition.InRow(FruitType.GRAPE),
+                    ElementPosition.InRow(CushionType.PURPLE),
                 )
             )
         ),
@@ -428,13 +428,13 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Box(contentAlignment = Alignment.Center),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE)
+                    ElementPosition.InBox(CushionType.BLUE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Box(),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE)
+                    ElementPosition.InBox(CushionType.BLUE)
                 )
             )
         ),
@@ -457,13 +457,13 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Box(contentAlignment = Alignment.BottomStart),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE)
+                    ElementPosition.InBox(CushionType.ORANGE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Box(),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE)
+                    ElementPosition.InBox(CushionType.ORANGE)
                 )
             )
         ),
@@ -488,15 +488,15 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE),
-                    ElementPosition.InBox(FruitType.CARROT, Modifier.absoluteOffset(y = 20.dp))
+                    ElementPosition.InBox(CushionType.PURPLE),
+                    ElementPosition.InBox(CushionType.ORANGE, Modifier.absoluteOffset(y = 20.dp))
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Box(),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE),
-                    ElementPosition.InBox(FruitType.CARROT, Modifier.absoluteOffset(y = 20.dp))
+                    ElementPosition.InBox(CushionType.PURPLE),
+                    ElementPosition.InBox(CushionType.ORANGE, Modifier.absoluteOffset(y = 20.dp))
                 )
             )
         ),
@@ -520,15 +520,15 @@ class LevelRepositoryImpl : LevelRepository {
             stageLayout = StageLayout(
                 container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE),
-                    ElementPosition.InBox(FruitType.CARROT)
+                    ElementPosition.InBox(CushionType.PURPLE),
+                    ElementPosition.InBox(CushionType.ORANGE)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Box(),
                 elements = listOf(
-                    ElementPosition.InBox(FruitType.GRAPE),
-                    ElementPosition.InBox(FruitType.CARROT)
+                    ElementPosition.InBox(CushionType.PURPLE),
+                    ElementPosition.InBox(CushionType.ORANGE)
                 )
             )
         ),

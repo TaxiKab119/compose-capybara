@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import app.alexbalan.composecapybara.core.data.stage.FruitType
+import app.alexbalan.composecapybara.core.data.stage.CushionType
 import app.alexbalan.composecapybara.core.presentation.Capybara
 
 @Composable
@@ -20,9 +20,9 @@ fun LevelTester(modifier: Modifier = Modifier) {
             .background(Color.Green),
         verticalArrangement = Arrangement.SpaceAround
     ) {
-        Capybara(fruitType = FruitType.STRAWBERRY)
-        Capybara(fruitType = FruitType.STRAWBERRY)
-        Capybara(fruitType = FruitType.STRAWBERRY)
+        Capybara(cushionType = CushionType.BLUE)
+        Capybara(cushionType = CushionType.BLUE)
+        Capybara(cushionType = CushionType.BLUE)
     }
 }
 
