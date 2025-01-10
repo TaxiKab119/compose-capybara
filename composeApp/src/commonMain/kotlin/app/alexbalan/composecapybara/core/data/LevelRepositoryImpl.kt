@@ -303,6 +303,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
+                appendComma = true
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -344,6 +345,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
+                appendComma = true
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -385,6 +387,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
+                appendComma = true
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",

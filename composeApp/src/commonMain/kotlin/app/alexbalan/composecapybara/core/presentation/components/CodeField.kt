@@ -41,6 +41,7 @@ fun CodeField(
     existingLinesAfter: List<String>,
     isCorrect: Boolean,
     numUserInputLines: Int,
+    appendComma: Boolean,
     onTextUpdated: (String) -> Unit,
     onNextClicked: () -> Unit,
 ) {
@@ -69,7 +70,8 @@ fun CodeField(
                     userInput = userInput,
                     numUserInputLines = numUserInputLines,
                     onTextUpdated = onTextUpdated,
-                    textFieldOffset = "    "
+                    textFieldOffset = "    ",
+                    appendComma = appendComma
                 )
                 existingLinesAfter.forEach { MonospacedText(it) }
             }
@@ -122,7 +124,8 @@ fun TwoInputCodeField(
                     userInput = codeFieldStateState1.userInput,
                     numUserInputLines = codeFieldStateState1.numUserInputLines,
                     onTextUpdated = onTextUpdated1,
-                    textFieldOffset = "    "
+                    textFieldOffset = "    ",
+                    appendComma = codeFieldStateState1.appendComma
                 )
                 codeFieldStateState1.existingLinesAfter.forEach { MonospacedText(it) }
                 codeFieldStateState2.existingLinesBefore.forEach { MonospacedText(it) }
@@ -130,7 +133,8 @@ fun TwoInputCodeField(
                     userInput = codeFieldStateState2.userInput,
                     numUserInputLines = codeFieldStateState2.numUserInputLines,
                     onTextUpdated = onTextUpdated2,
-                    textFieldOffset = "    "
+                    textFieldOffset = "    ",
+                    appendComma = codeFieldStateState2.appendComma
                 )
                 codeFieldStateState2.existingLinesAfter.forEach { MonospacedText(it) }
             }
@@ -180,7 +184,7 @@ fun CodeFieldButton(
                     scaleY = scale
                 }
             }
-            .padding(end = 8.dp),
+            .padding(end = 14.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Green
         )
@@ -193,15 +197,16 @@ fun CodeFieldButton(
 fun CodeFieldTextInputField(
     userInput: String,
     numUserInputLines: Int,
-    onTextUpdated: (String) -> Unit,
+    appendComma: Boolean,
+    modifier: Modifier = Modifier,
     textFieldOffset: String = "",
-    modifier: Modifier = Modifier
+    onTextUpdated: (String) -> Unit
 ) {
-    Row {
+    Row(
+        modifier.padding(end = 14.dp)
+    ) {
         MonospacedText(textFieldOffset)
-        Box(
-            modifier = modifier.padding(end = 8.dp)
-        ) {
+        Box {
             BasicTextField(
                 value = userInput,
                 singleLine = numUserInputLines == 1,
@@ -216,6 +221,9 @@ fun CodeFieldTextInputField(
                     fontFamily = FontFamily.Monospace
                 )
             )
+        }
+        if (appendComma) {
+            MonospacedText(" ,")
         }
     }
 }

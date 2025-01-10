@@ -34,4 +34,5 @@ data class CodeFieldState(
     val existingLinesAfter: List<String> = listOf(),
     val answerType: AnswerType = AnswerType.COLUMN,
     val isCorrect: Boolean = false,
+    val appendComma: Boolean = false
 )

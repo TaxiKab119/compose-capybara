@@ -132,7 +132,8 @@ fun GameScreen(
                             existingLinesAfter = uiState.codeFieldState1.existingLinesAfter,
                             numUserInputLines = uiState.codeFieldState1.numUserInputLines,
                             onNextClicked = { onForwardClick(uiState.levelNumber) },
-                            isCorrect = uiState.showCorrect
+                            isCorrect = uiState.showCorrect,
+                            appendComma = uiState.codeFieldState1.appendComma
                         )
                     }
                     2 -> {

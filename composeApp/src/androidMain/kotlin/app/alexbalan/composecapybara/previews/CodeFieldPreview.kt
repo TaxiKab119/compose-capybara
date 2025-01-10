@@ -16,7 +16,8 @@ private fun CodeFieldPreview() {
             numUserInputLines = 1,
             onTextUpdated = {},
             onNextClicked = {},
-            isCorrect = true
+            isCorrect = true,
+            appendComma = true
         )
     }
 }
