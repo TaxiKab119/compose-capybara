@@ -42,8 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.alexbalan.composecapybara.core.data.stage.CushionType
 import app.alexbalan.composecapybara.core.presentation.components.CodeField
-import app.alexbalan.composecapybara.core.presentation.components.DynamicLevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
+import app.alexbalan.composecapybara.core.presentation.components.StageElement
 import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeField
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.bara_blue_sleepy
@@ -158,22 +158,28 @@ fun GameScreen(
                 // Static Stage elements
                 LevelStageRoot(
                     levelNumber = uiState.levelNumber,
-                    stageLayout = uiState.fruitStageLayout,
+                    stageLayout = uiState.cushionStageLayout,
                     modifier = Modifier
                         .fillMaxSize()
                         .background(lightBrown)
                         .padding(12.dp),
-                    isCorrect = uiState.showCorrect
+                    isCorrect = uiState.showCorrect,
+                    stageElement = StageElement.Cushion { cushionType, modifier ->
+                        Cushion(cushionType, modifier)
+                    }
                 )
 
                 // Dynamic gameplay layer (user-controlled)
-                DynamicLevelStageRoot(
+                LevelStageRoot(
                     levelNumber = uiState.levelNumber,
                     stageLayout = uiState.capybaraStageLayout,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(12.dp),
-                    isCorrect = uiState.showCorrect
+                    isCorrect = uiState.showCorrect,
+                    stageElement = StageElement.Capybara { cushionType, modifier, isCorrect ->
+                        Capybara(cushionType, isCorrect, modifier)
+                    }
                 )
             }
 

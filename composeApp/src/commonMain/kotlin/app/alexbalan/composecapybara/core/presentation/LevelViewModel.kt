@@ -197,7 +197,7 @@ class LevelViewModel(
                 codeFieldState4 = levelConfig.codeFieldState4,
                 numUserInputLines = levelConfig.numUserInputLines,
 
-                fruitStageLayout = levelConfig.stageLayout,
+                cushionStageLayout = levelConfig.stageLayout,
                 capybaraStageLayout = levelConfig.initialUserStageLayout
             )
         }

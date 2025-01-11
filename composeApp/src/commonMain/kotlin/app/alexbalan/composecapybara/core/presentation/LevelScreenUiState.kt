@@ -22,7 +22,7 @@ data class LevelScreenUiState(
     val codeFieldState4: CodeFieldState? = null,
 
     // Layout
-    val fruitStageLayout: StageLayout? = null,
+    val cushionStageLayout: StageLayout? = null,
     val capybaraStageLayout: StageLayout? = null
 )
 

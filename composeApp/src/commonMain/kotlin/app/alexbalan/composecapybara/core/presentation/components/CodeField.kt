@@ -203,10 +203,14 @@ fun CodeFieldTextInputField(
     onTextUpdated: (String) -> Unit
 ) {
     Row(
-        modifier.padding(end = 14.dp)
+        modifier
+            .fillMaxWidth()
+            .padding(end = 14.dp)
     ) {
         MonospacedText(textFieldOffset)
-        Box {
+        Box(
+            Modifier.weight(1f)
+        ) {
             BasicTextField(
                 value = userInput,
                 singleLine = numUserInputLines == 1,
@@ -223,7 +227,7 @@ fun CodeFieldTextInputField(
             )
         }
         if (appendComma) {
-            MonospacedText(" ,")
+            MonospacedText(",")
         }
     }
 }

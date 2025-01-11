@@ -524,14 +524,14 @@ class LevelRepositoryImpl : LevelRepository {
                 container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
                 elements = listOf(
                     ElementPosition.InBox(CushionType.PURPLE),
-                    ElementPosition.InBox(CushionType.ORANGE)
+                    ElementPosition.InBox(CushionType.ORANGE, Modifier, Alignment.BottomEnd)
                 )
             ),
             initialUserStageLayout = StageLayout(
                 container = UiContainer.Box(),
                 elements = listOf(
                     ElementPosition.InBox(CushionType.PURPLE),
-                    ElementPosition.InBox(CushionType.ORANGE)
+                    ElementPosition.InBox(CushionType.ORANGE, Modifier, Alignment.BottomEnd)
                 )
             )
         ),
