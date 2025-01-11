@@ -41,12 +41,14 @@ fun CodeField(
     existingLinesAfter: List<String>,
     isCorrect: Boolean,
     numUserInputLines: Int,
-    appendComma: Boolean,
+    prependedText: String,
+    appendedText: String,
     onTextUpdated: (String) -> Unit,
     onNextClicked: () -> Unit,
 ) {
+    // add extra buffer (3 lines) for the next button
     val numCodeLines =
-        numUserInputLines + existingLinesBefore.size + existingLinesAfter.size
+        numUserInputLines + existingLinesBefore.size + existingLinesAfter.size + 3
 
     Row(
         modifier = Modifier
@@ -70,8 +72,8 @@ fun CodeField(
                     userInput = userInput,
                     numUserInputLines = numUserInputLines,
                     onTextUpdated = onTextUpdated,
-                    textFieldOffset = "    ",
-                    appendComma = appendComma
+                    prependedText = prependedText,
+                    appendedText = appendedText
                 )
                 existingLinesAfter.forEach { MonospacedText(it) }
             }
@@ -94,13 +96,14 @@ fun TwoInputCodeField(
     onTextUpdated2: (String) -> Unit,
     onNextClicked: () -> Unit,
 ) {
+    // add extra buffer (3 lines) for the next button
     val numCodeLines =
         codeFieldStateState1.numUserInputLines +
         codeFieldStateState1.existingLinesBefore.size +
         codeFieldStateState1.existingLinesAfter.size +
         codeFieldStateState2.numUserInputLines +
         codeFieldStateState2.existingLinesBefore.size +
-        codeFieldStateState2.existingLinesAfter.size
+        codeFieldStateState2.existingLinesAfter.size + 3
 
     Row(
         modifier = Modifier
@@ -124,8 +127,8 @@ fun TwoInputCodeField(
                     userInput = codeFieldStateState1.userInput,
                     numUserInputLines = codeFieldStateState1.numUserInputLines,
                     onTextUpdated = onTextUpdated1,
-                    textFieldOffset = "    ",
-                    appendComma = codeFieldStateState1.appendComma
+                    prependedText = codeFieldStateState1.prependedText,
+                    appendedText = codeFieldStateState1.appendedText
                 )
                 codeFieldStateState1.existingLinesAfter.forEach { MonospacedText(it) }
                 codeFieldStateState2.existingLinesBefore.forEach { MonospacedText(it) }
@@ -133,8 +136,8 @@ fun TwoInputCodeField(
                     userInput = codeFieldStateState2.userInput,
                     numUserInputLines = codeFieldStateState2.numUserInputLines,
                     onTextUpdated = onTextUpdated2,
-                    textFieldOffset = "    ",
-                    appendComma = codeFieldStateState2.appendComma
+                    prependedText = "    ",
+                    appendedText = codeFieldStateState2.appendedText
                 )
                 codeFieldStateState2.existingLinesAfter.forEach { MonospacedText(it) }
             }
@@ -197,9 +200,9 @@ fun CodeFieldButton(
 fun CodeFieldTextInputField(
     userInput: String,
     numUserInputLines: Int,
-    appendComma: Boolean,
     modifier: Modifier = Modifier,
-    textFieldOffset: String = "",
+    appendedText: String = "",
+    prependedText: String = "",
     onTextUpdated: (String) -> Unit
 ) {
     Row(
@@ -207,7 +210,7 @@ fun CodeFieldTextInputField(
             .fillMaxWidth()
             .padding(end = 14.dp)
     ) {
-        MonospacedText(textFieldOffset)
+        MonospacedText(prependedText)
         Box(
             Modifier.weight(1f)
         ) {
@@ -226,8 +229,8 @@ fun CodeFieldTextInputField(
                 )
             )
         }
-        if (appendComma) {
-            MonospacedText(",")
+        if (appendedText.isNotEmpty()) {
+            MonospacedText(appendedText)
         }
     }
 }

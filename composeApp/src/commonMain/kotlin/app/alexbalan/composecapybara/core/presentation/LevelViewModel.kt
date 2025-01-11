@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.alexbalan.composecapybara.core.data.AnswerType
 import app.alexbalan.composecapybara.core.data.LevelRepository
-import app.alexbalan.composecapybara.core.data.stage.StageLayout
+import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
 import kotlinx.coroutines.Job
@@ -21,14 +21,6 @@ class LevelViewModel(
     private val levelNumber: Int,
     private val levelRepository: LevelRepository
 ): ViewModel() {
-
-    // Memoized validation data
-    private var initialCapyPosition: StageLayout? = null
-    private var validInputs: Set<String> = emptySet()
-    private var validInputs2: Set<String> = emptySet()
-    private var userInput1AnswerType: AnswerType = AnswerType.COLUMN
-    private var userInput2AnswerType: AnswerType = AnswerType.COLUMN
-
     private val _uiState = MutableStateFlow(LevelScreenUiState(levelNumber))
     val uiState = _uiState.asStateFlow()
         .onStart { loadLevel() }
@@ -74,37 +66,29 @@ class LevelViewModel(
     private var isInputCorrectJob1: Job? = null
     private var isInputCorrectJob2: Job? = null
     private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {
-        _uiState.update {
-            when (textFieldNumber) {
-                1 -> {
-                    it.copy(
-                        codeFieldState1 = it.codeFieldState1.copy(isCorrect = false),
-                        capybaraStageLayout = if (!validInputs.contains(userInput)) initialCapyPosition else it.capybaraStageLayout
-                    )
-                }
-                2 -> {
-                    it.copy(
-                        codeFieldState2 = it.codeFieldState2?.copy(isCorrect = false),
-                        capybaraStageLayout = if (!validInputs2.contains(userInput)) initialCapyPosition else it.capybaraStageLayout
-                    )
-                }
-                else -> it
-            }
+        val cfs1 = uiState.value.codeFieldState1
+        val cfs2 = uiState.value.codeFieldState2
+
+        val validInputSet = when(textFieldNumber) {
+            1 -> cfs1.validInput
+            2 -> cfs2?.validInput ?: setOf()
+            else -> setOf()
         }
-        when (textFieldNumber) {
-            1 -> if (validInputs.contains(userInput)) moveCapyByContainer(userInput, userInput1AnswerType)
-            2 -> if (validInputs2.contains(userInput)) moveCapyByContainer(userInput, userInput2AnswerType)
-            else -> return
+
+        // Reset position if input is invalid
+        if (!validInputSet.contains(userInput)) {
+            _uiState.update { it.copy(capybaraStageLayout = uiState.value.initialCapyPosition) }
         }
-        if (uiState.value.codeFieldState1.userInput in uiState.value.codeFieldState1.validInput) {
-            moveCapyByContainer(uiState.value.codeFieldState1.userInput, userInput1AnswerType)
-        } else if (uiState.value.codeFieldState2?.isCorrect == true) {
-            uiState.value.codeFieldState2?.let {
-                if (it.userInput in it.validInput) {
-                    moveCapyByContainer(it.userInput, userInput2AnswerType)
-                }
-            }
+
+        // This block adds alignment/arrangement, if they are valid, back to the container/elements
+        // Otherwise, existing valid fields can be lost in moveCapybara()
+        if (cfs1.userInput in cfs1.validInput) {
+            moveCapybara(cfs1.userInput, cfs1.answerType, 1)
         }
+        if (cfs2?.validInput?.contains(cfs2.userInput) == true) {
+            moveCapybara(cfs2.userInput, cfs2.answerType, 2)
+        }
+
         updateShowLevelCompleted()
     }
 
@@ -114,7 +98,8 @@ class LevelViewModel(
         _uiState.update { it.copy(showCorrect = isCorrect) }
     }
 
-    private fun moveCapyByContainer(userInput: String, answerType: AnswerType) {
+    private fun moveCapybara(userInput: String, answerType: AnswerType, codeFieldNumber: Int) {
+
         when(answerType) {
             AnswerType.COLUMN -> {
                 moveCapybaraWholeContainerLayout(userInput, UiAnswerMappings.wholeColumnAnswerMappings)
@@ -125,9 +110,14 @@ class LevelViewModel(
             AnswerType.BOX -> {
                 moveCapybaraWholeContainerLayout(userInput, UiAnswerMappings.wholeBoxAnswerMappings)
             }
-            AnswerType.COL_ALIGN -> TODO()
-            AnswerType.ROW_ALIGN -> TODO()
-            AnswerType.BOX_ALIGN -> TODO()
+            AnswerType.BOX_ALIGN, AnswerType.COL_ALIGN, AnswerType.ROW_ALIGN -> {
+                val capyIndex = when(codeFieldNumber) {
+                    1 -> uiState.value.codeFieldState1.elementIndexToModify
+                    2 -> uiState.value.codeFieldState2?.elementIndexToModify ?: -1
+                    else -> -1
+                }
+                moveIndividualCapybara(userInput, answerType, capyIndex)
+            }
         }
     }
 
@@ -170,35 +160,53 @@ class LevelViewModel(
         }
     }
 
-    private fun moveIndividualCapybara(userInput: String, answerMappings: Map<String, UiContainer>) {
-        // TODO - Fine tune movements using Modifier.align()
+    private fun moveIndividualCapybara(userInput: String, answerType: AnswerType, capyIndex: Int) {
+        when(answerType) {
+            AnswerType.COL_ALIGN -> TODO()
+            AnswerType.ROW_ALIGN -> TODO()
+            AnswerType.BOX_ALIGN -> {
+                UiAnswerMappings.boxAlignmentMappings[userInput]?.let { newAlignment ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            capybaraStageLayout = currentState.capybaraStageLayout?.let { currentLayout ->
+                                currentLayout.copy(
+                                    elements = currentLayout.elements.mapIndexed { index, capyPosition ->
+                                        if (index == capyIndex && capyPosition is ElementPosition.InBox) {
+                                            capyPosition.copy(alignment = newAlignment)
+                                        } else {
+                                            capyPosition
+                                        }
+                                    }
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+            else -> return
+        }
     }
 
     private fun loadLevel() {
         val levelConfig = levelRepository.getLevelConfig(levelNumber)
-
-        validInputs = levelConfig.codeFieldState1.validInput
-        validInputs2 = levelConfig.codeFieldState2?.validInput ?: emptySet()
-        userInput1AnswerType = levelConfig.codeFieldState1.answerType
-        userInput2AnswerType = levelConfig.codeFieldState2?.answerType ?: AnswerType.COLUMN
-
-        initialCapyPosition = levelConfig.initialUserStageLayout
-
         _uiState.update {
             it.copy(
+                correctContainer = levelConfig.stageLayout?.container ?: UiContainer.Column(), // TODO - update default value
+                correctElementPositions = levelConfig.stageLayout?.elements ?: listOf(), // TODO - update default value
+
                 preamble = levelConfig.preamble,
                 instructions = levelConfig.instructions,
                 hints = levelConfig.hints,
-                correctContainer = levelConfig.stageLayout?.container ?: UiContainer.Column(), // TODO - update default value
 
+                numUserInputLines = levelConfig.numUserInputLines,
                 codeFieldState1 = levelConfig.codeFieldState1,
                 codeFieldState2 = levelConfig.codeFieldState2,
                 codeFieldState3 = levelConfig.codeFieldState3,
                 codeFieldState4 = levelConfig.codeFieldState4,
-                numUserInputLines = levelConfig.numUserInputLines,
 
                 cushionStageLayout = levelConfig.stageLayout,
-                capybaraStageLayout = levelConfig.initialUserStageLayout
+                capybaraStageLayout = levelConfig.initialUserStageLayout,
+                initialCapyPosition = levelConfig.initialUserStageLayout,
             )
         }
     }

@@ -1,6 +1,7 @@
 package app.alexbalan.composecapybara.core.presentation
 
 import app.alexbalan.composecapybara.core.data.AnswerType
+import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 
@@ -9,6 +10,7 @@ data class LevelScreenUiState(
     val levelNumber: Int,
     val showCorrect: Boolean = false,
     val correctContainer: UiContainer = UiContainer.Column(),
+    val correctElementPositions: List<ElementPosition> = listOf(),
 
     val preamble: String = "",
     val instructions: List<String> = listOf(),
@@ -23,7 +25,8 @@ data class LevelScreenUiState(
 
     // Layout
     val cushionStageLayout: StageLayout? = null,
-    val capybaraStageLayout: StageLayout? = null
+    val capybaraStageLayout: StageLayout? = null,
+    val initialCapyPosition: StageLayout? = null,
 )
 
 data class CodeFieldState(
@@ -33,6 +36,7 @@ data class CodeFieldState(
     val existingLinesBefore: List<String> = listOf(),
     val existingLinesAfter: List<String> = listOf(),
     val answerType: AnswerType = AnswerType.COLUMN,
-    val isCorrect: Boolean = false,
-    val appendComma: Boolean = false
+    val prependedText: String = "    ",
+    val appendedText: String = "",
+    val elementIndexToModify: Int = -1
 )

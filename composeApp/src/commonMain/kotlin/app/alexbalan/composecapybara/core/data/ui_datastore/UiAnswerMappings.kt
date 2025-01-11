@@ -41,4 +41,28 @@ object UiAnswerMappings {
         "contentAlignment = Alignment.BottomEnd" to UiContainer.Box(contentAlignment = Alignment.BottomEnd)
     )
 
+    val boxAlignmentMappings = mapOf(
+        ".align(Alignment.TopStart)" to Alignment.TopStart,
+        ".align(Alignment.TopCenter)" to Alignment.TopCenter,
+        ".align(Alignment.TopEnd)" to Alignment.TopEnd,
+        ".align(Alignment.CenterStart)" to Alignment.CenterStart,
+        ".align(Alignment.Center)" to Alignment.Center,
+        ".align(Alignment.CenterEnd)" to Alignment.CenterEnd,
+        ".align(Alignment.BottomStart)" to Alignment.BottomStart,
+        ".align(Alignment.BottomCenter)" to Alignment.BottomCenter,
+        ".align(Alignment.BottomEnd)" to Alignment.BottomEnd,
+    )
+
+    val columnAlignmentMappings = mapOf(
+        ".align(Alignment.Start)" to Alignment.TopStart,
+        ".align(Alignment.End)" to Alignment.TopCenter,
+        ".align(Alignment.CenterHorizontally)" to Alignment.TopEnd,
+    )
+
+    val rowAlignmentMappings = mapOf(
+        ".align(Alignment.Top)" to Alignment.TopStart,
+        ".align(Alignment.Bottom)" to Alignment.TopCenter,
+        ".align(Alignment.CenterHorizontally)" to Alignment.TopEnd,
+    )
+
 }

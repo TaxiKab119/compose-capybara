@@ -303,7 +303,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
-                appendComma = true
+                appendedText = ","
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -345,7 +345,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Column(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
-                appendComma = true
+                appendedText = ","
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -387,7 +387,7 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesBefore = listOf("// This is the Container for the whole level","Row(", "    modifier = Modifier.fillMaxSize(),"),
                 validInput = UiAnswerMappings.wholeRowAnswerMappings.keys,
                 answerType = AnswerType.ROW,
-                appendComma = true
+                appendedText = ","
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -503,7 +503,6 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        // TODO - This level is not yet complete
         14 to LevelConfig(
             preamble = "Ok but how can we do configurations where Capybaras need to sleep in weird locations?",
             instructions = listOf(
@@ -513,12 +512,21 @@ class LevelRepositoryImpl : LevelRepository {
             ),
             numUserInputLines = 1,
             codeFieldState1 = CodeFieldState(
-                userInput = "",
+                userInput = ".align()",
                 numUserInputLines = 1,
-                existingLinesBefore = listOf("// This is the Container for the whole level","Box(", "    modifier = Modifier.fillMaxSize(),"),
-                existingLinesAfter = listOf(") {", "    Capybara()","    Capybara()", "}"),
-                validInput = UiAnswerMappings.wholeBoxAnswerMappings.keys,
-                answerType = AnswerType.BOX,
+                existingLinesBefore = listOf(
+                    "// This is the Container for the whole level",
+                    "Box(",
+                    "    modifier = Modifier.fillMaxSize()",
+                    ") {",
+                    "    PurpleCapybara()",
+                ),
+                prependedText = "    OrangeCapybara(Modifier",
+                appendedText = ")",
+                existingLinesAfter = listOf("}"),
+                validInput = UiAnswerMappings.boxAlignmentMappings.keys,
+                answerType = AnswerType.BOX_ALIGN,
+                elementIndexToModify = 1
             ),
             stageLayout = StageLayout(
                 container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
@@ -528,10 +536,10 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             ),
             initialUserStageLayout = StageLayout(
-                container = UiContainer.Box(),
+                container = UiContainer.Box(contentAlignment = Alignment.TopEnd),
                 elements = listOf(
                     ElementPosition.InBox(CushionType.PURPLE),
-                    ElementPosition.InBox(CushionType.ORANGE, Modifier, Alignment.BottomEnd)
+                    ElementPosition.InBox(CushionType.ORANGE, Modifier)
                 )
             )
         ),
