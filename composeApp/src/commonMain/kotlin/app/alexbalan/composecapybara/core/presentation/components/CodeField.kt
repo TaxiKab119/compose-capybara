@@ -136,7 +136,7 @@ fun TwoInputCodeField(
                     userInput = codeFieldStateState2.userInput,
                     numUserInputLines = codeFieldStateState2.numUserInputLines,
                     onTextUpdated = onTextUpdated2,
-                    prependedText = "    ",
+                    prependedText = codeFieldStateState2.prependedText,
                     appendedText = codeFieldStateState2.appendedText
                 )
                 codeFieldStateState2.existingLinesAfter.forEach { MonospacedText(it) }

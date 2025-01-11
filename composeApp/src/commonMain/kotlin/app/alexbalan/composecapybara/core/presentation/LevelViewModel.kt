@@ -70,8 +70,8 @@ class LevelViewModel(
         val cfs2 = uiState.value.codeFieldState2
 
         val validInputSet = when(textFieldNumber) {
-            1 -> cfs1.validInput
-            2 -> cfs2?.validInput ?: setOf()
+            1 -> cfs1.validInputs
+            2 -> cfs2?.validInputs ?: setOf()
             else -> setOf()
         }
 
@@ -82,10 +82,10 @@ class LevelViewModel(
 
         // This block adds alignment/arrangement, if they are valid, back to the container/elements
         // Otherwise, existing valid fields can be lost in moveCapybara()
-        if (cfs1.userInput in cfs1.validInput) {
+        if (cfs1.userInput in cfs1.validInputs) {
             moveCapybara(cfs1.userInput, cfs1.answerType, 1)
         }
-        if (cfs2?.validInput?.contains(cfs2.userInput) == true) {
+        if (cfs2?.validInputs?.contains(cfs2.userInput) == true) {
             moveCapybara(cfs2.userInput, cfs2.answerType, 2)
         }
 
@@ -94,7 +94,8 @@ class LevelViewModel(
 
     private fun updateShowLevelCompleted() {
         val isCorrect =
-            uiState.value.correctContainer == uiState.value.capybaraStageLayout?.container
+            uiState.value.correctContainer == uiState.value.capybaraStageLayout?.container &&
+                    uiState.value.correctElementPositions == uiState.value.capybaraStageLayout?.elements
         _uiState.update { it.copy(showCorrect = isCorrect) }
     }
 
@@ -162,8 +163,44 @@ class LevelViewModel(
 
     private fun moveIndividualCapybara(userInput: String, answerType: AnswerType, capyIndex: Int) {
         when(answerType) {
-            AnswerType.COL_ALIGN -> TODO()
-            AnswerType.ROW_ALIGN -> TODO()
+            AnswerType.COL_ALIGN -> {
+                UiAnswerMappings.columnAlignmentMappings[userInput]?.let { newAlignment ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            capybaraStageLayout = currentState.capybaraStageLayout?.let { currentLayout ->
+                                currentLayout.copy(
+                                    elements = currentLayout.elements.mapIndexed { index, capyPosition ->
+                                        if (index == capyIndex && capyPosition is ElementPosition.InColumn) {
+                                            capyPosition.copy(alignment = newAlignment)
+                                        } else {
+                                            capyPosition
+                                        }
+                                    }
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+            AnswerType.ROW_ALIGN -> {
+                UiAnswerMappings.rowAlignmentMappings[userInput]?.let { newAlignment ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            capybaraStageLayout = currentState.capybaraStageLayout?.let { currentLayout ->
+                                currentLayout.copy(
+                                    elements = currentLayout.elements.mapIndexed { index, capyPosition ->
+                                        if (index == capyIndex && capyPosition is ElementPosition.InRow) {
+                                            capyPosition.copy(alignment = newAlignment)
+                                        } else {
+                                            capyPosition
+                                        }
+                                    }
+                                )
+                            }
+                        )
+                    }
+                }
+            }
             AnswerType.BOX_ALIGN -> {
                 UiAnswerMappings.boxAlignmentMappings[userInput]?.let { newAlignment ->
                     _uiState.update { currentState ->

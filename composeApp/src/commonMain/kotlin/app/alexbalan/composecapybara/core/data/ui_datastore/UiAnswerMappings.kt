@@ -53,16 +53,16 @@ object UiAnswerMappings {
         ".align(Alignment.BottomEnd)" to Alignment.BottomEnd,
     )
 
-    val columnAlignmentMappings = mapOf(
-        ".align(Alignment.Start)" to Alignment.TopStart,
-        ".align(Alignment.End)" to Alignment.TopCenter,
-        ".align(Alignment.CenterHorizontally)" to Alignment.TopEnd,
+    val columnAlignmentMappings: Map<String, Alignment.Horizontal> = mapOf(
+        ".align(Alignment.Start)" to Alignment.Start,
+        ".align(Alignment.End)" to Alignment.End,
+        ".align(Alignment.CenterHorizontally)" to Alignment.CenterHorizontally,
     )
 
-    val rowAlignmentMappings = mapOf(
-        ".align(Alignment.Top)" to Alignment.TopStart,
-        ".align(Alignment.Bottom)" to Alignment.TopCenter,
-        ".align(Alignment.CenterHorizontally)" to Alignment.TopEnd,
+    val rowAlignmentMappings: Map<String, Alignment.Vertical> = mapOf(
+        ".align(Alignment.Top)" to Alignment.Top,
+        ".align(Alignment.Bottom)" to Alignment.Bottom,
+        ".align(Alignment.CenterVertically)" to Alignment.CenterVertically,
     )
 
 }

@@ -32,7 +32,7 @@ data class LevelScreenUiState(
 data class CodeFieldState(
     val userInput: String = "",
     val numUserInputLines: Int = 1,
-    val validInput: Set<String> = setOf(),
+    val validInputs: Set<String> = setOf(),
     val existingLinesBefore: List<String> = listOf(),
     val existingLinesAfter: List<String> = listOf(),
     val answerType: AnswerType = AnswerType.COLUMN,
