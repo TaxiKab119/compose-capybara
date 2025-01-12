@@ -7,15 +7,12 @@ import app.alexbalan.composecapybara.core.data.LevelRepository
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class LevelViewModel(
     private val levelNumber: Int,
@@ -63,12 +60,7 @@ class LevelViewModel(
                         codeFieldState1 = screenState.codeFieldState1.copy(userInput = userInput)
                     )
                 }
-                // Cancel and start new job only for field 1
-                isInputCorrectJob1?.cancel()
-                isInputCorrectJob1 = viewModelScope.launch {
-                    delay(500)
-                    isUserInputCorrect(userInput, 1)
-                }
+                isUserInputCorrect(userInput, 1)
             }
             2 -> {
                 _uiState.update { screenState ->
@@ -76,12 +68,7 @@ class LevelViewModel(
                         codeFieldState2 = screenState.codeFieldState2?.copy(userInput = userInput)
                     )
                 }
-                // Cancel and start new job only for field 2
-                isInputCorrectJob2?.cancel()
-                isInputCorrectJob2 = viewModelScope.launch {
-                    delay(500)
-                    isUserInputCorrect(userInput, 2)
-                }
+                isUserInputCorrect(userInput, 2)
             }
             3 -> {
                 _uiState.update { screenState ->
@@ -89,12 +76,7 @@ class LevelViewModel(
                         codeFieldState3 = screenState.codeFieldState3?.copy(userInput = userInput)
                     )
                 }
-                // Cancel and start new job only for field 1
-                isInputCorrectJob3?.cancel()
-                isInputCorrectJob3 = viewModelScope.launch {
-                    delay(500)
-                    isUserInputCorrect(userInput, 3)
-                }
+                isUserInputCorrect(userInput, 3)
             }
             4 -> {
                 _uiState.update { screenState ->
@@ -102,22 +84,12 @@ class LevelViewModel(
                         codeFieldState4 = screenState.codeFieldState4?.copy(userInput = userInput)
                     )
                 }
-                // Cancel and start new job only for field 2
-                isInputCorrectJob4?.cancel()
-                isInputCorrectJob4 = viewModelScope.launch {
-                    delay(500)
-                    isUserInputCorrect(userInput, 4)
-                }
+                isUserInputCorrect(userInput, 4)
             }
             else -> return
         }
     }
 
-    // Track jobs separately for each field
-    private var isInputCorrectJob1: Job? = null
-    private var isInputCorrectJob2: Job? = null
-    private var isInputCorrectJob3: Job? = null
-    private var isInputCorrectJob4: Job? = null
     private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {
         val cfs1 = uiState.value.codeFieldState1
         val cfs2 = uiState.value.codeFieldState2
