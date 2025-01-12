@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.CushionType
+import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
@@ -18,7 +18,7 @@ class LevelRepositoryImpl : LevelRepository {
 
     // TODO - Make sure code field is reflective of # of Capys and their color
     private val levels = mapOf(
-        0 to LevelConfig(
+        1 to LevelConfig(
             preamble = "Preamble: Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                     "Fusce sed erat congue, commodo urna sit amet, venenatis ex. Phasellus egestas, " +
                     "urna ac accumsan aliquet, tortor libero posuere magna, eu tempus neque nisl sit amet nisl. " +
@@ -48,7 +48,7 @@ class LevelRepositoryImpl : LevelRepository {
                 answerType = AnswerType.COLUMN,
             )
         ),
-        1 to LevelConfig(
+        2 to LevelConfig(
             preamble = "Preamble: Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                     "Fusce sed erat congue, commodo urna sit amet, venenatis ex. Phasellus egestas, " +
                     "urna ac accumsan aliquet, tortor libero posuere magna, eu tempus neque nisl sit amet nisl. " +
@@ -88,7 +88,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        2 to LevelConfig(
+        3 to LevelConfig(
             preamble = "Preamble: Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
                     "Fusce sed erat congue, commodo urna sit amet, venenatis ex. Phasellus egestas, " +
                     "urna ac accumsan aliquet, tortor libero posuere magna, eu tempus neque nisl sit amet nisl. " +
@@ -126,7 +126,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        3 to LevelConfig(
+        4 to LevelConfig(
             preamble = "We can do the same as the last level but using the main axis of a different container. A Row. In a Row, the main axis is the horizontal axis, as opposed to the Column, where the main axis is the vertical axis. Nevertheless, Arrangement is still Arrangement.",
             instructions = listOf(
                 "Main Axis",
@@ -159,7 +159,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        4 to LevelConfig(
+        5 to LevelConfig(
             preamble = "Let's try some other Arrangements in the Row() container.",
             instructions = listOf(
                 "Main Axis",
@@ -192,7 +192,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        5 to LevelConfig(
+        6 to LevelConfig(
             preamble = "Let's try some other Arrangements in the Row() container.",
             instructions = listOf(
                 "Main Axis",
@@ -223,7 +223,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        6 to LevelConfig(
+        7 to LevelConfig(
             preamble = "What if we want to achieve the same effect as the last level but in a column? This is when we use the cross axis of containers." +
                     "Specifically, you will want to use the Alignment property. Remember that the main axis in a Column is the vertical axis, so the cross axis is the opposite (the horizontal axis).",
             instructions = listOf(
@@ -255,7 +255,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        7 to LevelConfig(
+        8 to LevelConfig(
             preamble = "Let's try working with the cross axis in a Row().",
             instructions = listOf(
                 "Cross Axis",
@@ -288,7 +288,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        8 to LevelConfig(
+        9 to LevelConfig(
             preamble = "Arrangements and Alignment can be combines to make more complex layouts and position your elements anywhere in the 2d plane.",
             instructions = listOf(
                 "combination of arrangement and alignment",
@@ -330,7 +330,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        9 to LevelConfig(
+        10 to LevelConfig(
             preamble = "Arrangements and Alignment can be combines to make more complex layouts and position your elements anywhere in the 2d plane.",
             instructions = listOf(
                 "combination of arrangement and alignment",
@@ -372,7 +372,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        10 to LevelConfig(
+        11 to LevelConfig(
             preamble = "Arrangements and Alignment can be combines to make more complex layouts and position your elements anywhere in the 2d plane.",
             instructions = listOf(
                 "combination of arrangement and alignment",
@@ -412,7 +412,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        11 to LevelConfig(
+        12 to LevelConfig(
             preamble = "This layout can also be easily achieved with a Box()",
             instructions = listOf(
                 "box content alignment",
@@ -441,7 +441,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        12 to LevelConfig(
+        13 to LevelConfig(
             preamble = "Boxes are configurable to many locations Box()",
             instructions = listOf(
                 "box content alignment",
@@ -470,7 +470,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        13 to LevelConfig(
+        14 to LevelConfig(
             preamble = "Ok that's well and good, but why use boxes when we can already do these things with Columns and Rows?" +
             "Well, notice that the previous two levels only had one Capybara. Unlike Rows and Columns, when multiple components are placed in a box" +
             "They stack on top of each other. To show this, we've added some offset to the Capys in this example",
@@ -503,7 +503,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        14 to LevelConfig(
+        15 to LevelConfig(
             preamble = "Ok but how can we do configurations where Capybaras need to sleep in weird locations?",
             instructions = listOf(
                 "box element align()",
@@ -544,7 +544,7 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        15 to LevelConfig(
+        16 to LevelConfig(
             preamble = "Ok but how can we do configurations where Capybaras need to sleep in weird locations?",
             instructions = listOf(
                 "box element align()",
@@ -598,12 +598,11 @@ class LevelRepositoryImpl : LevelRepository {
                 )
             )
         ),
-        16 to LevelConfig(
+        17 to LevelConfig(
             preamble = "Ok but what if we want to arrange them in different locations in a column?",
             instructions = listOf(
-                "Column element align()",
-                "Center of screen",
-                "Here is a third instruction"
+                "column element align()",
+                "Here is a second instruction"
             ),
             numUserInputLines = 2,
             codeFieldState1 = CodeFieldState(
@@ -613,16 +612,66 @@ class LevelRepositoryImpl : LevelRepository {
                     "// This is the Container for the whole level",
                     "Column(",
                     "    modifier = Modifier.fillMaxSize()",
-                    "    horizontalAlignment = Alignment.End",
+                ),
+                existingLinesAfter = listOf(
                     ") {",
-                    "    Capybara()",
-                    "    Capybara(",
+                ),
+                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
+                answerType = AnswerType.COLUMN,
+            ),
+            codeFieldState2 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    OrangeCapybara()",
+                    "    BlueCapybara(",
                 ),
                 prependedText = "        modifier = Modifier",
-                existingLinesAfter = listOf("    )"),
-                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
+                existingLinesAfter = listOf(
+                    "    )",
+                    "    PurpleCapybara()",
+                    "}"
+                ),
+                validInputs = UiAnswerMappings.boxAlignmentMappings.keys,
                 answerType = AnswerType.COL_ALIGN,
                 elementIndexToModify = 1
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Column(verticalArrangement = Arrangement.Bottom),
+                elements = listOf(
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.BLUE, Modifier, Alignment.End),
+                    ElementPosition.InColumn(CushionType.PURPLE)
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Column(),
+                elements = listOf(
+                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.BLUE),
+                    ElementPosition.InColumn(CushionType.PURPLE)
+                )
+            )
+        ),
+        18 to LevelConfig(
+            preamble = "We can also do individual alignments in a Row",
+            instructions = listOf(
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 3,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "Row(",
+                    "    modifier = Modifier.fillMaxSize()",
+                    "    verticalAlignment = Alignment.CenterVertically,",
+                ),
+                existingLinesAfter = listOf(
+                    ") {"
+                ),
+                validInputs = UiAnswerMappings.wholeRowAnswerMappings.keys,
+                answerType = AnswerType.ROW,
             ),
             codeFieldState2 = CodeFieldState(
                 userInput = "",
@@ -634,11 +683,109 @@ class LevelRepositoryImpl : LevelRepository {
                 existingLinesAfter = listOf(
                     "    )",
                     "    Capybara()",
+                ),
+                validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
+                answerType = AnswerType.ROW_ALIGN,
+                elementIndexToModify = 0
+            ),
+            codeFieldState3 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    Capybara("
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf(
+                    "    )",
+                    "}"
+                ),
+                validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
+                answerType = AnswerType.ROW_ALIGN,
+                elementIndexToModify = 2
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ),
+                elements = listOf(
+                    ElementPosition.InRow(CushionType.BLUE, Modifier, Alignment.Top),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE, Modifier, Alignment.Bottom),
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ),
+                elements = listOf(
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                )
+            )
+        ),
+        19 to LevelConfig(
+            preamble = "Let's try a challenge with Column",
+            instructions = listOf(
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 4,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "// This is the Container for the whole level",
+                    "Column(",
+                    "    modifier = Modifier.fillMaxSize()",
+                    "    horizontalAlignment = Alignment.End,",
+                ),
+                validInputs = UiAnswerMappings.wholeColumnAnswerMappings.keys,
+                answerType = AnswerType.COLUMN,
+            ),
+            codeFieldState2 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    ") {",
+                    "    Capybara(",
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf("    )"),
+                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
+                answerType = AnswerType.COL_ALIGN,
+                elementIndexToModify = 0
+            ),
+            codeFieldState3 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    Capybara("
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf(
+                    "    )",
+                    "    Capybara()",
+                ),
+                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
+                answerType = AnswerType.COL_ALIGN,
+                elementIndexToModify = 1
+            ),
+            codeFieldState4 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    Capybara("
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf(
+                    "    )",
                     "}"
                 ),
                 validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
                 answerType = AnswerType.COL_ALIGN,
-                elementIndexToModify = 2
+                elementIndexToModify = 3
             ),
             stageLayout = StageLayout(
                 container = UiContainer.Column(
@@ -647,25 +794,114 @@ class LevelRepositoryImpl : LevelRepository {
                 ),
                 elements = listOf(
                     ElementPosition.InColumn(CushionType.ORANGE, Modifier, Alignment.Start),
-                    ElementPosition.InColumn(CushionType.ORANGE, Modifier, Alignment.CenterHorizontally),
-                    ElementPosition.InColumn(CushionType.ORANGE),
-                    ElementPosition.InColumn(CushionType.ORANGE,  Modifier, Alignment.CenterHorizontally)
+                    ElementPosition.InColumn(CushionType.BLUE, Modifier, Alignment.CenterHorizontally),
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.BLUE,  Modifier, Alignment.CenterHorizontally)
                 )
             ),
             initialUserStageLayout = StageLayout(
-                container = UiContainer.Column(),
+                container = UiContainer.Column(
+                    horizontalAlignment = Alignment.End,
+                ),
                 elements = listOf(
                     ElementPosition.InColumn(CushionType.ORANGE),
-                    ElementPosition.InColumn(CushionType.ORANGE),
-                    ElementPosition.InColumn(CushionType.ORANGE),
-                    ElementPosition.InColumn(CushionType.ORANGE),
+                    ElementPosition.InColumn(CushionType.BLUE),
+                    ElementPosition.InColumn(CushionType.PURPLE),
+                    ElementPosition.InColumn(CushionType.BLUE),
+                )
+            )
+        ),
+        20 to LevelConfig(
+            preamble = "The Capybaras are one level away from being completely tuckered out. Help them get to sleep this last time using all the knowledge you've build so far!",
+            instructions = listOf(
+                "Center of screen",
+                "Here is a third instruction"
+            ),
+            numUserInputLines = 4,
+            codeFieldState1 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "// This is the Container for the whole level",
+                    "Row(",
+                    "    modifier = Modifier.fillMaxSize()",
+                ),
+                appendedText = ",",
+                validInputs = UiAnswerMappings.wholeRowAnswerMappings.keys,
+                answerType = AnswerType.ROW,
+            ),
+            codeFieldState2 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesAfter = listOf(
+                    ") {"
+                ),
+                validInputs = UiAnswerMappings.wholeRowAnswerMappings.keys,
+                answerType = AnswerType.ROW,
+            ),
+            codeFieldState3 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    Capybara()",
+                    "    Capybara("
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf(
+                    "    )",
+                    "    Capybara()",
+                    "    Capybara()",
+                ),
+                validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
+                answerType = AnswerType.ROW_ALIGN,
+                elementIndexToModify = 1
+            ),
+            codeFieldState4 = CodeFieldState(
+                userInput = "",
+                numUserInputLines = 1,
+                existingLinesBefore = listOf(
+                    "    Capybara("
+                ),
+                prependedText = "        modifier = Modifier",
+                existingLinesAfter = listOf(
+                    "    )",
+                    "    Capybara()",
+                    "}"
+                ),
+                validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
+                answerType = AnswerType.ROW_ALIGN,
+                elementIndexToModify = 4
+            ),
+            stageLayout = StageLayout(
+                container = UiContainer.Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.SpaceAround
+                ),
+                elements = listOf(
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.ORANGE, Modifier, Alignment.Top),
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.PURPLE, Modifier, Alignment.CenterVertically),
+                    ElementPosition.InRow(CushionType.BLUE),
+                )
+            ),
+            initialUserStageLayout = StageLayout(
+                container = UiContainer.Row(),
+                elements = listOf(
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.ORANGE),
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.BLUE),
+                    ElementPosition.InRow(CushionType.PURPLE),
+                    ElementPosition.InRow(CushionType.BLUE),
                 )
             )
         ),
     )
 
     override fun getLevelConfig(levelNumber: Int): LevelConfig {
-        return levels[levelNumber] ?: levels[0]!!
+        return levels[levelNumber] ?: levels[1]!!
     }
 
     override fun isLevelCompleted(levelNumber: Int): Boolean {

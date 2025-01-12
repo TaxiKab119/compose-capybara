@@ -20,8 +20,10 @@ private fun GameScreenPreview() {
             uiState = sampleUiState,
             onBackwardClick = {},
             onForwardClick = {},
-            onTextUpdated = {},
-            onText2Updated = {}
+            onTextUpdated1 = {},
+            onTextUpdated2 = {},
+            onTextUpdated3 = {},
+            onTextUpdated4 = {},
         )
         
     }

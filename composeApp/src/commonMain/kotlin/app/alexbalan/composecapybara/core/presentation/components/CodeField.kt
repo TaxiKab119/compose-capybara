@@ -22,7 +22,9 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,76 +36,29 @@ import androidx.compose.ui.unit.sp
 import app.alexbalan.composecapybara.core.presentation.CodeFieldState
 
 @Composable
-fun CodeField(
-    modifier: Modifier = Modifier,
-    userInput: String,
-    existingLinesBefore: List<String>,
-    existingLinesAfter: List<String>,
+fun CodeBlock(
+    codeFieldState1: CodeFieldState,
     isCorrect: Boolean,
-    numUserInputLines: Int,
-    prependedText: String,
-    appendedText: String,
-    onTextUpdated: (String) -> Unit,
-    onNextClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+    codeFieldState2: CodeFieldState? = null,
+    codeFieldState3: CodeFieldState? = null,
+    codeFieldState4: CodeFieldState? = null,
+    onTextUpdated1: (String) -> Unit = {},
+    onTextUpdated2: (String) -> Unit = {},
+    onTextUpdated3: (String) -> Unit = {},
+    onTextUpdated4: (String) -> Unit = {},
+    onNextClicked: () -> Unit = {},
 ) {
-    // add extra buffer (3 lines) for the next button
-    val numCodeLines =
-        numUserInputLines + existingLinesBefore.size + existingLinesAfter.size + 3
-
-    Row(
-        modifier = Modifier
-            .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
+    val numCodeLines by remember(
+        codeFieldState1, codeFieldState2, codeFieldState3, codeFieldState4
     ) {
-        CodeFieldLineNumbers(numCodeLines)
-        Box(
-            modifier = modifier
-                .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
-                .fillMaxSize()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp)
-            ) {
-                existingLinesBefore.forEach { MonospacedText(it) }
-                CodeFieldTextInputField(
-                    userInput = userInput,
-                    numUserInputLines = numUserInputLines,
-                    onTextUpdated = onTextUpdated,
-                    prependedText = prependedText,
-                    appendedText = appendedText
-                )
-                existingLinesAfter.forEach { MonospacedText(it) }
-            }
-            CodeFieldButton(
-                onClick = onNextClicked,
-                isCorrect = isCorrect,
-                modifier = Modifier.align(Alignment.BottomEnd)
-            )
+        derivedStateOf {
+            codeFieldState1.totalLines +
+            (codeFieldState2?.totalLines ?: 0) +
+            (codeFieldState3?.totalLines ?: 0) +
+            (codeFieldState4?.totalLines ?: 0) + 3 // Buffer of 3 lines for "Next" button
         }
     }
-}
-
-@Composable
-fun TwoInputCodeField(
-    modifier: Modifier = Modifier,
-    codeFieldStateState1: CodeFieldState,
-    codeFieldStateState2: CodeFieldState,
-    isCorrect: Boolean,
-    onTextUpdated1: (String) -> Unit,
-    onTextUpdated2: (String) -> Unit,
-    onNextClicked: () -> Unit,
-) {
-    // add extra buffer (3 lines) for the next button
-    val numCodeLines =
-        codeFieldStateState1.numUserInputLines +
-        codeFieldStateState1.existingLinesBefore.size +
-        codeFieldStateState1.existingLinesAfter.size +
-        codeFieldStateState2.numUserInputLines +
-        codeFieldStateState2.existingLinesBefore.size +
-        codeFieldStateState2.existingLinesAfter.size + 3
 
     Row(
         modifier = Modifier
@@ -122,24 +77,48 @@ fun TwoInputCodeField(
                     .fillMaxWidth()
                     .padding(horizontal = 4.dp)
             ) {
-                codeFieldStateState1.existingLinesBefore.forEach { MonospacedText(it) }
+                codeFieldState1.existingLinesBefore.forEach { MonospacedText(it) }
                 CodeFieldTextInputField(
-                    userInput = codeFieldStateState1.userInput,
-                    numUserInputLines = codeFieldStateState1.numUserInputLines,
+                    userInput = codeFieldState1.userInput,
+                    numUserInputLines = codeFieldState1.numUserInputLines,
                     onTextUpdated = onTextUpdated1,
-                    prependedText = codeFieldStateState1.prependedText,
-                    appendedText = codeFieldStateState1.appendedText
+                    prependedText = codeFieldState1.prependedText,
+                    appendedText = codeFieldState1.appendedText
                 )
-                codeFieldStateState1.existingLinesAfter.forEach { MonospacedText(it) }
-                codeFieldStateState2.existingLinesBefore.forEach { MonospacedText(it) }
-                CodeFieldTextInputField(
-                    userInput = codeFieldStateState2.userInput,
-                    numUserInputLines = codeFieldStateState2.numUserInputLines,
-                    onTextUpdated = onTextUpdated2,
-                    prependedText = codeFieldStateState2.prependedText,
-                    appendedText = codeFieldStateState2.appendedText
-                )
-                codeFieldStateState2.existingLinesAfter.forEach { MonospacedText(it) }
+                codeFieldState1.existingLinesAfter.forEach { MonospacedText(it) }
+                codeFieldState2?.let { codeFieldState ->
+                    codeFieldState.existingLinesBefore.forEach { MonospacedText(it) }
+                    CodeFieldTextInputField(
+                        userInput = codeFieldState.userInput,
+                        numUserInputLines = codeFieldState.numUserInputLines,
+                        onTextUpdated = onTextUpdated2,
+                        prependedText = codeFieldState.prependedText,
+                        appendedText = codeFieldState.appendedText
+                    )
+                    codeFieldState.existingLinesAfter.forEach { MonospacedText(it) }
+                }
+                codeFieldState3?.let { codeFieldState ->
+                    codeFieldState.existingLinesBefore.forEach { MonospacedText(it) }
+                    CodeFieldTextInputField(
+                        userInput = codeFieldState.userInput,
+                        numUserInputLines = codeFieldState.numUserInputLines,
+                        onTextUpdated = onTextUpdated3,
+                        prependedText = codeFieldState.prependedText,
+                        appendedText = codeFieldState.appendedText
+                    )
+                    codeFieldState.existingLinesAfter.forEach { MonospacedText(it) }
+                }
+                codeFieldState4?.let { codeFieldState ->
+                    codeFieldState.existingLinesBefore.forEach { MonospacedText(it) }
+                    CodeFieldTextInputField(
+                        userInput = codeFieldState.userInput,
+                        numUserInputLines = codeFieldState.numUserInputLines,
+                        onTextUpdated = onTextUpdated4,
+                        prependedText = codeFieldState.prependedText,
+                        appendedText = codeFieldState.appendedText
+                    )
+                    codeFieldState.existingLinesAfter.forEach { MonospacedText(it) }
+                }
             }
             CodeFieldButton(
                 onClick = onNextClicked,
@@ -149,6 +128,7 @@ fun TwoInputCodeField(
         }
     }
 }
+
 
 @Composable
 fun CodeFieldButton(

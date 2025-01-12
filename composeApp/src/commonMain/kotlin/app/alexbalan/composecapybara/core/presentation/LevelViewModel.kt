@@ -30,6 +30,30 @@ class LevelViewModel(
             LevelScreenUiState(levelNumber)
         )
 
+    private fun loadLevel() {
+        val levelConfig = levelRepository.getLevelConfig(levelNumber)
+        _uiState.update {
+            it.copy(
+                correctContainer = levelConfig.stageLayout?.container ?: UiContainer.Column(),
+                correctElementPositions = levelConfig.stageLayout?.elements ?: listOf(),
+
+                preamble = levelConfig.preamble,
+                instructions = levelConfig.instructions,
+                hints = levelConfig.hints,
+
+                numUserInputLines = levelConfig.numUserInputLines,
+                codeFieldState1 = levelConfig.codeFieldState1,
+                codeFieldState2 = levelConfig.codeFieldState2,
+                codeFieldState3 = levelConfig.codeFieldState3,
+                codeFieldState4 = levelConfig.codeFieldState4,
+
+                cushionStageLayout = levelConfig.stageLayout,
+                capybaraStageLayout = levelConfig.initialUserStageLayout,
+                initialCapyPosition = levelConfig.initialUserStageLayout,
+            )
+        }
+    }
+
 
     fun updateUserInput(userInput: String, textFieldNumber: Int) {
         when(textFieldNumber) {
@@ -59,19 +83,52 @@ class LevelViewModel(
                     isUserInputCorrect(userInput, 2)
                 }
             }
+            3 -> {
+                _uiState.update { screenState ->
+                    screenState.copy(
+                        codeFieldState3 = screenState.codeFieldState3?.copy(userInput = userInput)
+                    )
+                }
+                // Cancel and start new job only for field 1
+                isInputCorrectJob3?.cancel()
+                isInputCorrectJob3 = viewModelScope.launch {
+                    delay(500)
+                    isUserInputCorrect(userInput, 3)
+                }
+            }
+            4 -> {
+                _uiState.update { screenState ->
+                    screenState.copy(
+                        codeFieldState4 = screenState.codeFieldState4?.copy(userInput = userInput)
+                    )
+                }
+                // Cancel and start new job only for field 2
+                isInputCorrectJob4?.cancel()
+                isInputCorrectJob4 = viewModelScope.launch {
+                    delay(500)
+                    isUserInputCorrect(userInput, 4)
+                }
+            }
+            else -> return
         }
     }
 
     // Track jobs separately for each field
     private var isInputCorrectJob1: Job? = null
     private var isInputCorrectJob2: Job? = null
+    private var isInputCorrectJob3: Job? = null
+    private var isInputCorrectJob4: Job? = null
     private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {
         val cfs1 = uiState.value.codeFieldState1
         val cfs2 = uiState.value.codeFieldState2
+        val cfs3 = uiState.value.codeFieldState3
+        val cfs4 = uiState.value.codeFieldState4
 
         val validInputSet = when(textFieldNumber) {
             1 -> cfs1.validInputs
             2 -> cfs2?.validInputs ?: setOf()
+            3 -> cfs3?.validInputs ?: setOf()
+            4 -> cfs4?.validInputs ?: setOf()
             else -> setOf()
         }
 
@@ -87,6 +144,12 @@ class LevelViewModel(
         }
         if (cfs2?.validInputs?.contains(cfs2.userInput) == true) {
             moveCapybara(cfs2.userInput, cfs2.answerType, 2)
+        }
+        if (cfs3?.validInputs?.contains(cfs3.userInput) == true) {
+            moveCapybara(cfs3.userInput, cfs3.answerType, 3)
+        }
+        if (cfs4?.validInputs?.contains(cfs4.userInput) == true) {
+            moveCapybara(cfs4.userInput, cfs4.answerType, 4)
         }
 
         updateShowLevelCompleted()
@@ -115,6 +178,8 @@ class LevelViewModel(
                 val capyIndex = when(codeFieldNumber) {
                     1 -> uiState.value.codeFieldState1.elementIndexToModify
                     2 -> uiState.value.codeFieldState2?.elementIndexToModify ?: -1
+                    3 -> uiState.value.codeFieldState3?.elementIndexToModify ?: -1
+                    4 -> uiState.value.codeFieldState4?.elementIndexToModify ?: -1
                     else -> -1
                 }
                 moveIndividualCapybara(userInput, answerType, capyIndex)
@@ -221,30 +286,6 @@ class LevelViewModel(
                 }
             }
             else -> return
-        }
-    }
-
-    private fun loadLevel() {
-        val levelConfig = levelRepository.getLevelConfig(levelNumber)
-        _uiState.update {
-            it.copy(
-                correctContainer = levelConfig.stageLayout?.container ?: UiContainer.Column(), // TODO - update default value
-                correctElementPositions = levelConfig.stageLayout?.elements ?: listOf(), // TODO - update default value
-
-                preamble = levelConfig.preamble,
-                instructions = levelConfig.instructions,
-                hints = levelConfig.hints,
-
-                numUserInputLines = levelConfig.numUserInputLines,
-                codeFieldState1 = levelConfig.codeFieldState1,
-                codeFieldState2 = levelConfig.codeFieldState2,
-                codeFieldState3 = levelConfig.codeFieldState3,
-                codeFieldState4 = levelConfig.codeFieldState4,
-
-                cushionStageLayout = levelConfig.stageLayout,
-                capybaraStageLayout = levelConfig.initialUserStageLayout,
-                initialCapyPosition = levelConfig.initialUserStageLayout,
-            )
         }
     }
 }

@@ -41,10 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.alexbalan.composecapybara.core.data.stage.CushionType
-import app.alexbalan.composecapybara.core.presentation.components.CodeField
+import app.alexbalan.composecapybara.core.presentation.components.CodeBlock
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.StageElement
-import app.alexbalan.composecapybara.core.presentation.components.TwoInputCodeField
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.bara_blue_sleepy
 import composecapybara.composeapp.generated.resources.bara_orange_sleepy
@@ -63,15 +62,19 @@ fun GameScreenRoot(
     viewModel: LevelViewModel,
     onForwardClick: (Int) -> Unit,
     onBackwardClick: (Int) -> Unit,
-    onTextUpdated: (String) -> Unit,
-    onText2Updated: (String) -> Unit
+    onTextUpdated1: (String) -> Unit,
+    onTextUpdated2: (String) -> Unit,
+    onTextUpdated3: (String) -> Unit,
+    onTextUpdated4: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     GameScreen(
         onForwardClick = { onForwardClick(it) },
         onBackwardClick = { onBackwardClick(it) },
-        onTextUpdated = { onTextUpdated(it) },
-        onText2Updated = { onText2Updated(it) },
+        onTextUpdated1 = { onTextUpdated1(it) },
+        onTextUpdated2 = { onTextUpdated2(it) },
+        onTextUpdated3 = { onTextUpdated3(it) },
+        onTextUpdated4 = { onTextUpdated4(it) },
         uiState = uiState
     )
 }
@@ -81,9 +84,11 @@ fun GameScreen(
     uiState: LevelScreenUiState,
     onForwardClick: (Int) -> Unit,
     onBackwardClick: (Int) -> Unit,
-    onTextUpdated: (String) -> Unit,
-    onText2Updated: (String) -> Unit
-) {
+    onTextUpdated1: (String) -> Unit,
+    onTextUpdated2: (String) -> Unit,
+    onTextUpdated3: (String) -> Unit,
+    onTextUpdated4: (String) -> Unit,
+    ) {
     Surface (
         modifier = Modifier
             .fillMaxSize()
@@ -122,33 +127,19 @@ fun GameScreen(
                 Spacer(Modifier.height(8.dp))
                 LevelInstructions(uiState.instructions)
                 Spacer(Modifier.height(8.dp))
-                when(uiState.numUserInputLines) {
-                    1 -> {
-                        CodeField(
-                            Modifier.align(Alignment.CenterHorizontally),
-                            userInput = uiState.codeFieldState1.userInput,
-                            onTextUpdated = onTextUpdated,
-                            existingLinesBefore = uiState.codeFieldState1.existingLinesBefore,
-                            existingLinesAfter = uiState.codeFieldState1.existingLinesAfter,
-                            numUserInputLines = uiState.codeFieldState1.numUserInputLines,
-                            onNextClicked = { onForwardClick(uiState.levelNumber) },
-                            isCorrect = uiState.showCorrect,
-                            prependedText = uiState.codeFieldState1.prependedText,
-                            appendedText = uiState.codeFieldState1.appendedText
-                        )
-                    }
-                    2 -> {
-                        TwoInputCodeField(
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            codeFieldStateState1 = uiState.codeFieldState1,
-                            codeFieldStateState2 = uiState.codeFieldState2!!,
-                            isCorrect = uiState.showCorrect,
-                            onTextUpdated1 = onTextUpdated,
-                            onTextUpdated2 = onText2Updated,
-                            onNextClicked = { onForwardClick(uiState.levelNumber) }
-                        )
-                    }
-                }
+                CodeBlock(
+                    codeFieldState1 = uiState.codeFieldState1,
+                    codeFieldState2 = uiState.codeFieldState2,
+                    codeFieldState3 = uiState.codeFieldState3,
+                    codeFieldState4 = uiState.codeFieldState4,
+                    onTextUpdated1 = onTextUpdated1,
+                    onTextUpdated2 = onTextUpdated2,
+                    onTextUpdated3 = onTextUpdated3,
+                    onTextUpdated4 = onTextUpdated4,
+                    isCorrect = uiState.showCorrect,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onNextClicked = { onForwardClick(uiState.levelNumber) }
+                )
             }
             Box(
                 Modifier

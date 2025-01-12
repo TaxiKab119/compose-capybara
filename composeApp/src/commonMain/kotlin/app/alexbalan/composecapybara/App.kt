@@ -19,7 +19,7 @@ fun App() {
     MaterialTheme {
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = Level(0)) {
+        NavHost(navController, startDestination = Level(1)) {
             composable<Level> { navBackStackEntry ->
                 val level: Level = navBackStackEntry.toRoute()
                 val viewModel: LevelViewModel = koinViewModel { parametersOf(level.number) }
@@ -27,10 +27,12 @@ fun App() {
                     viewModel = viewModel,
                     onForwardClick = { navController.navigate(route = Level(it + 1)) },
                     onBackwardClick = {
-                        if (it != 0) { navController.navigate(route = Level(it - 1)) }
+                        if (it != 1) { navController.navigate(route = Level(it - 1)) }
                     },
-                    onTextUpdated = { viewModel.updateUserInput(it, 1) },
-                    onText2Updated = { viewModel.updateUserInput(it, 2) }
+                    onTextUpdated1 = { viewModel.updateUserInput(it, 1) },
+                    onTextUpdated2 = { viewModel.updateUserInput(it, 2) },
+                    onTextUpdated3 = { viewModel.updateUserInput(it, 3) },
+                    onTextUpdated4 = { viewModel.updateUserInput(it, 4) },
                 )
             }
         }

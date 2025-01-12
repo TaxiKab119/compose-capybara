@@ -39,4 +39,7 @@ data class CodeFieldState(
     val prependedText: String = "    ",
     val appendedText: String = "",
     val elementIndexToModify: Int = -1
-)
+) {
+    val totalLines: Int
+        get() = numUserInputLines + existingLinesBefore.size + existingLinesAfter.size
+}
