@@ -130,7 +130,7 @@ class LevelViewModel(
     private fun updateShowLevelCompleted() {
         val isCorrect =
             uiState.value.correctContainer == uiState.value.capybaraStageLayout?.container &&
-                    uiState.value.correctElementPositions == uiState.value.capybaraStageLayout?.elements
+            uiState.value.correctElementPositions == uiState.value.capybaraStageLayout?.elements
         _uiState.update { it.copy(showCorrect = isCorrect) }
     }
 

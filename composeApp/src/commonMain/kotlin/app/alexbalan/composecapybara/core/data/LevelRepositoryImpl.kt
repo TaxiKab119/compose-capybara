@@ -19,12 +19,7 @@ class LevelRepositoryImpl : LevelRepository {
     // TODO - Make sure code field is reflective of # of Capys and their color
     private val levels = mapOf(
         1 to LevelConfig(
-            preamble = "Preamble: Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                    "Fusce sed erat congue, commodo urna sit amet, venenatis ex. Phasellus egestas, " +
-                    "urna ac accumsan aliquet, tortor libero posuere magna, eu tempus neque nisl sit amet nisl. " +
-                    "Donec eget aliquam tellus. Aliquam sit amet vehicula tellus. Nullam vel purus vitae nunc semper lobortis " +
-                    "eget id turpis. Suspendisse vitae quam at massa venenatis fringilla. Phasellus lobortis ex non lorem sagittis, " +
-                    "sed laoreet lacus mollis.",
+            preamble = "Welcome to Compose Capybara. A game where you write **Jetpack Compose UI** code to help your sleepy capybara friends get some much needed shut eye. Guide the capybara to its cushion using the **verticalArrangement** property, which arranges items vertically and accepts the following values:",
             instructions = listOf(
                 "Main Axis",
                 "This is the second instruction",

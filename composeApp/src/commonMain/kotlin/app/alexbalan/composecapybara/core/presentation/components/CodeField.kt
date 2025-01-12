@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.alexbalan.composecapybara.core.presentation.CodeFieldState
+import app.alexbalan.composecapybara.core.presentation.theme.AppColors
 
 @Composable
 fun CodeBlock(
@@ -62,14 +63,14 @@ fun CodeBlock(
 
     Row(
         modifier = Modifier
-            .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+            .background(AppColors.CodeBlock.Background, shape = RoundedCornerShape(4.dp))
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
     ) {
         CodeFieldLineNumbers(numCodeLines)
         Box(
             modifier = modifier
-                .background(Color.LightGray, shape = RoundedCornerShape(4.dp))
+                .background(AppColors.CodeBlock.Background, shape = RoundedCornerShape(4.dp))
                 .fillMaxSize()
         ) {
             Column(

@@ -25,7 +25,11 @@ fun App() {
                 val viewModel: LevelViewModel = koinViewModel { parametersOf(level.number) }
                 GameScreenRoot(
                     viewModel = viewModel,
-                    onForwardClick = { navController.navigate(route = Level(it + 1)) },
+                    onForwardClick = {
+                        if (it != 20) {
+                            navController.navigate(route = Level(it + 1))
+                        }
+                    },
                     onBackwardClick = {
                         if (it != 1) { navController.navigate(route = Level(it - 1)) }
                     },
