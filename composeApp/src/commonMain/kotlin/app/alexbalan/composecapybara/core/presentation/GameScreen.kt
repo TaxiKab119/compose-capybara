@@ -42,19 +42,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.alexbalan.composecapybara.core.data.stage.CushionType
+import app.alexbalan.composecapybara.core.data.ui_datastore.LayoutConcept
 import app.alexbalan.composecapybara.core.presentation.components.CodeBlock
-import app.alexbalan.composecapybara.core.presentation.components.LayoutConcept
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.StageElement
 import app.alexbalan.composecapybara.core.presentation.theme.AppColors
@@ -112,7 +110,7 @@ fun GameScreen(
             .fillMaxSize()
     ) {
         Column(
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .weight(1f)
@@ -127,8 +125,7 @@ fun GameScreen(
             }
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp),
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -136,8 +133,8 @@ fun GameScreen(
                     imageVector = vectorResource(Res.drawable.compose_capybara_title),
                     contentDescription = "Compose Capybara",
                     modifier = Modifier.sizeIn(
-                        minWidth = 200.dp,
-                        minHeight = 100.dp,
+                        minWidth = 100.dp,
+                        minHeight = 50.dp,
                         maxHeight = 200.dp,
                         maxWidth = 400.dp
                     )
@@ -152,9 +149,19 @@ fun GameScreen(
             LinkableText(uiState.preamble) {
                 selectedConcept = it
             }
-            Spacer(Modifier.height(8.dp))
-            LevelInstructions(uiState.instructions)
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(12.dp))
+            if (uiState.instructions.isNotEmpty()) {
+                LevelInstructions(uiState.instructions)
+                Spacer(Modifier.height(12.dp))
+            }
+            if (uiState.hints.isNotEmpty()) {
+                uiState.hints.forEach {
+                    LinkableText(it) { concept ->
+                        selectedConcept = concept
+                    }
+                    Spacer(Modifier.height(12.dp))
+                }
+            }
             CodeBlock(
                 codeFieldState1 = uiState.codeFieldState1,
                 codeFieldState2 = uiState.codeFieldState2,
@@ -243,25 +250,21 @@ fun LevelInstructions(
     instructions: List<String>,
     modifier: Modifier = Modifier
 ) {
-    val bullet = "\u2022"
-    val paragraphStyle = ParagraphStyle(textIndent = TextIndent(restLine = 12.sp))
-    Text(
-        text = buildAnnotatedString {
-            instructions.forEach {
-                withStyle(style = paragraphStyle) {
-                    append("    ")
-                    append(bullet)
-                    append("  ")
-                    append(it)
-                }
-            }
-        },
-    )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = modifier
+    ) {
+        instructions.forEach { instruction ->
+            LinkableText(instruction, appendBullet = true)
+        }
+    }
 }
 
 @Composable
 fun LinkableText(
     text: String,
+    appendBullet: Boolean = false,
+    attachLinks: Boolean = true,
     onConceptClick: (LayoutConcept) -> Unit = {}
 ) {
     val annotatedString = buildAnnotatedString {
@@ -276,7 +279,7 @@ fun LinkableText(
             val highlightedText = remainingText.substringBefore(marker)
             val concept = LayoutConcept.fromKeyword(highlightedText)
 
-            if (concept != null) {
+            if (concept != null && attachLinks) {
                 withLink(
                     LinkAnnotation.Clickable(
                         tag = concept.tag,
@@ -289,6 +292,7 @@ fun LinkableText(
                     append(highlightedText)
                 }
             } else {
+                if (appendBullet) append("  •  ")
                 withStyle(
                     TextStyles.nonClickableHighlightStyle()
                 ) {
@@ -331,7 +335,7 @@ fun ConceptLinkDialog(
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                LinkableText(concept.description)
+                LinkableText(concept.description, attachLinks = false)
                 if (concept.values.isNotEmpty()) {
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),

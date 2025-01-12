@@ -38,7 +38,6 @@ class LevelViewModel(
                 instructions = levelConfig.instructions,
                 hints = levelConfig.hints,
 
-                numUserInputLines = levelConfig.numUserInputLines,
                 codeFieldState1 = levelConfig.codeFieldState1,
                 codeFieldState2 = levelConfig.codeFieldState2,
                 codeFieldState3 = levelConfig.codeFieldState3,

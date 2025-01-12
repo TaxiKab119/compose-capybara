@@ -10,7 +10,6 @@ data class LevelConfig(
     val hints: List<String> = listOf(),
 
     // Code Field
-    val numUserInputLines: Int = 1,
     val codeFieldState1: CodeFieldState,
     val codeFieldState2: CodeFieldState? = null,
     val codeFieldState3: CodeFieldState? = null,
