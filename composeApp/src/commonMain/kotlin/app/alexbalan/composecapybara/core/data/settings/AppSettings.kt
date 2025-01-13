@@ -43,6 +43,18 @@ class AppSettings(
         ensureCompletedLevelsLoaded()
         return _completedLevels ?: emptySet()
     }
+
+    // Difficulty
+    var difficulty: GameDifficulty
+        get() = GameDifficulty.valueOf(
+            settings.getString(KEY_DIFFICULTY, GameDifficulty.NORMAL.name)
+        )
+        set(value) = settings.putString(KEY_DIFFICULTY, value.name)
+
+    // Colorblind mode
+    var isColorblindModeEnabled: Boolean
+        get() = settings.getBoolean(KEY_COLORBLIND_MODE, false)
+        set(value) = settings.putBoolean(KEY_COLORBLIND_MODE, value)
 }
 
 enum class GameDifficulty {

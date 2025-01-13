@@ -543,7 +543,7 @@ object LevelsDatastore {
                 existingLinesAfter = listOf(
                     ") {",
                 ),
-                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
+                validInputs = UiAnswerMappings.wholeColumnAnswerMappings.keys,
                 answerType = AnswerType.COLUMN,
                 appendedText = ","
             ),
@@ -559,7 +559,7 @@ object LevelsDatastore {
                     "    Capybara()",
                     "}"
                 ),
-                validInputs = UiAnswerMappings.boxAlignmentMappings.keys,
+                validInputs = UiAnswerMappings.columnAlignmentMappings.keys,
                 answerType = AnswerType.COL_ALIGN,
                 elementIndexToModify = 1
             ),
@@ -725,7 +725,7 @@ object LevelsDatastore {
             )
         ),
         20 to LevelConfig(
-            preamble = "The Capybaras are one level away from being completely tuckered out from all the hard work they've been doing (sleeping). Help them get to sleep this last time using all the knowledge you've build so far!",
+            preamble = "The Capybaras are one level away from being completely tuckered out from all the hard work they've been doing (sleeping). Help them get to sleep this last time using all the knowledge you've built so far!",
             hints = listOf("There are **no hints** for this level. You got this!"),
             codeFieldState1 = CodeFieldState(
                 userInput = "",
@@ -757,7 +757,6 @@ object LevelsDatastore {
                 existingLinesAfter = listOf(
                     "    )",
                     "    Capybara()",
-                    "    Capybara()",
                 ),
                 validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
                 answerType = AnswerType.ROW_ALIGN,
@@ -776,7 +775,7 @@ object LevelsDatastore {
                 ),
                 validInputs = UiAnswerMappings.rowAlignmentMappings.keys,
                 answerType = AnswerType.ROW_ALIGN,
-                elementIndexToModify = 4
+                elementIndexToModify = 3
             ),
             stageLayout = StageLayout(
                 container = UiContainer.Row(
@@ -787,7 +786,6 @@ object LevelsDatastore {
                     ElementPosition.InRow(CushionType.BLUE),
                     ElementPosition.InRow(CushionType.ORANGE, Modifier, Alignment.Top),
                     ElementPosition.InRow(CushionType.BLUE),
-                    ElementPosition.InRow(CushionType.BLUE),
                     ElementPosition.InRow(CushionType.PURPLE, Modifier, Alignment.CenterVertically),
                     ElementPosition.InRow(CushionType.BLUE),
                 )
@@ -797,7 +795,6 @@ object LevelsDatastore {
                 elements = listOf(
                     ElementPosition.InRow(CushionType.BLUE),
                     ElementPosition.InRow(CushionType.ORANGE),
-                    ElementPosition.InRow(CushionType.BLUE),
                     ElementPosition.InRow(CushionType.BLUE),
                     ElementPosition.InRow(CushionType.PURPLE),
                     ElementPosition.InRow(CushionType.BLUE),

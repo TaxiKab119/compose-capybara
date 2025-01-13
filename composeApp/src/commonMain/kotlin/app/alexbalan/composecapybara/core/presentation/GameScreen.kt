@@ -1,20 +1,16 @@
 package app.alexbalan.composecapybara.core.presentation
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,18 +27,19 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +50,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -70,6 +68,7 @@ import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.StageElement
 import app.alexbalan.composecapybara.core.presentation.theme.AppColors
 import app.alexbalan.composecapybara.core.presentation.theme.TextStyles
+import app.alexbalan.composecapybara.core.presentation.util.applyIfElse
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.bara_blue_sleepy
 import composecapybara.composeapp.generated.resources.bara_orange_sleepy
@@ -120,80 +119,106 @@ fun GameScreen(
     onLevelSelected: (Int) -> Unit,
 ) {
     var selectedConcept by remember { mutableStateOf<LayoutConcept?>(null) }
+    var showLevelsDropdown by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
             .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    showLevelsDropdown = false
+                }
+            }
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalAlignment = Alignment.Start,
+        Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight()
                 .background(AppColors.lightBlue)
                 .padding(24.dp)
         ) {
-            selectedConcept?.let { concept ->
-                ConceptLinkDialog(concept = concept) {
-                    selectedConcept = null
-                }
-            }
-            Row(
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxSize()
             ) {
-                Image(
-                    imageVector = vectorResource(Res.drawable.compose_capybara_title),
-                    contentDescription = "Compose Capybara",
-                    modifier = Modifier.sizeIn(
-                        minWidth = 100.dp,
-                        minHeight = 50.dp,
-                        maxHeight = 200.dp,
-                        maxWidth = 400.dp
-                    )
-                )
-                LevelSelector(
-                    onForwardClick = { onForwardClick(it) },
-                    onBackwardClick = { onBackwardClick(it) },
-                    levelNumber = uiState.levelNumber,
-                    totalLevels = uiState.totalNumberLevels,
-                    completedLevels = uiState.completedLevels,
-                    onLevelSelected = onLevelSelected,
-                    modifier = Modifier.defaultMinSize(minWidth = 100.dp)
-                )
-            }
-            LinkableText(uiState.preamble) {
-                selectedConcept = it
-            }
-            Spacer(Modifier.height(12.dp))
-            if (uiState.instructions.isNotEmpty()) {
-                LevelInstructions(uiState.instructions)
-                Spacer(Modifier.height(12.dp))
-            }
-            if (uiState.hints.isNotEmpty()) {
-                uiState.hints.forEach {
-                    LinkableText(it) { concept ->
-                        selectedConcept = concept
+                selectedConcept?.let { concept ->
+                    ConceptLinkDialog(concept = concept) {
+                        selectedConcept = null
                     }
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Image(
+                        imageVector = vectorResource(Res.drawable.compose_capybara_title),
+                        contentDescription = "Compose Capybara",
+                        modifier = Modifier.sizeIn(
+                            minWidth = 100.dp,
+                            minHeight = 50.dp,
+                            maxHeight = 200.dp,
+                            maxWidth = 400.dp
+                        )
+                    )
+                    LevelSelector(
+                        onForwardClick = { onForwardClick(it) },
+                        onBackwardClick = { onBackwardClick(it) },
+                        levelNumber = uiState.levelNumber,
+                        totalLevels = uiState.totalNumberLevels,
+                        onShowLevelsClicked = {
+                            showLevelsDropdown = !showLevelsDropdown
+                        },
+                        modifier = Modifier.defaultMinSize(minWidth = 100.dp),
+                    )
+                }
+                LinkableText(uiState.preamble) {
+                    selectedConcept = it
+                }
+                Spacer(Modifier.height(12.dp))
+                if (uiState.instructions.isNotEmpty()) {
+                    LevelInstructions(uiState.instructions)
                     Spacer(Modifier.height(12.dp))
                 }
+                if (uiState.hints.isNotEmpty()) {
+                    uiState.hints.forEach {
+                        LinkableText(it) { concept ->
+                            selectedConcept = concept
+                        }
+                        Spacer(Modifier.height(12.dp))
+                    }
+                }
+                CodeBlock(
+                    codeFieldState1 = uiState.codeFieldState1,
+                    codeFieldState2 = uiState.codeFieldState2,
+                    codeFieldState3 = uiState.codeFieldState3,
+                    codeFieldState4 = uiState.codeFieldState4,
+                    onTextUpdated1 = onTextUpdated1,
+                    onTextUpdated2 = onTextUpdated2,
+                    onTextUpdated3 = onTextUpdated3,
+                    onTextUpdated4 = onTextUpdated4,
+                    isCorrect = uiState.showCorrect,
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onNextClicked = { onForwardClick(uiState.levelNumber) }
+                )
             }
-            CodeBlock(
-                codeFieldState1 = uiState.codeFieldState1,
-                codeFieldState2 = uiState.codeFieldState2,
-                codeFieldState3 = uiState.codeFieldState3,
-                codeFieldState4 = uiState.codeFieldState4,
-                onTextUpdated1 = onTextUpdated1,
-                onTextUpdated2 = onTextUpdated2,
-                onTextUpdated3 = onTextUpdated3,
-                onTextUpdated4 = onTextUpdated4,
-                isCorrect = uiState.showCorrect,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onNextClicked = { onForwardClick(uiState.levelNumber) }
-            )
+            if (showLevelsDropdown) {
+                LevelsDropDown(
+                    totalNumberLevels = uiState.totalNumberLevels,
+                    completedLevels = uiState.completedLevels,
+                    currentLevel = uiState.levelNumber,
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    onLevelSelected = {
+                        if (it != uiState.levelNumber) {
+                            onLevelSelected(it)
+                        }
+                        showLevelsDropdown = false
+                    }
+                )
+            }
         }
         Box(
             Modifier
@@ -230,85 +255,40 @@ fun GameScreen(
     }
 }
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun LevelSelector(
-    levelNumber: Int,
-    totalLevels: Int,
+fun LevelsDropDown(
+    totalNumberLevels: Int,
     completedLevels: Set<Int>,
-    onBackwardClick: (Int) -> Unit,
-    onForwardClick: (Int) -> Unit,
+    currentLevel: Int,
     modifier: Modifier = Modifier,
-    onLevelSelected: (Int) -> Unit,
+    onLevelSelected: (Int) -> Unit
 ) {
-    var showLevelsDropdown by remember { mutableStateOf(false) }
-    Box {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-        ) {
-            IconButton(
-                enabled = levelNumber > 1,
-                onClick = { onBackwardClick(levelNumber) }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-            Text(
-                text = "Level $levelNumber of $totalLevels",
-                modifier = Modifier.clickable {
-                    showLevelsDropdown = !showLevelsDropdown
-                }
-            )
-            IconButton(
-                enabled = levelNumber in 1..19,
-                onClick = { onForwardClick(levelNumber) }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                    contentDescription = "Next"
-                )
-            }
-        }
-        AnimatedVisibility(
-            visible = showLevelsDropdown,
-            enter = fadeIn() + expandVertically(),
-            exit = fadeOut() + shrinkVertically(),
+    Card(
+        modifier = modifier
+            .padding(8.dp)
+            .offset(x = (-12).dp, y = 40.dp),
+        elevation = 4.dp,
+        backgroundColor = AppColors.stageGreen
+    ) {
+        FlowRow(
             modifier = Modifier
-                .align(Alignment.TopCenter)
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            maxItemsInEachRow = 4
         ) {
-            Card(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .background(AppColors.lightBlue),
-                elevation = 4.dp
-            ) {
-                FlowRow(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    maxItemsInEachRow = 5
-                ) {
-                    for (level in 1..totalLevels) {
-                        LevelDot(
-                            level = level,
-                            isCompleted = level in completedLevels,
-                            isCurrentLevel = level == levelNumber,
-                            onClick = {
-                                onLevelSelected(it)
-                                showLevelsDropdown = false
-                            }
-                        )
-                    }
-                }
+            for (level in 1..totalNumberLevels) {
+                LevelDot(
+                    level = level,
+                    isCompleted = level in completedLevels,
+                    isCurrentLevel = level == currentLevel,
+                    onClick = { onLevelSelected(it) }
+                )
             }
         }
     }
+
 }
 
 @Composable
@@ -322,29 +302,112 @@ private fun LevelDot(
     Box(
         modifier = modifier
             .size(32.dp)
+            .clip(CircleShape)
             .background(
-                color = if (isCompleted) Color.Green else Color.LightGray,
+                color = if (isCompleted) AppColors.lightBlue else AppColors.CodeBlock.Background,
                 shape = CircleShape
             )
-            .border(
-                width = if (isCurrentLevel) 2.dp else 0.dp,
-                color = Color.DarkGray,
-                shape = CircleShape
+            .applyIfElse(
+                isCurrentLevel,
+                Modifier.border(
+                    width = 3.dp,
+                    color = Color.White,
+                    shape = CircleShape
+                )
             )
-            .clickable(
-                onClick = { onClick(level) }
-            )
-            .clip(CircleShape),
+            .clickable(onClick = { onClick(level) }),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = level.toString(),
-            color = Color.White,
+            color = AppColors.levelText,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.offset(y = (-1).dp) // Slight offset to account for text baseline
         )
+    }
+}
+
+@Composable
+fun LevelSelector(
+    levelNumber: Int,
+    totalLevels: Int,
+    onBackwardClick: (Int) -> Unit,
+    onForwardClick: (Int) -> Unit,
+    onShowLevelsClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 2.dp,
+                        bottomStart = 2.dp
+                    )
+                )
+                .background(
+                    color = Color.White.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(
+                        topStart = 2.dp,
+                        bottomStart = 2.dp
+                    )
+                )
+                .clickable(enabled = levelNumber > 1) { onBackwardClick(levelNumber) }
+                .padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                contentDescription = "Back",
+                tint = if (levelNumber > 1) AppColors.levelText else AppColors.levelText.copy(alpha = 0.4f)
+            )
+        }
+        Spacer(Modifier.width(2.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable { onShowLevelsClicked() }
+                .background(
+                    color = Color.White.copy(alpha = 0.4f)
+                )
+                .padding(8.dp)
+        ) {
+            Text("Level $levelNumber of $totalLevels")
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Show levels"
+            )
+        }
+        Spacer(Modifier.width(2.dp))
+        Box(
+            modifier = Modifier
+                .clip(
+                    RoundedCornerShape(
+                        topEnd = 2.dp,
+                        bottomEnd = 2.dp
+                    )
+                )
+                .background(
+                    color = Color.White.copy(alpha = 0.4f),
+                    shape = RoundedCornerShape(
+                        topEnd = 2.dp,
+                        bottomEnd = 2.dp
+                    )
+                )
+                .clickable(enabled = levelNumber in 1..19) { onForwardClick(levelNumber) }
+                .padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                contentDescription = "Back",
+                tint = if (levelNumber in 1..19) AppColors.levelText else AppColors.levelText.copy(alpha = 0.4f)
+            )
+        }
     }
 }
 
