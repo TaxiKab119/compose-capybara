@@ -26,8 +26,10 @@ fun App() {
                 GameScreenRoot(
                     viewModel = viewModel,
                     onForwardClick = {
-                        if (it != 20) {
+                        if (it != viewModel.uiState.value.totalNumberLevels) {
                             navController.navigate(route = Level(it + 1))
+                        } else {
+                            viewModel.checkIfGameComplete()
                         }
                     },
                     onBackwardClick = {

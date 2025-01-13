@@ -53,6 +53,26 @@ class LevelViewModel(
         }
     }
 
+    fun checkIfGameComplete() {
+        val totalNumLevels = uiState.value.totalNumberLevels
+        val completedLevels = uiState.value.completedLevels
+        val isGameCompleted = completedLevels.size == totalNumLevels
+
+        _uiState.update {
+            it.copy(
+                isGameCompleted = isGameCompleted,
+                showFinalDialog = isGameCompleted || levelNumber == totalNumLevels
+            )
+        }
+    }
+
+    fun closeFinalDialog() {
+        _uiState.update {
+            it.copy(
+                showFinalDialog = false
+            )
+        }
+    }
 
     fun updateUserInput(userInput: String, textFieldNumber: Int) {
         when(textFieldNumber) {

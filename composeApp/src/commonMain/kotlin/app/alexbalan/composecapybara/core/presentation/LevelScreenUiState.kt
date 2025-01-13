@@ -10,6 +10,8 @@ data class LevelScreenUiState(
     val levelNumber: Int,
     val totalNumberLevels: Int = 0,
     val completedLevels: Set<Int> = setOf(),
+    val isGameCompleted: Boolean = false,
+    val showFinalDialog: Boolean = false,
     val showCorrect: Boolean = false,
     val correctContainer: UiContainer = UiContainer.Column(),
     val correctElementPositions: List<ElementPosition> = listOf(),
