@@ -37,6 +37,7 @@ fun App() {
                     onTextUpdated2 = { viewModel.updateUserInput(it, 2) },
                     onTextUpdated3 = { viewModel.updateUserInput(it, 3) },
                     onTextUpdated4 = { viewModel.updateUserInput(it, 4) },
+                    onLevelSelected = { navController.navigate(route = Level(it)) }
                 )
             }
         }

@@ -5,12 +5,12 @@ import app.alexbalan.composecapybara.core.presentation.CodeFieldState
 
 data class LevelConfig(
     // Preamble, Instructions, Hints
-    val preamble: String,
+    val preamble: String = "",
     val instructions: List<String> = listOf(),
     val hints: List<String> = listOf(),
 
     // Code Field
-    val codeFieldState1: CodeFieldState,
+    val codeFieldState1: CodeFieldState = CodeFieldState(),
     val codeFieldState2: CodeFieldState? = null,
     val codeFieldState3: CodeFieldState? = null,
     val codeFieldState4: CodeFieldState? = null,

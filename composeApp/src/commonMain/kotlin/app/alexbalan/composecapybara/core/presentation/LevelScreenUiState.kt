@@ -8,6 +8,8 @@ import app.alexbalan.composecapybara.core.data.stage.UiContainer
 // TODO - Replace all these initial values with a loading state
 data class LevelScreenUiState(
     val levelNumber: Int,
+    val totalNumberLevels: Int = 0,
+    val completedLevels: Set<Int> = setOf(),
     val showCorrect: Boolean = false,
     val correctContainer: UiContainer = UiContainer.Column(),
     val correctElementPositions: List<ElementPosition> = listOf(),

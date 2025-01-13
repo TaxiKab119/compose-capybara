@@ -33,6 +33,9 @@ class LevelViewModel(
             it.copy(
                 correctContainer = levelConfig.stageLayout?.container ?: UiContainer.Column(),
                 correctElementPositions = levelConfig.stageLayout?.elements ?: listOf(),
+                levelNumber = levelNumber,
+                totalNumberLevels = levelRepository.getNumberOfLevels(),
+                completedLevels = levelRepository.getCompletedLevels(),
 
                 preamble = levelConfig.preamble,
                 instructions = levelConfig.instructions,
@@ -131,6 +134,7 @@ class LevelViewModel(
             uiState.value.correctContainer == uiState.value.capybaraStageLayout?.container &&
             uiState.value.correctElementPositions == uiState.value.capybaraStageLayout?.elements
         _uiState.update { it.copy(showCorrect = isCorrect) }
+        if (isCorrect) levelRepository.markLevelCompleted(levelNumber)
     }
 
     private fun moveCapybara(userInput: String, answerType: AnswerType, codeFieldNumber: Int) {

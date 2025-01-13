@@ -1,13 +1,20 @@
 package app.alexbalan.composecapybara.core.presentation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,12 +27,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -40,11 +50,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -76,6 +89,7 @@ fun GameScreenRoot(
     viewModel: LevelViewModel,
     onForwardClick: (Int) -> Unit,
     onBackwardClick: (Int) -> Unit,
+    onLevelSelected: (Int) -> Unit,
     onTextUpdated1: (String) -> Unit,
     onTextUpdated2: (String) -> Unit,
     onTextUpdated3: (String) -> Unit,
@@ -89,6 +103,7 @@ fun GameScreenRoot(
         onTextUpdated2 = { onTextUpdated2(it) },
         onTextUpdated3 = { onTextUpdated3(it) },
         onTextUpdated4 = { onTextUpdated4(it) },
+        onLevelSelected = onLevelSelected,
         uiState = uiState
     )
 }
@@ -102,6 +117,7 @@ fun GameScreen(
     onTextUpdated2: (String) -> Unit,
     onTextUpdated3: (String) -> Unit,
     onTextUpdated4: (String) -> Unit,
+    onLevelSelected: (Int) -> Unit,
 ) {
     var selectedConcept by remember { mutableStateOf<LayoutConcept?>(null) }
 
@@ -143,6 +159,9 @@ fun GameScreen(
                     onForwardClick = { onForwardClick(it) },
                     onBackwardClick = { onBackwardClick(it) },
                     levelNumber = uiState.levelNumber,
+                    totalLevels = uiState.totalNumberLevels,
+                    completedLevels = uiState.completedLevels,
+                    onLevelSelected = onLevelSelected,
                     modifier = Modifier.defaultMinSize(minWidth = 100.dp)
                 )
             }
@@ -212,36 +231,120 @@ fun GameScreen(
 }
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LevelSelector(
-    modifier: Modifier = Modifier,
+    levelNumber: Int,
+    totalLevels: Int,
+    completedLevels: Set<Int>,
     onBackwardClick: (Int) -> Unit,
     onForwardClick: (Int) -> Unit,
-    levelNumber: Int
+    modifier: Modifier = Modifier,
+    onLevelSelected: (Int) -> Unit,
 ) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        IconButton(
-            onClick = { onBackwardClick(levelNumber) }
+    var showLevelsDropdown by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                contentDescription = "Back"
+            IconButton(
+                enabled = levelNumber > 1,
+                onClick = { onBackwardClick(levelNumber) }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+            Text(
+                text = "Level $levelNumber of $totalLevels",
+                modifier = Modifier.clickable {
+                    showLevelsDropdown = !showLevelsDropdown
+                }
             )
+            IconButton(
+                enabled = levelNumber in 1..19,
+                onClick = { onForwardClick(levelNumber) }
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                    contentDescription = "Next"
+                )
+            }
         }
-        Text(text = "Level $levelNumber")
-        IconButton(
-            onClick = { onForwardClick(levelNumber) }
+        AnimatedVisibility(
+            visible = showLevelsDropdown,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically(),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                contentDescription = "Next"
-            )
+            Card(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(AppColors.lightBlue),
+                elevation = 4.dp
+            ) {
+                FlowRow(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    maxItemsInEachRow = 5
+                ) {
+                    for (level in 1..totalLevels) {
+                        LevelDot(
+                            level = level,
+                            isCompleted = level in completedLevels,
+                            isCurrentLevel = level == levelNumber,
+                            onClick = {
+                                onLevelSelected(it)
+                                showLevelsDropdown = false
+                            }
+                        )
+                    }
+                }
+            }
         }
+    }
+}
 
+@Composable
+private fun LevelDot(
+    level: Int,
+    isCompleted: Boolean,
+    isCurrentLevel: Boolean,
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .size(32.dp)
+            .background(
+                color = if (isCompleted) Color.Green else Color.LightGray,
+                shape = CircleShape
+            )
+            .border(
+                width = if (isCurrentLevel) 2.dp else 0.dp,
+                color = Color.DarkGray,
+                shape = CircleShape
+            )
+            .clickable(
+                onClick = { onClick(level) }
+            )
+            .clip(CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = level.toString(),
+            color = Color.White,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.offset(y = (-1).dp) // Slight offset to account for text baseline
+        )
     }
 }
 

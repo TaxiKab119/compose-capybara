@@ -74,6 +74,7 @@ kotlin {
             implementation(libs.bundles.ktor)
             api(libs.koin.core)
             implementation(libs.bundles.koin)
+            implementation(libs.multiplatform.settings.no.arg)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

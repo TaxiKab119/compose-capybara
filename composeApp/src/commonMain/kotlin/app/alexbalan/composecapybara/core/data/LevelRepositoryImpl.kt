@@ -1,22 +1,15 @@
 package app.alexbalan.composecapybara.core.data
 
+import app.alexbalan.composecapybara.core.data.settings.AppSettings
 import app.alexbalan.composecapybara.core.data.ui_datastore.LevelsDatastore
 
-class LevelRepositoryImpl : LevelRepository {
-    // TODO - This should be replaced with some key-value store
-    private val completedLevels = mutableSetOf<Int>()
-
+class LevelRepositoryImpl(
+    private val appSettings: AppSettings
+) : LevelRepository {
     private val levels = LevelsDatastore.levels
-
-    override fun getLevelConfig(levelNumber: Int): LevelConfig {
-        return levels[levelNumber] ?: levels[1]!!
-    }
-
-    override fun isLevelCompleted(levelNumber: Int): Boolean {
-        return completedLevels.contains(levelNumber)
-    }
-
-    override fun markLevelCompleted(levelNumber: Int) {
-        completedLevels.add(levelNumber)
-    }
+    override fun getLevelConfig(levelNumber: Int) = levels[levelNumber] ?: LevelConfig()
+    override fun isLevelCompleted(levelNumber: Int) = appSettings.isLevelCompleted(levelNumber)
+    override fun markLevelCompleted(levelNumber: Int) = appSettings.setLevelCompleted(levelNumber)
+    override fun getCompletedLevels() = appSettings.getCompletedLevels()
+    override fun getNumberOfLevels() = levels.size
 }
