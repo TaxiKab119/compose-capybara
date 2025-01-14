@@ -160,20 +160,22 @@ fun GameScreen(
                         )
                     }
                 }
-                LinkableText(uiState.preamble) {
-                    selectedConcept = it
-                }
-                Spacer(Modifier.height(12.dp))
-                if (uiState.instructions.isNotEmpty()) {
-                    LevelInstructions(uiState.instructions)
+                if (uiState.settingsState.difficulty == GameDifficulty.BEGINNER) {
+                    LinkableText(uiState.preamble) {
+                        selectedConcept = it
+                    }
                     Spacer(Modifier.height(12.dp))
-                }
-                if (uiState.hints.isNotEmpty()) {
-                    uiState.hints.forEach {
-                        LinkableText(it) { concept ->
-                            selectedConcept = concept
-                        }
+                    if (uiState.instructions.isNotEmpty()) {
+                        LevelInstructions(uiState.instructions)
                         Spacer(Modifier.height(12.dp))
+                    }
+                    if (uiState.hints.isNotEmpty()) {
+                        uiState.hints.forEach {
+                            LinkableText(it) { concept ->
+                                selectedConcept = concept
+                            }
+                            Spacer(Modifier.height(12.dp))
+                        }
                     }
                 }
                 CodeBlock(

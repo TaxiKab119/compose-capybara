@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.alexbalan.composecapybara.core.data.levels.AnswerType
 import app.alexbalan.composecapybara.core.data.levels.LevelRepository
+import app.alexbalan.composecapybara.core.data.settings.GameDifficulty
 import app.alexbalan.composecapybara.core.data.settings.SettingsRepository
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
@@ -130,6 +131,26 @@ class LevelViewModel(
         settingsRepository.setColorBlindMode(enabled)
     }
 
+    fun updateLevelDifficulty(difficulty: GameDifficulty) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                settingsState = currentState.settingsState.copy(
+                    difficulty = difficulty
+                )
+            )
+        }
+        settingsRepository.setDifficulty(difficulty)
+    }
+
+    fun resetLevelProgress() {
+        _uiState.update {
+            it.copy(
+                completedLevels = setOf()
+            )
+        }
+        settingsRepository.resetLevelProgress()
+    }
+
     private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {
         val cfs1 = uiState.value.codeFieldState1
         val cfs2 = uiState.value.codeFieldState2
@@ -172,7 +193,14 @@ class LevelViewModel(
             uiState.value.correctContainer == uiState.value.capybaraStageLayout?.container &&
             uiState.value.correctElementPositions == uiState.value.capybaraStageLayout?.elements
         _uiState.update { it.copy(showCorrect = isCorrect) }
-        if (isCorrect) levelRepository.markLevelCompleted(levelNumber)
+        if (isCorrect) {
+            levelRepository.markLevelCompleted(levelNumber)
+            _uiState.update {
+                it.copy(
+                    completedLevels = it.completedLevels.plus(levelNumber)
+                )
+            }
+        }
     }
 
     private fun moveCapybara(userInput: String, answerType: AnswerType, codeFieldNumber: Int) {

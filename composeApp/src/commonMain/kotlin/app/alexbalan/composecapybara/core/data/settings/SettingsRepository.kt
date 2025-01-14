@@ -3,9 +3,9 @@ package app.alexbalan.composecapybara.core.data.settings
 interface SettingsRepository {
     fun getColorBlindMode(): Boolean
     fun setColorBlindMode(enabled: Boolean)
-
     fun getDifficulty(): GameDifficulty
     fun setDifficulty(difficulty: GameDifficulty)
+    fun resetLevelProgress()
 }
 
 class SettingsRepositoryImpl(
@@ -23,4 +23,5 @@ class SettingsRepositoryImpl(
         appSettings.difficulty = difficulty
     }
 
+    override fun resetLevelProgress() = appSettings.resetLevelProgress()
 }

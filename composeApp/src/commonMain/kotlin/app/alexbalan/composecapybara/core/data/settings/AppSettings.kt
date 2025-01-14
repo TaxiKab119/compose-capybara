@@ -44,6 +44,13 @@ class AppSettings(
         return _completedLevels ?: emptySet()
     }
 
+    fun resetLevelProgress() {
+        _completedLevels = setOf()
+        settings.keys
+            .filter { it.startsWith(KEY_LEVEL_COMPLETED) }
+            .forEach { key -> settings.remove(key) }
+    }
+
     // Difficulty
     var difficulty: GameDifficulty
         get() = GameDifficulty.valueOf(
@@ -55,9 +62,4 @@ class AppSettings(
     var isColorblindModeEnabled: Boolean
         get() = settings.getBoolean(KEY_COLORBLIND_MODE, false)
         set(value) = settings.putBoolean(KEY_COLORBLIND_MODE, value)
-}
-
-enum class GameDifficulty(val description: String) {
-    BEGINNER("Includes hints and clickable tags."),
-    HARD("Just the code and the capybaras.")
 }

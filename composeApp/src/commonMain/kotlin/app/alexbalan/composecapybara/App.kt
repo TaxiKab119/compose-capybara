@@ -43,8 +43,8 @@ fun App() {
                     onTextUpdated4 = { viewModel.updateUserInput(it, 4) },
                     onLevelSelected = { navController.navigate(route = Level(it)) },
                     onColorBlindToggled = { viewModel.updateColorblindMode(it) },
-                    onDifficultyChanged = {},
-                    onResetProgress = {}
+                    onDifficultyChanged = { viewModel.updateLevelDifficulty(it) },
+                    onResetProgress = { viewModel.resetLevelProgress() }
                 )
             }
         }
