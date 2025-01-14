@@ -29,7 +29,7 @@ fun App() {
                         if (it != viewModel.uiState.value.totalNumberLevels) {
                             navController.navigate(route = Level(it + 1))
                         } else {
-                            viewModel.checkIfGameComplete()
+                            viewModel.showFinalDialog()
                         }
                     },
                     onBackwardClick = {

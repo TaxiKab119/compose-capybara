@@ -59,17 +59,28 @@ class LevelViewModel(
                 )
             )
         }
+        checkIfGameComplete(
+            levelRepository.getNumberOfLevels(),
+            levelRepository.getCompletedLevels().size
+        )
     }
 
-    fun checkIfGameComplete() {
-        val totalNumLevels = uiState.value.totalNumberLevels
-        val completedLevels = uiState.value.completedLevels
-        val isGameCompleted = completedLevels.size == totalNumLevels
-
+    private fun checkIfGameComplete(
+        totalNumberLevels: Int,
+        completedLevelsSize: Int,
+    ) {
         _uiState.update {
             it.copy(
-                isGameCompleted = isGameCompleted,
-                showFinalDialog = isGameCompleted || levelNumber == totalNumLevels
+                isGameCompleted = totalNumberLevels == completedLevelsSize,
+                showFinalDialog = totalNumberLevels == completedLevelsSize
+            )
+        }
+    }
+
+    fun showFinalDialog() {
+        _uiState.update {
+            it.copy(
+                showFinalDialog = true
             )
         }
     }
@@ -201,6 +212,7 @@ class LevelViewModel(
                 )
             }
         }
+        checkIfGameComplete(uiState.value.totalNumberLevels, uiState.value.completedLevels.size)
     }
 
     private fun moveCapybara(userInput: String, answerType: AnswerType, codeFieldNumber: Int) {

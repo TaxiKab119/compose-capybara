@@ -113,7 +113,7 @@ fun LevelSelector(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                contentDescription = "Back",
+                contentDescription = "Forward",
                 tint = if (levelNumber in 1..19) AppColors.levelText else AppColors.levelText.copy(alpha = 0.4f)
             )
         }
