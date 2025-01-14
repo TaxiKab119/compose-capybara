@@ -33,13 +33,18 @@ fun App() {
                         }
                     },
                     onBackwardClick = {
-                        if (it != 1) { navController.navigate(route = Level(it - 1)) }
+                        if (it != 1) {
+                            navController.navigate(route = Level(it - 1))
+                        }
                     },
                     onTextUpdated1 = { viewModel.updateUserInput(it, 1) },
                     onTextUpdated2 = { viewModel.updateUserInput(it, 2) },
                     onTextUpdated3 = { viewModel.updateUserInput(it, 3) },
                     onTextUpdated4 = { viewModel.updateUserInput(it, 4) },
-                    onLevelSelected = { navController.navigate(route = Level(it)) }
+                    onLevelSelected = { navController.navigate(route = Level(it)) },
+                    onColorBlindToggled = { viewModel.updateColorblindMode(it) },
+                    onDifficultyChanged = {},
+                    onResetProgress = {}
                 )
             }
         }

@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.alexbalan.composecapybara.core.data.settings.GameDifficulty
 import app.alexbalan.composecapybara.core.data.ui_datastore.LayoutConcept
 import app.alexbalan.composecapybara.core.presentation.components.Capybara
 import app.alexbalan.composecapybara.core.presentation.components.CodeBlock
@@ -37,6 +36,7 @@ import app.alexbalan.composecapybara.core.presentation.components.LevelSelector
 import app.alexbalan.composecapybara.core.presentation.components.LevelStageRoot
 import app.alexbalan.composecapybara.core.presentation.components.LevelsDropDown
 import app.alexbalan.composecapybara.core.presentation.components.LinkableText
+import app.alexbalan.composecapybara.core.presentation.components.SettingsDialog
 import app.alexbalan.composecapybara.core.presentation.components.StageElement
 import app.alexbalan.composecapybara.core.presentation.theme.AppColors
 import composecapybara.composeapp.generated.resources.Res
@@ -54,6 +54,9 @@ fun GameScreenRoot(
     onTextUpdated2: (String) -> Unit,
     onTextUpdated3: (String) -> Unit,
     onTextUpdated4: (String) -> Unit,
+    onColorBlindToggled: (Boolean) -> Unit,
+    onDifficultyChanged: (GameDifficulty) -> Unit,
+    onResetProgress: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -79,7 +82,10 @@ fun GameScreenRoot(
         onTextUpdated3 = { onTextUpdated3(it) },
         onTextUpdated4 = { onTextUpdated4(it) },
         onLevelSelected = onLevelSelected,
-        uiState = uiState
+        onColorBlindToggled = onColorBlindToggled,
+        onDifficultyChanged = onDifficultyChanged,
+        onResetProgress = onResetProgress,
+        uiState = uiState,
     )
 }
 
@@ -92,10 +98,14 @@ fun GameScreen(
     onTextUpdated2: (String) -> Unit,
     onTextUpdated3: (String) -> Unit,
     onTextUpdated4: (String) -> Unit,
+    onColorBlindToggled: (Boolean) -> Unit,
+    onDifficultyChanged: (GameDifficulty) -> Unit,
+    onResetProgress: () -> Unit,
     onLevelSelected: (Int) -> Unit,
 ) {
     var selectedConcept by remember { mutableStateOf<LayoutConcept?>(null) }
     var showLevelsDropdown by remember { mutableStateOf(false) }
+    var showSettings by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -133,23 +143,22 @@ fun GameScreen(
                     Image(
                         imageVector = vectorResource(Res.drawable.compose_capybara_title),
                         contentDescription = "Compose Capybara",
-                        modifier = Modifier.sizeIn(
-                            minWidth = 100.dp,
-                            minHeight = 50.dp,
-                            maxHeight = 200.dp,
-                            maxWidth = 400.dp
+                        modifier = Modifier.weight(1f)
+                    )
+                    Box(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        LevelSelector(
+                            onForwardClick = { onForwardClick(it) },
+                            onBackwardClick = { onBackwardClick(it) },
+                            levelNumber = uiState.levelNumber,
+                            totalLevels = uiState.totalNumberLevels,
+                            onShowLevelsClicked = {
+                                showLevelsDropdown = !showLevelsDropdown
+                            },
+                            modifier = Modifier.align(Alignment.TopEnd)
                         )
-                    )
-                    LevelSelector(
-                        onForwardClick = { onForwardClick(it) },
-                        onBackwardClick = { onBackwardClick(it) },
-                        levelNumber = uiState.levelNumber,
-                        totalLevels = uiState.totalNumberLevels,
-                        onShowLevelsClicked = {
-                            showLevelsDropdown = !showLevelsDropdown
-                        },
-                        modifier = Modifier.defaultMinSize(minWidth = 100.dp),
-                    )
+                    }
                 }
                 LinkableText(uiState.preamble) {
                     selectedConcept = it
@@ -192,7 +201,20 @@ fun GameScreen(
                             onLevelSelected(it)
                         }
                         showLevelsDropdown = false
+                    },
+                    onSettingsSelected = {
+                        showSettings = true
+                        showLevelsDropdown = false
                     }
+                )
+            }
+            if (showSettings) {
+                SettingsDialog(
+                    settingsState = uiState.settingsState,
+                    onDismiss = { showSettings = false },
+                    onColorBlindToggled = onColorBlindToggled,
+                    onDifficultyChanged = onDifficultyChanged,
+                    onResetProgress = onResetProgress
                 )
             }
         }
@@ -211,7 +233,11 @@ fun GameScreen(
                     .padding(12.dp),
                 isCorrect = uiState.showCorrect,
                 stageElement = StageElement.Cushion { cushionType, modifier ->
-                    Cushion(cushionType, modifier)
+                    Cushion(
+                        cushionType = cushionType,
+                        modifier = modifier,
+                        isColorblind = uiState.settingsState.isColorBlindMode
+                    )
                 }
             )
 
@@ -224,7 +250,12 @@ fun GameScreen(
                     .padding(12.dp),
                 isCorrect = uiState.showCorrect,
                 stageElement = StageElement.Capybara { cushionType, modifier, isCorrect ->
-                    Capybara(cushionType, isCorrect, modifier)
+                    Capybara(
+                        cushionType = cushionType,
+                        isSleepy = isCorrect,
+                        modifier = modifier,
+                        isColorblind = uiState.settingsState.isColorBlindMode
+                    )
                 }
             )
         }

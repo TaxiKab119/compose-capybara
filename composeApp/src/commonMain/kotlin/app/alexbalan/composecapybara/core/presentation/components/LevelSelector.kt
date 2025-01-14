@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -17,11 +18,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -124,6 +127,7 @@ fun LevelsDropDown(
     totalNumberLevels: Int,
     completedLevels: Set<Int>,
     currentLevel: Int,
+    onSettingsSelected: () -> Unit,
     modifier: Modifier = Modifier,
     onLevelSelected: (Int) -> Unit
 ) {
@@ -134,19 +138,32 @@ fun LevelsDropDown(
         elevation = 4.dp,
         backgroundColor = AppColors.stageGreen
     ) {
-        FlowRow(
-            modifier = Modifier
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            maxItemsInEachRow = 4
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            for (level in 1..totalNumberLevels) {
-                LevelDot(
-                    level = level,
-                    isCompleted = level in completedLevels,
-                    isCurrentLevel = level == currentLevel,
-                    onClick = { onLevelSelected(it) }
+            FlowRow(
+                modifier = Modifier
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                maxItemsInEachRow = 4
+            ) {
+                for (level in 1..totalNumberLevels) {
+                    LevelDot(
+                        level = level,
+                        isCompleted = level in completedLevels,
+                        isCurrentLevel = level == currentLevel,
+                        onClick = { onLevelSelected(it) }
+                    )
+                }
+            }
+            IconButton(
+                onClick = onSettingsSelected
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = AppColors.levelText
                 )
             }
         }

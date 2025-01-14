@@ -21,14 +21,63 @@ import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.bara_blue_sleepy
 import composecapybara.composeapp.generated.resources.bara_orange_sleepy
 import composecapybara.composeapp.generated.resources.bara_purple_sleepy
+import composecapybara.composeapp.generated.resources.blue_capy_colourblind
+import composecapybara.composeapp.generated.resources.blue_capy_sleep_colourblind
 import composecapybara.composeapp.generated.resources.blue_capybara
+import composecapybara.composeapp.generated.resources.orange_capy_colourblind
+import composecapybara.composeapp.generated.resources.orange_capy_sleep_colourblind
 import composecapybara.composeapp.generated.resources.orange_capybara
 import composecapybara.composeapp.generated.resources.purple_capybara
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.vectorResource
+
+
+private enum class CapybaraAsset(
+    val colorBlindDefault: DrawableResource,
+    val colorBlindSleepy: DrawableResource,
+    val default: DrawableResource,
+    val sleepy: DrawableResource
+) {
+    BLUE(
+        colorBlindDefault = Res.drawable.blue_capy_colourblind,
+        colorBlindSleepy = Res.drawable.blue_capy_sleep_colourblind,
+        default = Res.drawable.blue_capybara,
+        sleepy = Res.drawable.bara_blue_sleepy
+    ),
+    ORANGE(
+        colorBlindDefault = Res.drawable.orange_capy_colourblind,
+        colorBlindSleepy = Res.drawable.orange_capy_sleep_colourblind,
+        default = Res.drawable.orange_capybara,
+        sleepy = Res.drawable.bara_orange_sleepy
+    ),
+    PURPLE(
+        colorBlindDefault = Res.drawable.purple_capybara,
+        colorBlindSleepy = Res.drawable.bara_purple_sleepy,
+        default = Res.drawable.purple_capybara,
+        sleepy = Res.drawable.bara_purple_sleepy
+    );
+
+    fun getAsset(isColorBlind: Boolean, isSleepy: Boolean) = when {
+        isColorBlind && isSleepy -> colorBlindSleepy
+        isColorBlind -> colorBlindDefault
+        isSleepy -> sleepy
+        else -> default
+    }
+
+    companion object {
+        fun fromCushionType(type: CushionType) = when(type) {
+            CushionType.BLUE -> BLUE
+            CushionType.ORANGE -> ORANGE
+            CushionType.PURPLE -> PURPLE
+        }
+    }
+}
+
 
 @Composable
 fun Capybara(
     cushionType: CushionType,
+    isColorblind: Boolean = false,
     isSleepy: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
@@ -52,11 +101,8 @@ fun Capybara(
             },
         contentAlignment = Alignment.Center
     ) {
-        val capyRes = when (cushionType) {
-            CushionType.BLUE -> if (isSleepy) Res.drawable.bara_blue_sleepy else Res.drawable.blue_capybara
-            CushionType.ORANGE -> if (isSleepy) Res.drawable.bara_orange_sleepy else Res.drawable.orange_capybara
-            CushionType.PURPLE -> if (isSleepy) Res.drawable.bara_purple_sleepy else Res.drawable.purple_capybara
-        }
+        val capyRes = CapybaraAsset.fromCushionType(cushionType)
+            .getAsset(isColorblind, isSleepy)
         Image(
             imageVector = vectorResource(capyRes),
             contentDescription = "Capybara",

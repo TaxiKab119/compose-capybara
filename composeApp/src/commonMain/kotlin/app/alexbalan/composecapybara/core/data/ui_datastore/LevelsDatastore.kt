@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.alexbalan.composecapybara.core.data.AnswerType
-import app.alexbalan.composecapybara.core.data.LevelConfig
+import app.alexbalan.composecapybara.core.data.levels.AnswerType
+import app.alexbalan.composecapybara.core.data.levels.LevelConfig
 import app.alexbalan.composecapybara.core.data.stage.CushionType
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout

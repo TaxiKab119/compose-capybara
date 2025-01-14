@@ -1,4 +1,4 @@
-package app.alexbalan.composecapybara.core.data
+package app.alexbalan.composecapybara.core.data.levels
 
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.presentation.CodeFieldState

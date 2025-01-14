@@ -47,7 +47,7 @@ class AppSettings(
     // Difficulty
     var difficulty: GameDifficulty
         get() = GameDifficulty.valueOf(
-            settings.getString(KEY_DIFFICULTY, GameDifficulty.NORMAL.name)
+            settings.getString(KEY_DIFFICULTY, GameDifficulty.BEGINNER.name)
         )
         set(value) = settings.putString(KEY_DIFFICULTY, value.name)
 
@@ -57,6 +57,7 @@ class AppSettings(
         set(value) = settings.putBoolean(KEY_COLORBLIND_MODE, value)
 }
 
-enum class GameDifficulty {
-    EASY, NORMAL, HARD
+enum class GameDifficulty(val description: String) {
+    BEGINNER("Includes hints and clickable tags."),
+    HARD("Just the code and the capybaras.")
 }

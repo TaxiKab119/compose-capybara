@@ -42,7 +42,7 @@ fun LevelStageRoot(
             modifier = modifier
         )
     } else {
-        RepoDrivenLevelStage(
+        ConfigDrivenUiStage(
             stageLayout = stageLayout,
             modifier = modifier,
             isCorrect = isCorrect,
@@ -52,7 +52,7 @@ fun LevelStageRoot(
 }
 
 @Composable
-fun RepoDrivenLevelStage(
+fun ConfigDrivenUiStage(
     stageLayout: StageLayout,
     isCorrect: Boolean,
     stageElement: StageElement,

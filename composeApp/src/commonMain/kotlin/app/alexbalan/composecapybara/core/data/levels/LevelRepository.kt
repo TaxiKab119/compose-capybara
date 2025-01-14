@@ -1,4 +1,4 @@
-package app.alexbalan.composecapybara.core.data
+package app.alexbalan.composecapybara.core.data.levels
 
 interface LevelRepository {
     fun getLevelConfig(levelNumber: Int): LevelConfig

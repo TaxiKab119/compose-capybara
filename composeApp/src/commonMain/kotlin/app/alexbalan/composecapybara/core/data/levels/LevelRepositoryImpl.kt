@@ -1,4 +1,4 @@
-package app.alexbalan.composecapybara.core.data
+package app.alexbalan.composecapybara.core.data.levels
 
 import app.alexbalan.composecapybara.core.data.settings.AppSettings
 import app.alexbalan.composecapybara.core.data.ui_datastore.LevelsDatastore

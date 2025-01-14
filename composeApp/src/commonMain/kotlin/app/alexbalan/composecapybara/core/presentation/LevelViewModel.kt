@@ -2,8 +2,9 @@ package app.alexbalan.composecapybara.core.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.alexbalan.composecapybara.core.data.AnswerType
-import app.alexbalan.composecapybara.core.data.LevelRepository
+import app.alexbalan.composecapybara.core.data.levels.AnswerType
+import app.alexbalan.composecapybara.core.data.levels.LevelRepository
+import app.alexbalan.composecapybara.core.data.settings.SettingsRepository
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 import app.alexbalan.composecapybara.core.data.ui_datastore.UiAnswerMappings
@@ -16,7 +17,8 @@ import kotlinx.coroutines.flow.update
 
 class LevelViewModel(
     private val levelNumber: Int,
-    private val levelRepository: LevelRepository
+    private val levelRepository: LevelRepository,
+    private val settingsRepository: SettingsRepository
 ): ViewModel() {
     private val _uiState = MutableStateFlow(LevelScreenUiState(levelNumber))
     val uiState = _uiState.asStateFlow()
@@ -49,6 +51,11 @@ class LevelViewModel(
                 cushionStageLayout = levelConfig.stageLayout,
                 capybaraStageLayout = levelConfig.initialUserStageLayout,
                 initialCapyPosition = levelConfig.initialUserStageLayout,
+
+                settingsState = SettingsState(
+                    isColorBlindMode = settingsRepository.getColorBlindMode(),
+                    difficulty = settingsRepository.getDifficulty()
+                )
             )
         }
     }
@@ -110,6 +117,17 @@ class LevelViewModel(
             }
             else -> return
         }
+    }
+
+    fun updateColorblindMode(enabled: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                settingsState = currentState.settingsState.copy(
+                    isColorBlindMode = enabled
+                )
+            )
+        }
+        settingsRepository.setColorBlindMode(enabled)
     }
 
     private fun isUserInputCorrect(userInput: String, textFieldNumber: Int) {

@@ -24,6 +24,10 @@ private fun GameScreenPreview() {
             onTextUpdated2 = {},
             onTextUpdated3 = {},
             onTextUpdated4 = {},
+            onLevelSelected = {},
+            onColorBlindToggled = {},
+            onDifficultyChanged = {},
+            onResetProgress = {}
         )
         
     }

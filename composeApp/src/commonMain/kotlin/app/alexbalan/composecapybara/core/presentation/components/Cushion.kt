@@ -11,13 +11,16 @@ import androidx.compose.ui.unit.dp
 import app.alexbalan.composecapybara.core.data.stage.CushionType
 import composecapybara.composeapp.generated.resources.Res
 import composecapybara.composeapp.generated.resources.blue_cushion
+import composecapybara.composeapp.generated.resources.blue_cushion_colourblind
 import composecapybara.composeapp.generated.resources.orange_cushion
+import composecapybara.composeapp.generated.resources.orange_cushion_colourblind
 import composecapybara.composeapp.generated.resources.purple_cushion
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun Cushion(
     cushionType: CushionType,
+    isColorblind: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -26,11 +29,10 @@ fun Cushion(
             .padding(4.dp),
         contentAlignment = Alignment.Center
     ) {
-
         val resId = when (cushionType) {
-            CushionType.BLUE -> Res.drawable.blue_cushion
-            CushionType.ORANGE -> Res.drawable.orange_cushion
-            CushionType.PURPLE -> Res.drawable.purple_cushion
+            CushionType.BLUE -> if (isColorblind) Res.drawable.blue_cushion_colourblind else Res.drawable.blue_cushion
+            CushionType.ORANGE -> if (isColorblind) Res.drawable.orange_cushion_colourblind else Res.drawable.orange_cushion
+            CushionType.PURPLE -> if (isColorblind) Res.drawable.purple_cushion else Res.drawable.purple_cushion
         }
         Image(
             imageVector = vectorResource(resId),

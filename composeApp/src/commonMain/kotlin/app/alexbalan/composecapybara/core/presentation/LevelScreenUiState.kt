@@ -1,11 +1,11 @@
 package app.alexbalan.composecapybara.core.presentation
 
-import app.alexbalan.composecapybara.core.data.AnswerType
+import app.alexbalan.composecapybara.core.data.levels.AnswerType
+import app.alexbalan.composecapybara.core.data.settings.GameDifficulty
 import app.alexbalan.composecapybara.core.data.stage.ElementPosition
 import app.alexbalan.composecapybara.core.data.stage.StageLayout
 import app.alexbalan.composecapybara.core.data.stage.UiContainer
 
-// TODO - Replace all these initial values with a loading state
 data class LevelScreenUiState(
     val levelNumber: Int,
     val totalNumberLevels: Int = 0,
@@ -31,6 +31,8 @@ data class LevelScreenUiState(
     val cushionStageLayout: StageLayout? = null,
     val capybaraStageLayout: StageLayout? = null,
     val initialCapyPosition: StageLayout? = null,
+
+    val settingsState: SettingsState = SettingsState(),
 )
 
 data class CodeFieldState(
@@ -47,3 +49,9 @@ data class CodeFieldState(
     val totalLines: Int
         get() = numUserInputLines + existingLinesBefore.size + existingLinesAfter.size
 }
+
+data class SettingsState(
+    val isColorBlindMode: Boolean = false,
+    val difficulty: GameDifficulty = GameDifficulty.BEGINNER,
+    val hasConfirmedReset: Boolean = false
+)

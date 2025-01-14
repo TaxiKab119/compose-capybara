@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import app.alexbalan.composecapybara.core.presentation.theme.AppColors
 import app.alexbalan.composecapybara.core.presentation.theme.TextStyles
 import composecapybara.composeapp.generated.resources.Res
-import composecapybara.composeapp.generated.resources.party_capys_group_yay
+import composecapybara.composeapp.generated.resources.capy_party
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
@@ -70,7 +70,7 @@ fun GameCompleteDialog(
                     color = AppColors.levelText
                 )
                 Image(
-                    imageVector = vectorResource(Res.drawable.party_capys_group_yay),
+                    imageVector = vectorResource(Res.drawable.capy_party),
                     contentDescription = "Celebrating Capybaras"
                 )
 
